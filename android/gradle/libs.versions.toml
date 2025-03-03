@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.0"
-kotlin = "1.9.23"
+kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -12,6 +12,7 @@ constraintlayout = "2.2.0"
 lifecycleRuntimeAndroid = "2.8.7"
 databindingCompilerCommon = "8.8.1"
 viewbinding = "8.8.1"
+firebaseAuthKtx = "23.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +29,7 @@ androidx-viewbinding = { group = "androidx.databinding", name = "viewbinding", v
 
 #fire base BOM
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "33.10.0" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
