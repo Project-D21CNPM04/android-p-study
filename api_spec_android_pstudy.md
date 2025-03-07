@@ -46,6 +46,7 @@ type=0
     "quiz_id": "quiz_001",
     "title": "History Quiz",
     "num": 10,
+    "created_at": "2025-03-07T12:00:00Z"
     "questions": [
       {
         "question": "What is the capital of France?",
@@ -73,6 +74,7 @@ type=1
     "flashcard_id": "quiz_001",
     "title": "Anime Flashcard",
     "num": 10,
+    "created_at": "2025-03-07T12:00:00Z"
     "flashcards": [
       {
         "front": "Paris",
@@ -105,7 +107,14 @@ uid=123456789abcdef
       "quiz_id": "quiz_001",
       "title": "History Quiz",
       "num_questions": 10,
-      "created_at": "2025-03-07T12:00:00Z"
+      "created_at": "2025-03-07T12:00:00Z",
+      "questions": [
+          {
+            "question": "What is the capital of France?",
+            "options": ["Berlin", "Madrid", "Paris", "Rome"],
+            "answer": "Paris"
+          }
+        ]
     }
   ]
 }
@@ -128,12 +137,18 @@ uid=123456789abcdef
 ```json
 {
   "status": "success",
-  "quizzes": [
+  "flashcards": [
     {
-      "quiz_id": "quiz_001",
-      "title": "History Quiz",
+      "flashcard_id": "flashcard_001",
+      "title": "Geo Flashcard",
       "num_questions": 10,
-      "created_at": "2025-03-07T12:00:00Z"
+      "created_at": "2025-03-07T12:00:00Z",
+      "flashcards": [
+          {
+            "front": "Paris",
+            "back": "The capital of France"
+          }
+        ]
     }
   ]
 }
