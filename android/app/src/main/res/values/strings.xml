@@ -8,4 +8,7 @@
     <string name="sign_up_success_msg">Sign up successful</string>
     <string name="empty_information_msg">Please enter complete information</string>
     <string name="sign_up_fail_msg">Sign up failed</string>
+    <string name="label_name">Name</string>
+    <string name="login_success_msg">Login successful</string>
+    <string name="login_fail_msg">Login failed</string>
 </resources>

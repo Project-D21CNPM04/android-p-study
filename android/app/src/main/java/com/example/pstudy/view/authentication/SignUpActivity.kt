@@ -7,44 +7,37 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.data.FirebaseAuthHelper
-import com.example.pstudy.databinding.ActivityLoginBinding
+import com.example.pstudy.databinding.ActivitySignUpBinding
 import com.example.pstudy.view.home.HomeActivity
 
-class LoginActivity : BindingActivity<ActivityLoginBinding>() {
+class SignUpActivity : BindingActivity<ActivitySignUpBinding>() {
     override fun inflateBinding(layoutInflater: LayoutInflater) =
-        ActivityLoginBinding.inflate(layoutInflater)
+        ActivitySignUpBinding.inflate(layoutInflater)
 
     override fun updateUI(savedInstanceState: Bundle?) {
-        checkUser()
         handleOnClick()
-    }
-
-    private fun checkUser() {
-        if (FirebaseAuthHelper.isUserLoggedIn()) {
-            navigateToHome()
-        }
     }
 
     private fun handleOnClick() {
         with(binding) {
-            tvLogin.setOnClickListener {
-                handleLogin()
+            imvBack.setOnClickListener {
+                navigateToLogin()
             }
-
             tvSignUp.setOnClickListener {
-                navigateToSignUp()
+                handleSignUp()
             }
         }
     }
 
-    private fun handleLogin() {
+    private fun handleSignUp() {
         with(binding) {
-            FirebaseAuthHelper.loginUser(
-                context = this@LoginActivity,
+            FirebaseAuthHelper.registerUser(
+                context = this@SignUpActivity,
+                name = edtName.text.toString(),
                 email = edtEmail.text.toString(),
-                password = edtPassword.text.toString()
+                password = edtPassword.text.toString(),
             ) { isSuccess, message ->
-                Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignUpActivity, message, Toast.LENGTH_SHORT).show()
                 if (isSuccess) {
                     navigateToHome()
                 }
@@ -56,13 +49,14 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>() {
         HomeActivity.start(this)
     }
 
-    private fun navigateToSignUp() {
-        SignUpActivity.start(this)
+    private fun navigateToLogin() {
+        LoginActivity.start(this)
+        finish()
     }
 
     companion object {
         fun start(context: Context) {
-            context.startActivity(Intent(context, LoginActivity::class.java))
+            context.startActivity(Intent(context, SignUpActivity::class.java))
         }
     }
 }
