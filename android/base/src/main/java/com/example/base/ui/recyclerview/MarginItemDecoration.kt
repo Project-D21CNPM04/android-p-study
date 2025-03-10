@@ -1,4 +1,4 @@
-package com.mobile.core.ui.recyclerview
+package com.example.base.ui.recyclerview
 
 import android.graphics.Rect
 import android.view.View

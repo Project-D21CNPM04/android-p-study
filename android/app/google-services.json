@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432879391145",
+    "project_id": "p-study",
+    "storage_bucket": "p-study.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432879391145:android:edcd01b96480359ff234b8",
+        "android_client_info": {
+          "package_name": "com.example.pstudy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvThRVhgb1ina5Ocp7LvwAzrgjghab5PE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
