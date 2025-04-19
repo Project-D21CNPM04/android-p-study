@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="bg_tab_layout">#181717</color>
     <color name="white">#FFFFFFFF</color>
     <color name="slateGray">#6D6D78</color>
     <color name="burntOrange">#E3562A</color>
@@ -22,4 +23,11 @@
     <color name="tab_indicator_color">@color/colorPrimary</color>
     <color name="tab_selected_text_color">@color/colorPrimary</color>
     <color name="tab_unselected_text_color">@color/slateGray</color>
+    <color name="primary_blue">#139EFB</color>
+    <color name="light_purple">#FFE0D6FF</color>
+    <color name="dark_gray">#FF333333</color>
+    <color name="light_gray">#FFCCCCCC</color>
+    <color name="slate_gray">#6D6D78</color>
+    <color name="burnt_orange">#E3562A</color>
+    <color name="warm_gray">#98948F</color>
 </resources>
