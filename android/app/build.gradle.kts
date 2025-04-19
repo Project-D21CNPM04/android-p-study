@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.fragment.ktx)
     implementation(platform(libs.firebase.bom))
     implementation(project(":base"))
     implementation(libs.firebase.auth.ktx)

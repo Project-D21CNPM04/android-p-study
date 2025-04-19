@@ -11,4 +11,12 @@
     <string name="label_name">Name</string>
     <string name="login_success_msg">Login successful</string>
     <string name="login_fail_msg">Login failed</string>
+
+    <!-- Result Activity Tabs -->
+    <string name="tab_summary">Summary</string>
+    <string name="tab_record">Record</string>
+    <string name="tab_material">Material</string>
+    <string name="tab_mind_map">Mind Map</string>
+    <string name="tab_flashcards">Flashcards</string>
+    <string name="tab_quizs">Quizs</string>
 </resources>
