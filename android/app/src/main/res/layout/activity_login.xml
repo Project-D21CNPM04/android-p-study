@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:hint="@string/label_email"
-        android:textColorHint="@color/slateGray">
+        android:textColorHint="@color/slate_gray">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/label_password"
-        android:textColorHint="@color/slateGray"
+        android:textColorHint="@color/slate_gray"
         app:endIconDrawable="@drawable/selector_password_toggle"
         app:endIconMode="custom">
 
@@ -68,7 +68,7 @@
         android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/forgot_password_msg"
-        android:textColor="@color/warmGray"
+        android:textColor="@color/warm_gray"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_rounded_16"
-        android:backgroundTint="@color/burntOrange"
+        android:backgroundTint="@color/burnt_orange"
         android:gravity="center"
         android:paddingHorizontal="32dp"
         android:paddingVertical="16dp"
@@ -94,7 +94,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/label_sign_up"
-        android:textColor="@color/warmGray"
+        android:textColor="@color/warm_gray"
         android:textStyle="bold" />
 
 </LinearLayout>
