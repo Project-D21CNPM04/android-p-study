@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pstudy</string>
+    <string name="app_name">PStudy</string>
     <string name="label_login">Login</string>
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
@@ -19,4 +19,22 @@
     <string name="tab_mind_map">Mind Map</string>
     <string name="tab_flashcards">Flashcards</string>
     <string name="tab_quizs">Quizs</string>
+
+    <!-- Home -->
+    <string name="home_greeting">Chào</string>
+    <string name="home_subtitle">Tâm trí rõ ràng, con đường rõ ràng</string>
+    <string name="home_tab_all">Tất cả</string>
+    <string name="home_tab_folders">Thư mục</string>
+    <string name="home_tab_shared">Đã chia sẻ</string>
+    <string name="home_empty_title">NoteX trống</string>
+    <string name="home_empty_subtitle">Nhấn nút Ghi âm Nhấn nút bên dưới hoặc chọn loại nội dung cụ thể để bắt đầu</string>
+    <string name="home_bottom_nav_link">Liên kết</string>
+    <string name="home_bottom_nav_audio">Âm thanh</string>
+    <string name="home_bottom_nav_docs">Tài liệu</string>
+    <string name="home_bottom_nav_text">Văn bản</string>
+    <string name="search_content_description">Search</string>
+    <string name="avatar_content_description">User Avatar</string>
+    <string name="pro_banner_content_description">Pro Access Banner</string>
+    <string name="empty_state_image_content_description">Empty State Illustration</string>
+    <string name="record_button_content_description">Record Button</string>
 </resources>
