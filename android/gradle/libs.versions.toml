@@ -13,6 +13,7 @@ lifecycleRuntimeAndroid = "2.8.7"
 databindingCompilerCommon = "8.8.1"
 viewbinding = "8.8.1"
 firebaseAuthKtx = "23.2.0"
+fragmentKtx = "1.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +27,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-lifecycle-runtime-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "lifecycleRuntimeAndroid" }
 androidx-databinding-compiler-common = { group = "androidx.databinding", name = "databinding-compiler-common", version.ref = "databindingCompilerCommon" }
 androidx-viewbinding = { group = "androidx.databinding", name = "viewbinding", version.ref = "viewbinding" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 
 #fire base BOM
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "33.10.0" }

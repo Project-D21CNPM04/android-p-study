@@ -5,4 +5,21 @@
     <color name="slateGray">#6D6D78</color>
     <color name="burntOrange">#E3562A</color>
     <color name="warmGray">#98948F</color>
+
+    <!-- Material 3 Colors (Example Palette - Adjust as needed) -->
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryVariant">#3700B3</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorSecondary">#03DAC6</color>
+    <color name="colorSecondaryVariant">#018786</color>
+    <color name="colorOnSecondary">@color/black</color>
+    <color name="colorSurface">@color/white</color>
+    <color name="colorOnSurface">@color/black</color>
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorOnBackground">@color/black</color>
+
+    <!-- Tab Colors -->
+    <color name="tab_indicator_color">@color/colorPrimary</color>
+    <color name="tab_selected_text_color">@color/colorPrimary</color>
+    <color name="tab_unselected_text_color">@color/slateGray</color>
 </resources>
