@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.pstudy.view.result.fragment.FlashcardsFragment
 import com.example.pstudy.view.result.fragment.MaterialFragment
 import com.example.pstudy.view.result.fragment.MindMapFragment
-import com.example.pstudy.view.result.fragment.QuizsFragment
+import com.example.pstudy.view.result.fragment.QuizzesFragment
 import com.example.pstudy.view.result.fragment.RecordFragment
 import com.example.pstudy.view.result.fragment.SummaryFragment
 
@@ -27,7 +27,7 @@ class ResultPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(acti
             2 -> MaterialFragment.newInstance()
             3 -> MindMapFragment.newInstance()
             4 -> FlashcardsFragment.newInstance()
-            5 -> QuizsFragment.newInstance()
+            5 -> QuizzesFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid tab position: $position")
         }
     }
