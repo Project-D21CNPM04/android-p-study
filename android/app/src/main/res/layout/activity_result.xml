@@ -4,22 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background"
+    android:background="@color/black"
     tools:context=".view.result.ResultActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_surface"
-        app:elevation="4dp">
+        android:background="@color/black"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Result"
-            app:navigationIcon="@drawable/ic_arrow_back" /> <!-- Add an appropriate back arrow drawable -->
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,10 +34,10 @@
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/color_surface"
-            app:tabIndicatorColor="@color/tab_indicator_color"
-            app:tabSelectedTextColor="@color/tab_selected_text_color"
-            app:tabTextColor="@color/tab_unselected_text_color"
+            android:background="@color/black"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/light_gray"
             app:tabMode="scrollable"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
