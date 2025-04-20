@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.example.base.ui.base.BindingFragmentLazyPager
-import com.example.pstudy.databinding.FragmentQuizsBinding
+import com.example.pstudy.databinding.FragmentQuizzesBinding
 import com.example.pstudy.view.result.ResultViewModel
 
-class QuizsFragment : BindingFragmentLazyPager<FragmentQuizsBinding>() {
+class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
 
     private val viewModel: ResultViewModel by activityViewModels()
 
-    override fun inflateBinding(inflater: LayoutInflater): FragmentQuizsBinding {
-        return FragmentQuizsBinding.inflate(inflater)
+    override fun inflateBinding(inflater: LayoutInflater): FragmentQuizzesBinding {
+        return FragmentQuizzesBinding.inflate(inflater)
     }
 
     override fun updateUI() {
@@ -28,6 +28,6 @@ class QuizsFragment : BindingFragmentLazyPager<FragmentQuizsBinding>() {
     }
 
     companion object {
-        fun newInstance() = QuizsFragment()
+        fun newInstance() = QuizzesFragment()
     }
 }
