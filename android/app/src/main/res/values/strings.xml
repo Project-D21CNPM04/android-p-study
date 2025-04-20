@@ -38,4 +38,12 @@
     <string name="empty_state_image_content_description">Empty State Illustration</string>
     <string name="record_button_content_description">Record Button</string>
     <string name="label_add_folder">Tạo thư mục</string>
+
+    <!-- Flashcards Fragment -->
+    <string name="flashcard_question_label">Câu hỏi %1$d / %2$d</string>
+    <string name="flashcard_flip_instruction">Nhấn để lật</string>
+    <string name="flashcard_answer_placeholder">Đây là câu trả lời</string>
+    <string name="flashcard_previous_description">Thẻ trước</string>
+    <string name="flashcard_next_description">Thẻ tiếp theo</string>
+    <string name="flashcard_avatar_description">Avatar người tạo</string>
 </resources>
