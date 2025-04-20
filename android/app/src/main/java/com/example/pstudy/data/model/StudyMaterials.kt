@@ -9,7 +9,7 @@ data class StudyMaterials(
     val record: String,
     val mindMap: String,
     val flashCards: List<FlashCard>,
-    val quizs: List<Quiz>,
+    val quizzes: List<Quiz>,
     val timeStamp: String,
     val languageCode: String,
 )
