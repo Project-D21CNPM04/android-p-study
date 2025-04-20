@@ -15,6 +15,8 @@ import com.example.pstudy.databinding.ActivityHomeBinding
 import com.example.pstudy.databinding.ItemHomeTabLayoutBinding
 import com.example.pstudy.view.home.adapter.PagerAdapter
 import com.example.pstudy.view.home.fragment.AllFragment
+import com.example.pstudy.view.home.fragment.FolderFragment
+import com.example.pstudy.view.home.fragment.SharedFragment
 import com.example.pstudy.view.home.viewmodel.HomeViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -46,8 +48,8 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
     private fun setupPager() {
         pagerAdapter.apply {
             addFragment(AllFragment())
-            addFragment(AllFragment())
-            addFragment(AllFragment())
+            addFragment(FolderFragment())
+            addFragment(SharedFragment())
             binding.viewPager.adapter = this
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

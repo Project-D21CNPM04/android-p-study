@@ -27,7 +27,7 @@
     <string name="home_tab_folders">Thư mục</string>
     <string name="home_tab_shared">Đã chia sẻ</string>
     <string name="home_empty_title">NoteX trống</string>
-    <string name="home_empty_subtitle">Nhấn nút Ghi âm Nhấn nút bên dưới hoặc chọn loại nội dung cụ thể để bắt đầu</string>
+    <string name="home_empty_subtitle">Nhấn nút ghi âm hoặc chọn thêm loại nội dung cụ thể để bắt đầu</string>
     <string name="home_bottom_nav_link">Liên kết</string>
     <string name="home_bottom_nav_audio">Âm thanh</string>
     <string name="home_bottom_nav_docs">Tài liệu</string>
@@ -37,4 +37,5 @@
     <string name="pro_banner_content_description">Pro Access Banner</string>
     <string name="empty_state_image_content_description">Empty State Illustration</string>
     <string name="record_button_content_description">Record Button</string>
+    <string name="label_add_folder">Tạo thư mục</string>
 </resources>
