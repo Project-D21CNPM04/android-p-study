@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/color_background"
     tools:context=".view.result.ResultActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorSurface"
+        android:background="@color/color_surface"
         app:elevation="4dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -32,7 +32,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorSurface"
+            android:background="@color/color_surface"
             app:tabIndicatorColor="@color/tab_indicator_color"
             app:tabSelectedTextColor="@color/tab_selected_text_color"
             app:tabTextColor="@color/tab_unselected_text_color"
