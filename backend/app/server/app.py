@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, UploadFile, File, Depends
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
-from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Node, Quiz
+from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz
 from .service import Service
 
 MONGODB_URL = "mongodb://localhost:27017"
@@ -30,23 +30,23 @@ async def get_mindmap(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(
 async def get_flashcard(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_flashcard(db, id, user_id)
 
-@router.get("/node", response_model=list[Node])
+@router.get("/note", response_model=list[Note])
 async def get_node_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_node_list(db, user_id)
 
-@router.get("/node/{id}", response_model=Node)
+@router.get("/note/{id}", response_model=Note)
 async def get_node_detail(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_node_detail(db, id, user_id)
 
-@router.post("/create/text", response_model=Node)
+@router.post("/create/text", response_model=Note)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_text(db, data.text, user_id)
 
-@router.post("/create/link", response_model=Node)
+@router.post("/create/link", response_model=Note)
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_link(db, data.link, user_id)
 
-@router.post("/create/file", response_model=Node)
+@router.post("/create/file", response_model=Note)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_file(db, file, user_id)
 

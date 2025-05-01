@@ -34,17 +34,16 @@ class Mindmap(BaseModel):
             }
         }
 
-# Node Schema
-class NodeType(str, Enum):
+class NoteType(str, Enum):
     TEXT = "text"
     LINK = "link"
     FILE = "file"
 
-class Node(BaseModel):
-    id: str = Field(..., description="Unique identifier for the node")
-    input: str = Field(..., description="Content of the node")
-    type: NodeType = Field(..., description="Type of the node (e.g., text, image)")
-    user_id: str = Field(..., description="Identifier of the user who created the node")
+class Note(BaseModel):
+    id: str = Field(..., description="Unique identifier for the note")
+    input: str = Field(..., description="Content of the note")
+    type: NoteType = Field(..., description="Type of the note (e.g., text, image)")
+    user_id: str = Field(..., description="Identifier of the user who created the note")
 
     class Config:
         json_schema_extra = {

@@ -1,6 +1,6 @@
 import uuid
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from .models import Flashcard, Mindmap, Node, Quiz, NodeType
+from .models import Flashcard, Mindmap, Note, Quiz, NoteType
 
 class Repository:
     async def get_quiz(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
@@ -23,40 +23,40 @@ class Repository:
 
     async def get_node_list(self, db: AsyncIOMotorDatabase, user_id: str):
         cursor = db["nodes"].find({"user_id": user_id})
-        return [Node(**node) async for node in cursor]
+        return [Note(**note) async for note in cursor]
 
     async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        node = await db["nodes"].find_one({"id": id, "user_id": user_id})
-        if node:
-            return Node(**node)
+        note = await db["nodes"].find_one({"id": id, "user_id": user_id})
+        if note:
+            return Note(**note)
         return None
 
     async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
-        node = Node(
+        note = Note(
             id=str(uuid.uuid4()),
             input=text,
-            type=NodeType.TEXT,
+            type=NoteType.TEXT,
             user_id=user_id
         )
-        await db["nodes"].insert_one(node.dict())
-        return node
+        await db["nodes"].insert_one(note.dict())
+        return note
 
     async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
-        node = Node(
+        note = Note(
             id=str(uuid.uuid4()),
             input=link,
-            type=NodeType.LINK,
+            type=NoteType.LINK,
             user_id=user_id
         )
-        await db["nodes"].insert_one(node.dict())
-        return node
+        await db["nodes"].insert_one(note.dict())
+        return note
 
     async def create_file(self, db: AsyncIOMotorDatabase, filename: str, user_id: str):
-        node = Node(
+        note = Note(
             id=str(uuid.uuid4()),
             input=filename,
-            type=NodeType.FILE,
+            type=NoteType.FILE,
             user_id=user_id
         )
-        await db["nodes"].insert_one(node.dict())
-        return node
+        await db["nodes"].insert_one(note.dict())
+        return note

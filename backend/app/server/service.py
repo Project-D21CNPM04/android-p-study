@@ -35,12 +35,13 @@ class Service:
         return nodes
 
     async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        node = await self.repo.get_node_detail(db, id, user_id)
-        if not node:
-            raise HTTPException(status_code=404, detail="Node not found")
-        return node
+        note = await self.repo.get_node_detail(db, id, user_id)
+        if not note:
+            raise HTTPException(status_code=404, detail="Note not found")
+        return note
 
     async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
+        print(text , user_id)
         return await self.repo.create_text(db, text, user_id)
 
     async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
