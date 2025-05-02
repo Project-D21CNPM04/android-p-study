@@ -31,6 +31,8 @@ class Repository:
             return Note(**note)
         return None
 
+
+
     async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
         note = Note(
             id=str(uuid.uuid4()),
@@ -41,22 +43,8 @@ class Repository:
         await db["nodes"].insert_one(note.dict())
         return note
 
-    async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
-        note = Note(
-            id=str(uuid.uuid4()),
-            input=link,
-            type=NoteType.LINK,
-            user_id=user_id
-        )
-        await db["nodes"].insert_one(note.dict())
-        return note
-
-    async def create_file(self, db: AsyncIOMotorDatabase, filename: str, user_id: str):
-        note = Note(
-            id=str(uuid.uuid4()),
-            input=filename,
-            type=NoteType.FILE,
-            user_id=user_id
-        )
-        await db["nodes"].insert_one(note.dict())
-        return note
+    async def create_quiz(self, db: AsyncIOMotorDatabase, quiz: Quiz, user_id: str):
+        quiz.id = str(uuid.uuid4())
+        quiz.user_id = user_id
+        await db["quizzes"].insert_one(quiz.dict())
+        return quiz
