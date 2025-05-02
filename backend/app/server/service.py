@@ -1,11 +1,12 @@
 from fastapi import UploadFile, HTTPException
 from ai_services.assistant import PromptAssistant
-from .models import Mindmap
+from .models import Mindmap, Flashcard, FlashcardContent, Quiz, Summary
 from .repository import Repository
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from utils.url_extractor import extract_text_from_url
 from .models import Note, NoteType
 import uuid
+import json
 
 
 class Service:
@@ -66,7 +67,30 @@ class Service:
         # Create List of Quiz base on Note use AI
         # Save to database
         # Return List Quiz
-        raise HTTPException(status_code=500, detail="Failed to create quiz")
+        try:
+            note = await self.repo.get_node_detail(db, note_id)
+            if not note:
+                raise HTTPException(status_code=404, detail="Note not found")
+            
+            quizzes_json = self.ai_assistant.generate_quiz(note.input)
+            quizzes_data = json.loads(quizzes_json)
+            quizzes_result = []
+            
+            for quiz_item in quizzes_data:
+                quiz = Quiz(
+                    id=str(uuid.uuid4()),
+                    questions=quiz_item["question"],
+                    choices=quiz_item["choices"],
+                    answer=quiz_item["answer"],
+                    note_id=note_id
+                )
+                
+                saved_quiz = await self.repo.create_quiz(db, quiz, note_id)
+                quizzes_result.append(saved_quiz)
+            
+            return quizzes_result
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to create quiz: {str(e)}")
 
     async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
         # Create Note
