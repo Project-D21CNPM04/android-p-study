@@ -1,11 +1,14 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, UploadFile, File, Depends
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
 from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
 from .service import Service
 
-MONGODB_URL = "mongodb://localhost:27017"
-DB_NAME = "study_app"
+load_dotenv()
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+DB_NAME = os.getenv("DB_NAME", "study_app")
 
 # Router setup
 router = APIRouter()
