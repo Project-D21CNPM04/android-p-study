@@ -31,6 +31,14 @@
             android:exported="true"
             android:launchMode="singleTask" />
 
+        <activity
+            android:name=".view.input.InputActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".view.result.ResultActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
