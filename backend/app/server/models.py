@@ -10,6 +10,7 @@ class Flashcard(BaseModel):
     id: str = Field(..., description="Unique identifier for the flashcard")
     title: str
     content: FlashcardContent
+    note_id: str
 
     class Config:
         json_schema_extra = {
@@ -24,6 +25,7 @@ class Mindmap(BaseModel):
     id: str = Field(..., description="Unique identifier for the mindmap")
     content: str = Field(..., description="HTML content representing the mindmap")
     summary: Optional[str] = Field(None, description="Optional summary of the mindmap")
+    note_id: str
 
     class Config:
         json_schema_extra = {
@@ -60,6 +62,7 @@ class Quiz(BaseModel):
     questions: str
     choices: List[str]
     answer: str
+    note_id: str
 
     class Config:
         json_schema_extra = {
@@ -70,6 +73,10 @@ class Quiz(BaseModel):
                 "answer": "Hanoi",
             }
         }
+class Summary (BaseModel):
+    id: str = Field(..., description="Unique identifier for the summary")
+    content: str = Field(..., description="HTML content of the summary")
+    note_id: str
 
 class TextCreate(BaseModel):
     text: str
