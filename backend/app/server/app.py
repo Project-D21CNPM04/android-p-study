@@ -14,29 +14,41 @@ service = Service()
 async def get_db(app=Depends(lambda: app)):
     return app.database
 
-@router.get("/quiz/{id}", response_model=Quiz)
-async def get_quiz(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_quiz(db, id)
+@router.get("/quiz/{note_id}", response_model=Quiz)
+async def get_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_quiz(db, note_id)
 
-@router.get("/summary/{id}", response_model=Summary)
-async def get_summary(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_summary(db, id)
+@router.get("/summary/{note_id}", response_model=Summary)
+async def get_summary(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_summary(db, note_id)
 
-@router.get("/mindmap/{id}", response_model=Mindmap)
-async def get_mindmap(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_mindmap(db, id)
+@router.get("/mindmap/{note_id}", response_model=Mindmap)
+async def get_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_mindmap(db, note_id)
 
-@router.get("/flashcard/{id}", response_model=Flashcard)
-async def get_flashcard(id: str,  db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_flashcard(db, id)
+@router.get("/flashcard/{note_id}", response_model=Flashcard)
+async def get_flashcard(note_id: str,  db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_flashcard(db, note_id)
 
 @router.get("/note", response_model=list[Note])
 async def get_node_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_node_list(db, user_id)
 
-@router.get("/note/{id}", response_model=Note)
-async def get_node_detail(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_detail(db, id)
+@router.get("/note/{note_id}", response_model=Note)
+async def get_node_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_node_detail(db, note_id)
+
+@router.post("/mindmap/{note_id}", response_model=Mindmap)
+async def create_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_mindmap(db, note_id)
+
+@router.post("/flashcard/{note_id}", response_model=Flashcard)
+async def create_flashcard(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_flashcard(db, note_id)
+
+@router.post("/quiz/{note_id}", response_model=Quiz)
+async def create_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_quiz(db, note_id)
 
 @router.post("/create/text", response_model=Note)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
