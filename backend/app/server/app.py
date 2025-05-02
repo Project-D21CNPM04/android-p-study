@@ -58,7 +58,7 @@ async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase =
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_link(db, data.link, user_id)
 
-@router.post("/create/file", response_model=Note)
+@router.post("/create/file", response_model=Summary)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_file(db, file, user_id)
 
