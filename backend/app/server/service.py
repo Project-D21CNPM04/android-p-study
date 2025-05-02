@@ -67,12 +67,14 @@ class Service:
         # Return List Quiz
         raise HTTPException(status_code=500, detail="Failed to create quiz")
 
-    async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
+    async def create_text(self, db: AsyncIOMotorDatabase, text: str, note_id: str):
         # Create Note
         # Create Summary base on Note use AI
         # Save to database
         # Return Summary
-        return None
+        note = await self.repo.create_note(db, text, note_id)
+        # Return Summary
+        return note
 
     async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
         # Link to Text

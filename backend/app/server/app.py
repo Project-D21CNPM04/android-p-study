@@ -14,7 +14,7 @@ service = Service()
 async def get_db(app=Depends(lambda: app)):
     return app.database
 
-@router.get("/quiz/{note_id}", response_model=Quiz)
+@router.get("/quiz/{note_id}", response_model=list[Quiz])
 async def get_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_quiz(db, note_id)
 
@@ -26,7 +26,7 @@ async def get_summary(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
 async def get_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_mindmap(db, note_id)
 
-@router.get("/flashcard/{note_id}", response_model=Flashcard)
+@router.get("/flashcard/{note_id}", response_model=list[Flashcard])
 async def get_flashcard(note_id: str,  db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_flashcard(db, note_id)
 
@@ -42,11 +42,11 @@ async def get_node_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_d
 async def create_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_mindmap(db, note_id)
 
-@router.post("/flashcard/{note_id}", response_model=Flashcard)
+@router.post("/flashcard/{note_id}", response_model=list[Flashcard])
 async def create_flashcard(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_flashcard(db, note_id)
 
-@router.post("/quiz/{note_id}", response_model=Quiz)
+@router.post("/quiz/{note_id}", response_model=list[Quiz])
 async def create_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_quiz(db, note_id)
 
