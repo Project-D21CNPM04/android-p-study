@@ -1,14 +1,9 @@
 from fastapi import UploadFile, HTTPException
 from .repository import Repository
 from motor.motor_asyncio import AsyncIOMotorDatabase
-
-
-async def create_link(db: AsyncIOMotorDatabase, link: str, user_id: str):
-    return None
-
-
-async def create_file(db: AsyncIOMotorDatabase, file: UploadFile, user_id: str):
-    return None
+from utils.url_extractor import extract_text_from_url
+from .models import Note, NoteType
+import uuid
 
 
 class Service:
@@ -53,8 +48,19 @@ class Service:
         return await self.repo.create_text(db, text, user_id)
 
     async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
-        print(link, user_id)
-        return None
+        try:
+            extracted_text = extract_text_from_url(link)
+            note = Note(
+                id=str(uuid.uuid4()),
+                input=extracted_text,
+                type=NoteType.LINK,
+                user_id=user_id
+            )
+            await db["nodes"].insert_one(note.dict())
+            
+            return note
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to extract text from link: {str(e)}")
 
     async def create_file(self, db: AsyncIOMotorDatabase, file: UploadFile, user_id: str):
         print(file, user_id)

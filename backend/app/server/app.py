@@ -44,11 +44,11 @@ async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase =
 
 @router.post("/create/link", response_model=Note)
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await create_link(db, data.link, user_id)
+    return await service.create_link(db, data.link, user_id)
 
 @router.post("/create/file", response_model=Note)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await create_file(db, file, user_id)
+    return await service.create_file(db, file, user_id)
 
 # FastAPI app setup
 @asynccontextmanager

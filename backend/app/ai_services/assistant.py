@@ -136,4 +136,3 @@ class PromptAssistant:
     def generate_flashcards(self, text):
         prompt = FLASHCARD_PROMPT.format(text=text)
         return self._send_to_model(prompt)
-
