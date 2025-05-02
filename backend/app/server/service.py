@@ -5,9 +5,12 @@ from .repository import Repository
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from utils.url_extractor import extract_text_from_url
 from utils.mindmap_processing import text_to_mindmap
+from utils.document_extractor import DocumentExtractor
 from .models import Note, NoteType
 import uuid
 import json
+import os
+import tempfile
 
 
 class Service:
@@ -176,4 +179,26 @@ class Service:
         # Create Summary base on Note use AI
         # Save to database
         # Return Summary
-        return None
+        try:
+            temp_dir = tempfile.gettempdir()
+            file_path = os.path.join(temp_dir, file.filename)   
+            with open(file_path, "wb") as temp_file:
+                contents = await file.read()
+                temp_file.write(contents)
+            extractor = DocumentExtractor()
+            extracted_text = extractor.extract_text_from_document(file_path)
+            os.remove(file_path)
+            if extracted_text.startswith("Error") or extracted_text.startswith("Unsupported"):
+                raise HTTPException(status_code=400, detail=extracted_text)
+            note = Note(
+                id=str(uuid.uuid4()),
+                input=extracted_text,
+                type=NoteType.FILE,
+                user_id=user_id
+            )
+            await db["notes"].insert_one(note.dict())
+            summary_content = self.ai_assistant.summarize_text(extracted_text)
+            summary = await self.repo.create_summary(db, summary_content, note.id)
+            return summary
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to process file: {str(e)}")
