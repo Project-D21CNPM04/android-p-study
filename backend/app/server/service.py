@@ -81,7 +81,7 @@ class Service:
         # Save to database
         #Return list flashcard
         try:
-            note = await self.repo.get_node_detail(db, note_id)
+            note = await self.repo.get_note_detail(db, note_id)
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
@@ -113,7 +113,7 @@ class Service:
         # Save to database
         # Return List Quiz
         try:
-            note = await self.repo.get_node_detail(db, note_id)
+            note = await self.repo.get_note_detail(db, note_id)
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
