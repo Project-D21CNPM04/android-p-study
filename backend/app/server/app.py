@@ -50,11 +50,11 @@ async def create_flashcard(note_id: str, db: AsyncIOMotorDatabase = Depends(get_
 async def create_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_quiz(db, note_id)
 
-@router.post("/create/text", response_model=Note)
+@router.post("/create/text", response_model=Summary)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_text(db, data.text, user_id)
 
-@router.post("/create/link", response_model=Note)
+@router.post("/create/link", response_model=Summary)
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_link(db, data.link, user_id)
 

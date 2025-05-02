@@ -96,9 +96,11 @@ class Service:
                 type=NoteType.LINK,
                 user_id=user_id
             )
-            await db["nodes"].insert_one(note.dict())
+            await db["notes"].insert_one(note.dict())
 
-            return note
+            summary_content = self.ai_assistant.summarize_text(extracted_text)
+            summary = await self.repo.create_summary(db, summary_content, note.id)
+            return summary
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to extract text from link: {str(e)}")
 
