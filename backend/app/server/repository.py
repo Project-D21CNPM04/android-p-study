@@ -48,3 +48,9 @@ class Repository:
         quiz.user_id = user_id
         await db["quizzes"].insert_one(quiz.dict())
         return quiz
+
+    async def create_mindmap(self, db: AsyncIOMotorDatabase, mindmap: Mindmap, user_id: str):
+        mindmap.id = str(uuid.uuid4())
+        mindmap.user_id = user_id
+        await db["mindmaps"].insert_one(mindmap.dict())
+        return mindmap
