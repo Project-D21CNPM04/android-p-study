@@ -39,12 +39,12 @@ class Service:
             raise HTTPException(status_code=404, detail="Flashcard not found")
         return flashcard
 
-    async def get_node_list(self, db: AsyncIOMotorDatabase, user_id: str):
-        notes = await self.repo.get_node_list(db, user_id)
+    async def get_note_list(self, db: AsyncIOMotorDatabase, user_id: str):
+        notes = await self.repo.get_note_list(db, user_id)
         return notes
 
-    async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str):
-        note = await self.repo.get_node_detail(db, id)
+    async def get_note_detail(self, db: AsyncIOMotorDatabase, id: str):
+        note = await self.repo.get_note_detail(db, id)
         if not note:
             raise HTTPException(status_code=404, detail="Note not found")
         return note

@@ -31,12 +31,12 @@ async def get_flashcard(note_id: str,  db: AsyncIOMotorDatabase = Depends(get_db
     return await service.get_flashcard(db, note_id)
 
 @router.get("/note", response_model=list[Note])
-async def get_node_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_list(db, user_id)
+async def get_note_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_note_list(db, user_id)
 
 @router.get("/note/{note_id}", response_model=Note)
-async def get_node_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_detail(db, note_id)
+async def get_note_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_note_detail(db, note_id)
 
 @router.post("/mindmap/{note_id}", response_model=Mindmap)
 async def create_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
