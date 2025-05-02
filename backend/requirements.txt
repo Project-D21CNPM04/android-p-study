@@ -4,3 +4,12 @@ pydantic
 motor
 pymongo
 python-multipart
+
+python-multipart
+python-dotenv
+google-generativeai
+markdown
+PyPDF2
+docx2txt
+python-docx
+python-docx2pdf
