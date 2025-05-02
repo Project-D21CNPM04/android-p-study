@@ -60,7 +60,32 @@ class Service:
         # Create List flashcard base on Note use AI
         # Save to database
         #Return list flashcard
-        raise HTTPException(status_code=500, detail="Failed to create flashcard")
+        try:
+            note = await self.repo.get_node_detail(db, note_id)
+            if not note:
+                raise HTTPException(status_code=404, detail="Note not found")
+            
+            flashcards_json = self.ai_assistant.generate_flashcards(note.input)
+            flashcards_data = json.loads(flashcards_json)
+            flashcards_result = []
+            
+            for flashcard_item in flashcards_data:
+                content = FlashcardContent(
+                    front=flashcard_item["content"]["front"],
+                    back=flashcard_item["content"]["back"]
+                )     
+                flashcard = Flashcard(
+                    id=str(uuid.uuid4()),
+                    title=flashcard_item["title"],
+                    content=content,
+                    note_id=note_id
+                )
+                saved_flashcard = await self.repo.create_flashcard(db, flashcard, note_id)
+                flashcards_result.append(saved_flashcard)
+            
+            return flashcards_result
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to create flashcard: {str(e)}")
 
     async def create_quiz(self, db: AsyncIOMotorDatabase, note_id: str):
         # Flow get Note By note_id
