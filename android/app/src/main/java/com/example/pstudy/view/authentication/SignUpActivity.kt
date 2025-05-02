@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.example.base.ui.base.BindingActivity
-import com.example.pstudy.data.FirebaseAuthHelper
+import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.databinding.ActivitySignUpBinding
 import com.example.pstudy.view.home.HomeActivity
 

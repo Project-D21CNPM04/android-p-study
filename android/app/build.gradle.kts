@@ -60,4 +60,7 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
+    // dagger - hilt
+    implementation(libs.dagger.hilt.android)
 }
