@@ -4,6 +4,7 @@ from .models import Mindmap, Flashcard, FlashcardContent, Quiz, Summary
 from .repository import Repository
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from utils.url_extractor import extract_text_from_url
+from utils.mindmap_processing import text_to_mindmap
 from .models import Note, NoteType
 import uuid
 import json
@@ -53,7 +54,23 @@ class Service:
         #Create MindMap base on Note use AI
         #Save to database
         #Return Mindmap
-        raise HTTPException(status_code=500, detail="Failed to create mindmap")
+        try:
+            note = await self.repo.get_node_detail(db, note_id)
+            if not note:
+                raise HTTPException(status_code=404, detail="Note not found")
+            
+            mindmap_markdown = self.ai_assistant.summarize_text(note.input)
+            mindmap_html = text_to_mindmap(mindmap_markdown)
+            mindmap = Mindmap(
+                id=str(uuid.uuid4()),
+                content=mindmap_html,
+                summary=note.input,
+                note_id=note_id
+            )
+            saved_mindmap = await self.repo.create_mindmap(db, mindmap, note_id)
+            return saved_mindmap
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to create mindmap: {str(e)}")
 
     async def create_flashcard(self, db: AsyncIOMotorDatabase, note_id: str):
         # Flow get Note By note_id
