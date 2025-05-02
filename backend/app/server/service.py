@@ -1,5 +1,5 @@
 from fastapi import UploadFile, HTTPException
-
+from ai_services.assistant import PromptAssistant
 from .models import Mindmap
 from .repository import Repository
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -11,6 +11,7 @@ import uuid
 class Service:
     def __init__(self):
         self.repo = Repository()
+        self.ai_assistant = PromptAssistant()
 
     async def get_quiz(self, db: AsyncIOMotorDatabase, note_id: str):
         quiz = await self.repo.get_quiz(db, note_id)
@@ -72,9 +73,14 @@ class Service:
         # Create Summary base on Note use AI
         # Save to database
         # Return Summary
-        note = await self.repo.create_note(db, text, user_id)
-        # Return Summary
-        return note
+        try:
+            note = await self.repo.create_note(db, text, user_id)
+            summary_content = self.ai_assistant.summarize_text(text)
+            summary = await self.repo.create_summary(db, summary_content, note.id)
+            return summary
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to process text: {str(e)}")
+
 
     async def create_link(self, db: AsyncIOMotorDatabase, link: str, user_id: str):
         # Link to Text
