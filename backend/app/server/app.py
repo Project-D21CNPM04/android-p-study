@@ -34,12 +34,12 @@ async def get_flashcard(note_id: str,  db: AsyncIOMotorDatabase = Depends(get_db
     return await service.get_flashcard(db, note_id)
 
 @router.get("/note", response_model=list[Note])
-async def get_node_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_list(db, user_id)
+async def get_note_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_note_list(db, user_id)
 
 @router.get("/note/{note_id}", response_model=Note)
-async def get_node_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_detail(db, note_id)
+async def get_note_detail(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_note_detail(db, note_id)
 
 @router.post("/mindmap/{note_id}", response_model=Mindmap)
 async def create_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
@@ -53,15 +53,15 @@ async def create_flashcard(note_id: str, db: AsyncIOMotorDatabase = Depends(get_
 async def create_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_quiz(db, note_id)
 
-@router.post("/create/text", response_model=Note)
+@router.post("/create/text", response_model=Summary)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_text(db, data.text, user_id)
 
-@router.post("/create/link", response_model=Note)
+@router.post("/create/link", response_model=Summary)
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_link(db, data.link, user_id)
 
-@router.post("/create/file", response_model=Note)
+@router.post("/create/file", response_model=Summary)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_file(db, file, user_id)
 

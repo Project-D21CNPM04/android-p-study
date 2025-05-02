@@ -24,11 +24,11 @@ class Repository:
             return Summary(**summary)
         return None
 
-    async def get_node_list(self, db: AsyncIOMotorDatabase, user_id: str):
+    async def get_note_list(self, db: AsyncIOMotorDatabase, user_id: str):
         cursor = db["notes"].find({"user_id": user_id})
         return [Note(**note) async for note in cursor]
 
-    async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str):
+    async def get_note_detail(self, db: AsyncIOMotorDatabase, id: str):
         note = await db["notes"].find_one({"id": id})
         if note:
             return Note(**note)

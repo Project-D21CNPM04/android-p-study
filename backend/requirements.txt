@@ -12,4 +12,4 @@ markdown
 PyPDF2
 docx2txt
 python-docx
-python-docx2pdf
+docx2pdf

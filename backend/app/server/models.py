@@ -73,10 +73,20 @@ class Quiz(BaseModel):
                 "answer": "Hanoi",
             }
         }
-class Summary (BaseModel):
+        
+class Summary(BaseModel):
     id: str = Field(..., description="Unique identifier for the summary")
     content: str = Field(..., description="HTML content of the summary")
     note_id: str
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "summary456",
+                "content": "Nguyen Huu Quang Hoa is a excellent student!",
+                "note_id": "note123"
+            }
+        }
 
 class TextCreate(BaseModel):
     text: str
