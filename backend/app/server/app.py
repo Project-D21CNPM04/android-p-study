@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, UploadFile, File, Depends
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
-from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz
+from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
 from .service import Service
 
 MONGODB_URL = "mongodb://localhost:27017"
@@ -18,7 +18,7 @@ async def get_db(app=Depends(lambda: app)):
 async def get_quiz(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_quiz(db, id, user_id)
 
-@router.get("/summary/{id}", response_model=Mindmap)
+@router.get("/summary/{id}", response_model=Summary)
 async def get_summary(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_summary(db, id, user_id)
 

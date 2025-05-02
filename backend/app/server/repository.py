@@ -1,6 +1,7 @@
 import uuid
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from .models import Flashcard, Mindmap, Note, Quiz, NoteType
+from .models import Flashcard, Mindmap, Note, Quiz, NoteType, Summary
+
 
 class Repository:
     async def get_quiz(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
@@ -60,3 +61,12 @@ class Repository:
         flashcard.user_id = user_id
         await db["flashcards"].insert_one(flashcard.dict())
         return flashcard
+
+    async def create_summary(self, db: AsyncIOMotorDatabase, content: str, note_id: str):
+        summary = Summary(
+            id=str(uuid.uuid4()),
+            content=content,
+            note_id=note_id
+        )
+        await db["summaries"].insert_one(summary.dict())
+        return summary
