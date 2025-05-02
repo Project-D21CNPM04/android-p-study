@@ -74,6 +74,35 @@ Response Format Requirements:
 - IMPORTANT: Do NOT include ```json closing tag in your response
 - IMPORTANT: Output should end with the last content line, with no closing tags'''
 
+FLASHCARD_PROMPT = '''Objective: Create flashcards from the following text:
+"{text}"
+
+Flashcard Requirements:
+- Generate 10 flashcards covering key concepts, terms, and information
+- Front side: Question, term, or concept
+- Back side: Answer, definition, or explanation
+- Cover the most important information from the text
+- Varied card types (definitions, concepts, facts, relationships)
+- Cards should test recall of significant information
+- IMPORTANT: All flashcards content must be in Vietnamese
+
+Response Format Requirements:
+- Return a JSON array with objects in this exact format:
+[
+  {{
+    "title": "Brief descriptive title",
+    "content": {{   
+      "front": "Front side text",
+      "back": "Back side text"
+    }}
+  }},
+  ...
+]
+- Each flashcard must contain a "title" and "content" object with "front" and "back" fields
+- IMPORTANT: Do NOT include ```json closing tag in your response
+- IMPORTANT: Output should end with the last content line, with no closing tags
+- No additional explanation or commentary'''
+
 class PromptAssistant:
     def __init__(self):
         self.model = GenerativeModel(model_type.lower())
@@ -102,5 +131,9 @@ class PromptAssistant:
     
     def generate_quiz(self, text):
         prompt = QUIZ_PROMPT.format(text=text)
+        return self._send_to_model(prompt)
+    
+    def generate_flashcards(self, text):
+        prompt = FLASHCARD_PROMPT.format(text=text)
         return self._send_to_model(prompt)
 
