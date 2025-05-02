@@ -1,6 +1,7 @@
 package com.example.pstudy.view.home
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -18,6 +19,7 @@ import com.example.pstudy.view.home.fragment.AllFragment
 import com.example.pstudy.view.home.fragment.FolderFragment
 import com.example.pstudy.view.home.fragment.SharedFragment
 import com.example.pstudy.view.home.viewmodel.HomeViewModel
+import com.example.pstudy.view.input.InputActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -82,6 +84,27 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
         with(binding) {
             icAdd.setOnClickListener {
                 addFeature.isVisible = !addFeature.isVisible
+            }
+
+            icFile.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
+                })
+                addFeature.isVisible = false
+            }
+
+            icLink.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_LINK)
+                })
+                addFeature.isVisible = false
+            }
+
+            icSound.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_TEXT)
+                })
+                addFeature.isVisible = false
             }
         }
     }

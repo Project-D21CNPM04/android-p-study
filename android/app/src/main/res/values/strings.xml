@@ -46,4 +46,28 @@
     <string name="flashcard_previous_description">Thẻ trước</string>
     <string name="flashcard_next_description">Thẻ tiếp theo</string>
     <string name="flashcard_avatar_description">Avatar người tạo</string>
+
+    <string name="input_file_title">Select a File</string>
+    <string name="input_file_submit">Upload File</string>
+    <string name="input_link_title">Enter a Link</string>
+    <string name="input_link_submit">Submit Link</string>
+    <string name="input_text_title">Enter Text</string>
+    <string name="input_text_submit">Submit Text</string>
+    <string name="back_button_description">Back button</string>
+    <string name="file_input_instructions">Please select a file from your device to upload.</string>
+    <string name="select_file">Select File</string>
+    <string name="no_file_selected">No file selected</string>
+    <string name="link_input_instructions">Enter a valid URL (http:// or https://)</string>
+    <string name="link_hint">Enter URL</string>
+    <string name="paste">Paste</string>
+    <string name="text_input_instructions">Enter your text below (maximum 20,000 characters)</string>
+    <string name="text_hint">Your text here</string>
+    <string name="char_count_format">%1$d/20000</string>
+    <string name="error_no_file_selected">Please select a file first</string>
+    <string name="error_invalid_link">Please enter a valid URL</string>
+    <string name="error_invalid_text">Please enter valid text (1-20,000 characters)</string>
+    <string name="upload_success">Upload successful!</string>
+    <string name="file_upload_icon_description">File upload icon</string>
+    <string name="file_type_icon_description">File type icon</string>
+    <string name="link_icon_description">Link sharing icon</string>
 </resources>

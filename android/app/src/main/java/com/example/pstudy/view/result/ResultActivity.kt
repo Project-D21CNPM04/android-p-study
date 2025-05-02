@@ -30,7 +30,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
         setupToolbar()
         setupViewPagerAndTabs()
         observeViewModel()
-        viewModel.loadResultData()
+        //viewModel.loadResultData()
     }
 
     private fun setupToolbar() {
