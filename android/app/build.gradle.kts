@@ -56,4 +56,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
+    // dagger - hilt
+    implementation(libs.dagger.hilt.android)
 }

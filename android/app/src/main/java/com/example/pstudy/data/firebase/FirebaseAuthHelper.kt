@@ -1,4 +1,4 @@
-package com.example.pstudy.data
+package com.example.pstudy.data.firebase
 
 import android.content.Context
 import com.example.pstudy.R

@@ -11,7 +11,7 @@ import androidx.core.view.isVisible
 import com.example.base.ui.base.BindingActivity
 import com.example.base.utils.startActivityAsRoot
 import com.example.pstudy.R
-import com.example.pstudy.data.FirebaseAuthHelper
+import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.databinding.ActivityHomeBinding
 import com.example.pstudy.databinding.ItemHomeTabLayoutBinding
 import com.example.pstudy.view.home.adapter.PagerAdapter
