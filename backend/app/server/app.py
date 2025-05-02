@@ -15,28 +15,28 @@ async def get_db(app=Depends(lambda: app)):
     return app.database
 
 @router.get("/quiz/{id}", response_model=Quiz)
-async def get_quiz(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_quiz(db, id, user_id)
+async def get_quiz(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_quiz(db, id)
 
 @router.get("/summary/{id}", response_model=Summary)
-async def get_summary(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_summary(db, id, user_id)
+async def get_summary(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_summary(db, id)
 
 @router.get("/mindmap/{id}", response_model=Mindmap)
-async def get_mindmap(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_mindmap(db, id, user_id)
+async def get_mindmap(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_mindmap(db, id)
 
 @router.get("/flashcard/{id}", response_model=Flashcard)
-async def get_flashcard(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_flashcard(db, id, user_id)
+async def get_flashcard(id: str,  db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_flashcard(db, id)
 
 @router.get("/note", response_model=list[Note])
 async def get_node_list(user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_node_list(db, user_id)
 
 @router.get("/note/{id}", response_model=Note)
-async def get_node_detail(id: str, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.get_node_detail(db, id, user_id)
+async def get_node_detail(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_node_detail(db, id)
 
 @router.post("/create/text", response_model=Note)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
@@ -44,11 +44,11 @@ async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase =
 
 @router.post("/create/link", response_model=Note)
 async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.create_link(db, data.link, user_id)
+    return await create_link(db, data.link, user_id)
 
 @router.post("/create/file", response_model=Note)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.create_file(db, file, user_id)
+    return await create_file(db, file, user_id)
 
 # FastAPI app setup
 @asynccontextmanager
