@@ -4,20 +4,20 @@ from .models import Flashcard, Mindmap, Note, Quiz, NoteType, Summary
 
 
 class Repository:
-    async def get_quiz(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        quiz = await db["quizzes"].find_one({"id": id, "user_id": user_id})
+    async def get_quiz(self, db: AsyncIOMotorDatabase, id: str):
+        quiz = await db["quizzes"].find_one({"id": id})
         if quiz:
             return Quiz(**quiz)
         return None
 
-    async def get_mindmap(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        mindmap = await db["mindmaps"].find_one({"id": id, "user_id": user_id})
+    async def get_mindmap(self, db: AsyncIOMotorDatabase, id: str):
+        mindmap = await db["mindmaps"].find_one({"id": id})
         if mindmap:
             return Mindmap(**mindmap)
         return None
 
-    async def get_flashcard(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        flashcard = await db["flashcards"].find_one({"id": id, "user_id": user_id})
+    async def get_flashcard(self, db: AsyncIOMotorDatabase, id: str):
+        flashcard = await db["flashcards"].find_one({"id": id})
         if flashcard:
             return Flashcard(**flashcard)
         return None
@@ -26,13 +26,11 @@ class Repository:
         cursor = db["nodes"].find({"user_id": user_id})
         return [Note(**note) async for note in cursor]
 
-    async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str, user_id: str):
-        note = await db["nodes"].find_one({"id": id, "user_id": user_id})
+    async def get_node_detail(self, db: AsyncIOMotorDatabase, id: str):
+        note = await db["nodes"].find_one({"id": id})
         if note:
             return Note(**note)
         return None
-
-
 
     async def create_text(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
         note = Note(
