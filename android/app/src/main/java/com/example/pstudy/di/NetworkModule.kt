@@ -2,6 +2,8 @@ package com.example.pstudy.di
 
 import com.example.pstudy.data.remote.NetworkConfig
 import com.example.pstudy.data.remote.service.StudyService
+import com.example.pstudy.data.remote.source.RemoteDataSource
+import com.example.pstudy.data.remote.source.RemoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,5 +44,11 @@ object NetworkModule {
     @Singleton
     fun provideStudyService(retrofit: Retrofit): StudyService {
         return retrofit.create(StudyService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(studyService: StudyService): RemoteDataSource {
+        return RemoteDataSourceImpl(studyService)
     }
 }
