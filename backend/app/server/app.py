@@ -5,6 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
 from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
 from .service import Service
+from fastapi.middleware.cors import CORSMiddleware
 from urllib.parse import quote_plus
 load_dotenv()
 
@@ -80,4 +81,12 @@ async def lifespan(app: FastAPI):
     app.mongodb_client.close()
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(router)
