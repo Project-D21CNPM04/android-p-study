@@ -29,4 +29,7 @@
     <color name="light_gray">#FFCCCCCC</color>
     <color name="gradient_start_blue">#80D6FF</color>
     <color name="gradient_end_blue">#1EA4FF</color>
+    <color name="bg_option_card">#272727</color>
+    <color name="correct_answer">#4CAF50</color>
+    <color name="incorrect_answer">#F44336</color>
 </resources>

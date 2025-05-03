@@ -8,9 +8,7 @@ import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.base.ui.base.BindingFragmentLazyPager
 import com.example.pstudy.R
 import com.example.pstudy.data.model.FlashCard
@@ -19,8 +17,9 @@ import com.example.pstudy.view.result.ResultViewModel
 import com.example.pstudy.view.result.ResultViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>() {
@@ -32,20 +31,18 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
     private lateinit var frontAnimIn: AnimatorSet
     private lateinit var backAnimOut: AnimatorSet
 
+    // Track the previous flashcard state for smoother transitions
+    private var previousCardIndex = -1
+    private var previousCardState = true  // true = showing front
+
     override fun inflateBinding(inflater: LayoutInflater): FragmentFlashcardsBinding {
         return FragmentFlashcardsBinding.inflate(inflater)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun updateUI() {
         setupAnimations()
         setupClickListeners()
         observeViewState()
-    }
-
-    override fun updateUI() {
-        // println("FlashcardsFragment updateUI called")
-        // Re-apply state if needed, though observeViewState should handle most cases
     }
 
     private fun setupAnimations() {
@@ -64,25 +61,26 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
     }
 
     private fun observeViewState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewState
-                    .map { Triple(it.flashCardStates, it.currentFlashcardIndex, it.isLoading) }
-                    .distinctUntilChanged()
-                    .collect { (flashCardStates, currentIndex, isLoading) ->
-                        if (isLoading) {
-                            binding.cardFront.isVisible = false
-                            binding.cardBack.isVisible = false
-                            binding.tvQuestionNumber.isVisible = false
-                            // TODO: Show loading indicator
-                        } else {
-                            binding.tvQuestionNumber.isVisible = true
-                            // TODO: Hide loading indicator
-                            updateFlashcardUI(flashCardStates, currentIndex)
-                        }
-                    }
+        viewModel.viewState
+            .map {
+                Triple(
+                    it.flashCardStates.flashCards,
+                    it.flashCardStates.currentFlashcardIndex,
+                    it.isLoading
+                )
             }
-        }
+            .distinctUntilChanged()
+            .onEach { (flashCardStates, currentIndex, isLoading) ->
+                if (isLoading) {
+                    binding.cardFront.isVisible = false
+                    binding.cardBack.isVisible = false
+                    binding.progressBar.isVisible = true
+                } else {
+                    binding.progressBar.isVisible = false
+                    updateFlashcardUI(flashCardStates, currentIndex)
+                }
+            }
+            .launchIn(lifecycleScope)
     }
 
     private fun setupClickListeners() {
@@ -104,7 +102,6 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
         currentIndex: Int
     ) {
         if (flashCardStates.isEmpty() || currentIndex == -1) {
-            binding.tvQuestionNumber.text = ""
             binding.tvQuestion.text = ""
             binding.tvAnswer.text = ""
             binding.cardFront.isVisible = false
@@ -112,35 +109,42 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
             binding.btnNext.isEnabled = false
             binding.btnPrevious.isEnabled = false
             binding.flashcardContainer.isClickable = false
+            binding.tvPositionIndicator.text = ""
+            binding.tvEmptyState.isVisible = true
+            binding.tvEmptyState.text = "No flashcards available"
+            previousCardIndex = -1
             return
         }
 
+        binding.tvEmptyState.isVisible = false
         binding.btnNext.isEnabled = true
         binding.btnPrevious.isEnabled = true
         binding.flashcardContainer.isClickable = true
 
         val (currentCard, isFrontShowing) = flashCardStates[currentIndex]
 
-        binding.tvQuestionNumber.text = getString(
-            R.string.flashcard_question_label,
-            currentIndex + 1,
-            flashCardStates.size
-        )
         binding.tvQuestion.text = currentCard.content.front
         binding.tvAnswer.text = currentCard.content.back
         binding.tvFlipInstruction.isVisible = isFrontShowing
 
-        val currentlyVisibleFront = binding.cardFront.isVisible && binding.cardFront.alpha == 1f
+        // Update position indicator
+        binding.tvPositionIndicator.text = "${currentIndex + 1}/${flashCardStates.size}"
 
-        if (isFrontShowing != currentlyVisibleFront) {
-            flipCard(isFrontShowing)
-        } else {
+        // Handle card transition based on navigation (index changed) or card flip
+        if (previousCardIndex != currentIndex) {
+            // We're navigating to a different card, so set the state directly without animation
             binding.cardFront.isVisible = isFrontShowing
             binding.cardBack.isVisible = !isFrontShowing
             binding.cardFront.alpha = if (isFrontShowing) 1f else 0f
             binding.cardBack.alpha = if (!isFrontShowing) 1f else 0f
             binding.cardFront.rotationY = 0f
             binding.cardBack.rotationY = 0f
+            previousCardIndex = currentIndex
+            previousCardState = isFrontShowing
+        } else if (previousCardState != isFrontShowing) {
+            // Same card but state changed - animate the flip
+            flipCard(isFrontShowing)
+            previousCardState = isFrontShowing
         }
     }
 
