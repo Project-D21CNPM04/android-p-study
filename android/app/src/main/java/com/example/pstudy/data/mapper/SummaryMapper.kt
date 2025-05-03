@@ -35,19 +35,3 @@ fun Summary.toDto(): SummaryDto {
         noteId = noteId
     )
 }
-
-fun List<SummaryEntity>.toDomainList(): List<Summary> {
-    return map { it.toDomain() }
-}
-
-fun List<Summary>.toEntityList(): List<SummaryEntity> {
-    return map { it.toEntity() }
-}
-
-fun List<SummaryDto>.toDomainList(): List<Summary> {
-    return map { it.toDomain() }
-}
-
-fun List<Summary>.toDtoList(): List<SummaryDto> {
-    return map { it.toDto() }
-}

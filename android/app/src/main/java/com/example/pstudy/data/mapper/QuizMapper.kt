@@ -48,11 +48,3 @@ fun List<QuizEntity>.toDomainList(): List<Quiz> {
 fun List<Quiz>.toEntityList(studyMaterialId: String): List<QuizEntity> {
     return map { it.toEntity(studyMaterialId) }
 }
-
-fun List<QuizDto>.toDomainList(): List<Quiz> {
-    return map { it.toDomain() }
-}
-
-fun List<Quiz>.toDtoList(): List<QuizDto> {
-    return map { it.toDto() }
-}

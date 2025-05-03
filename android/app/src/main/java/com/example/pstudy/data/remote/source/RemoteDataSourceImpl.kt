@@ -2,7 +2,9 @@ package com.example.pstudy.data.remote.source
 
 import com.example.pstudy.data.remote.dto.*
 import com.example.pstudy.data.remote.service.StudyService
-import okhttp3.MultipartBody
+import com.example.pstudy.data.remote.utils.NetworkResult
+import com.example.pstudy.data.remote.utils.safeApiCall
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -11,55 +13,64 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
 
     // Study materials/notes operations
-    override suspend fun getNoteList(): Response<List<NoteDto>> {
-        return studyService.getNoteList()
+    override suspend fun getNoteList(): NetworkResult<List<NoteDto>> {
+        return safeApiCall { studyService.getNoteList() }
     }
 
-    override suspend fun getNoteDetail(noteId: String): Response<NoteDto> {
-        return studyService.getNoteDetail(noteId)
+    override suspend fun getNoteDetail(noteId: String): NetworkResult<NoteDto> {
+        return safeApiCall { studyService.getNoteDetail(noteId) }
     }
 
     // FlashCard operations
-    override suspend fun getFlashCard(noteId: String): Response<FlashCardDto> {
-        return studyService.getFlashCard(noteId)
+    override suspend fun getFlashCard(noteId: String): NetworkResult<FlashCardDto> {
+        return safeApiCall { studyService.getFlashCard(noteId) }
     }
 
-    override suspend fun createFlashCard(noteId: String): Response<Unit> {
-        return studyService.createFlashCard(noteId)
+    override suspend fun createFlashCard(noteId: String): NetworkResult<Unit> {
+        return safeApiCall {
+        studyService.createFlashCard(noteId)
+            Response.success(Unit)
+        }
     }
 
     // Quiz operations
-    override suspend fun getQuiz(noteId: String): Response<QuizDto> {
-        return studyService.getQuiz(noteId)
+    override suspend fun getQuiz(noteId: String): NetworkResult<QuizDto> {
+        return safeApiCall { studyService.getQuiz(noteId) }
     }
 
-    override suspend fun createQuiz(noteId: String): Response<Unit> {
-        return studyService.createQuiz(noteId)
+    override suspend fun createQuiz(noteId: String): NetworkResult<Unit> {
+        return safeApiCall {
+        studyService.createQuiz(noteId)
+            Response.success(Unit)
+        }
     }
 
     // MindMap operations
-    override suspend fun getMindMap(noteId: String): Response<MindMapDto> {
-        return studyService.getMindMap(noteId)
+    override suspend fun getMindMap(noteId: String): NetworkResult<MindMapDto> {
+        return safeApiCall { studyService.getMindMap(noteId) }
     }
 
-    override suspend fun createMindMap(noteId: String): Response<Unit> {
-        return studyService.createMindMap(noteId)
+    override suspend fun createMindMap(noteId: String): NetworkResult<Unit> {
+        return safeApiCall {
+        studyService.createMindMap(noteId)
+            Response.success(Unit)
+        }
     }
 
     // Summary operations
-    override suspend fun getSummary(noteId: String): Response<SummaryDto> {
-        return studyService.getSummary(noteId)
+    override suspend fun getSummary(noteId: String): NetworkResult<SummaryDto> {
+        return safeApiCall { studyService.getSummary(noteId) }
     }
 
-    override suspend fun createTextNote(text: String): Response<SummaryDto> {
-        return studyService.createText(text)
+    override suspend fun createTextNote(text: String): NetworkResult<SummaryDto> {
+        return safeApiCall { studyService.createText(text) }
     }
 
-    override suspend fun createLinkNote(link: String): Response<SummaryDto> {
-        return studyService.createLink(link)
+    override suspend fun createLinkNote(link: String): NetworkResult<SummaryDto> {
+        return safeApiCall { studyService.createLink(link) }
     }
 
-    override suspend fun createFileNote(file: MultipartBody.Part): Response<SummaryDto> {
-        return studyService.createFile(file)
+    override suspend fun createFileNote(file: RequestBody): NetworkResult<SummaryDto> {
+        return safeApiCall { studyService.createFile(file) }
     }
 }

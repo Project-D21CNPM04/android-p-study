@@ -36,19 +36,3 @@ fun MindMap.toDto(): MindMapDto {
         summary = summary
     )
 }
-
-fun List<MindMapEntity>.toDomainList(): List<MindMap> {
-    return map { it.toDomain() }
-}
-
-fun List<MindMap>.toEntityList(studyMaterialId: String): List<MindMapEntity> {
-    return map { it.toEntity(studyMaterialId) }
-}
-
-fun List<MindMapDto>.toDomainList(): List<MindMap> {
-    return map { it.toDomain() }
-}
-
-fun List<MindMap>.toDtoList(): List<MindMapDto> {
-    return map { it.toDto() }
-}

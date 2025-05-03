@@ -55,11 +55,3 @@ fun List<FlashCardEntity>.toDomainList(): List<FlashCard> {
 fun List<FlashCard>.toEntityList(studyMaterialId: String): List<FlashCardEntity> {
     return map { it.toEntity(studyMaterialId) }
 }
-
-fun List<FlashCardDto>.toDomainList(): List<FlashCard> {
-    return map { it.toDomain() }
-}
-
-fun List<FlashCard>.toDtoList(): List<FlashCardDto> {
-    return map { it.toDto() }
-}
