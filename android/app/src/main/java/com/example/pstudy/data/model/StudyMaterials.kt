@@ -1,17 +1,16 @@
 package com.example.pstudy.data.model
 
 data class StudyMaterials(
-    val id: Int,
-    val title: String,
-    val description: String,
+    val id: String,
+    val input: String,
     val type: MaterialType,
-    val summary: String,
-    val record: String,
-    val mindMap: String,
-    val flashCards: List<FlashCard>,
-    val quizzes: List<Quiz>,
-    val timeStamp: String,
-    val languageCode: String,
+    val userId: String,
+    val summary: Summary? = null,
+    val mindMap: MindMap? = null,
+    val flashCards: List<FlashCard>? = null,
+    val quizzes: List<Quiz>? = null,
+    val timeStamp: Long = System.currentTimeMillis(),
+    val languageCode: String = "en",
 )
 
 
