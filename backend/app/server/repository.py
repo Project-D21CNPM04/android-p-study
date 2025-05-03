@@ -44,6 +44,16 @@ class Repository:
         await db["notes"].insert_one(note.dict())
         return note
 
+    async def create_audio_note(self, db: AsyncIOMotorDatabase, transcribed_text: str, user_id: str):
+        note = Note(
+            id=str(uuid.uuid4()),
+            input=transcribed_text,
+            type=NoteType.AUDIO,
+            user_id=user_id
+        )
+        await db["notes"].insert_one(note.dict())
+        return note
+
     async def create_quiz(self, db: AsyncIOMotorDatabase, quiz: Quiz, note_id: str):
         quiz.id = str(uuid.uuid4())
         quiz.note_id = note_id

@@ -7,9 +7,13 @@ def text_to_mindmap(text):
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Markmap</title>
     <style>
+      body {{
+        background-color: black;
+      }}
       svg.markmap {{
         width: 100%;
         height: 100vh;
+        color: white;
       }}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.18"></script>

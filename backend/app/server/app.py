@@ -7,7 +7,7 @@ from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summ
 from .service import Service
 
 load_dotenv()
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
 DB_NAME = os.getenv("DB_NAME", "study_app")
 
 # Router setup
@@ -64,6 +64,10 @@ async def create_link(data: LinkCreate, user_id: str, db: AsyncIOMotorDatabase =
 @router.post("/create/file", response_model=Summary)
 async def create_file(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_file(db, file, user_id)
+
+@router.post("/create/audio", response_model=Summary)
+async def create_audio(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_audio(db, file, user_id)
 
 # FastAPI app setup
 @asynccontextmanager

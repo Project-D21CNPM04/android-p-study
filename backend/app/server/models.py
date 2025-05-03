@@ -40,6 +40,7 @@ class NoteType(str, Enum):
     TEXT = "text"
     LINK = "link"
     FILE = "file"
+    AUDIO = "audio"
 
 class Note(BaseModel):
     id: str = Field(..., description="Unique identifier for the note")
