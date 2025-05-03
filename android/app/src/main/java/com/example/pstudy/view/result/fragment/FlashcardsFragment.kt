@@ -124,8 +124,8 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
             currentIndex + 1,
             flashCardStates.size
         )
-        binding.tvQuestion.text = currentCard.front
-        binding.tvAnswer.text = currentCard.back
+        binding.tvQuestion.text = currentCard.content.front
+        binding.tvAnswer.text = currentCard.content.back
         binding.tvFlipInstruction.isVisible = isFrontShowing
 
         val currentlyVisibleFront = binding.cardFront.isVisible && binding.cardFront.alpha == 1f

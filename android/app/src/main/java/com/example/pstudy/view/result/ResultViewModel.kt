@@ -21,7 +21,7 @@ class ResultViewModel : ViewModel() {
                     studyMaterials?.flashCards?.map { Pair(it, true) } ?: emptyList()
                 currentState.copy(
                     isLoading = false,
-                    resultTitle = studyMaterials?.title ?: "Result",
+                    resultTitle = studyMaterials?.input ?: "Result",
                     result = studyMaterials,
                     flashCardStates = initialFlashCardStates,
                     currentFlashcardIndex = if (initialFlashCardStates.isNotEmpty()) 0 else -1
