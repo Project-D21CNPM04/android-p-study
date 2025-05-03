@@ -1,11 +1,17 @@
 package com.example.pstudy.data.remote.source
 
-import com.example.pstudy.data.remote.dto.*
+import com.example.pstudy.data.firebase.FirebaseAuthHelper
+import com.example.pstudy.data.remote.LinkRequest
+import com.example.pstudy.data.remote.TextRequest
+import com.example.pstudy.data.remote.dto.FlashCardDto
+import com.example.pstudy.data.remote.dto.MindMapDto
+import com.example.pstudy.data.remote.dto.NoteDto
+import com.example.pstudy.data.remote.dto.QuizDto
+import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.service.StudyService
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.remote.utils.safeApiCall
 import okhttp3.RequestBody
-import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
@@ -14,7 +20,9 @@ class RemoteDataSourceImpl @Inject constructor(
 
     // Study materials/notes operations
     override suspend fun getNoteList(): NetworkResult<List<NoteDto>> {
-        return safeApiCall { studyService.getNoteList() }
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.getNoteList(uid) }
+        } ?: NetworkResult.Error("User not authenticated")
     }
 
     override suspend fun getNoteDetail(noteId: String): NetworkResult<NoteDto> {
@@ -22,27 +30,21 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     // FlashCard operations
-    override suspend fun getFlashCard(noteId: String): NetworkResult<FlashCardDto> {
-        return safeApiCall { studyService.getFlashCard(noteId) }
+    override suspend fun getFlashCards(noteId: String): NetworkResult<List<FlashCardDto>> {
+        return safeApiCall { studyService.getFlashCards(noteId) }
     }
 
-    override suspend fun createFlashCard(noteId: String): NetworkResult<Unit> {
-        return safeApiCall {
-        studyService.createFlashCard(noteId)
-            Response.success(Unit)
-        }
+    override suspend fun createFlashCards(noteId: String): NetworkResult<List<FlashCardDto>> {
+        return safeApiCall { studyService.createFlashCards(noteId) }
     }
 
     // Quiz operations
-    override suspend fun getQuiz(noteId: String): NetworkResult<QuizDto> {
-        return safeApiCall { studyService.getQuiz(noteId) }
+    override suspend fun getQuizzes(noteId: String): NetworkResult<List<QuizDto>> {
+        return safeApiCall { studyService.getQuizzes(noteId) }
     }
 
-    override suspend fun createQuiz(noteId: String): NetworkResult<Unit> {
-        return safeApiCall {
-        studyService.createQuiz(noteId)
-            Response.success(Unit)
-        }
+    override suspend fun createQuizzes(noteId: String): NetworkResult<List<QuizDto>> {
+        return safeApiCall { studyService.createQuizzes(noteId) }
     }
 
     // MindMap operations
@@ -50,11 +52,8 @@ class RemoteDataSourceImpl @Inject constructor(
         return safeApiCall { studyService.getMindMap(noteId) }
     }
 
-    override suspend fun createMindMap(noteId: String): NetworkResult<Unit> {
-        return safeApiCall {
-        studyService.createMindMap(noteId)
-            Response.success(Unit)
-        }
+    override suspend fun createMindMap(noteId: String): NetworkResult<MindMapDto> {
+        return safeApiCall { studyService.createMindMap(noteId) }
     }
 
     // Summary operations
@@ -63,14 +62,20 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun createTextNote(text: String): NetworkResult<SummaryDto> {
-        return safeApiCall { studyService.createText(text) }
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.createText(TextRequest(text), uid) }
+        } ?: NetworkResult.Error("User not authenticated")
     }
 
     override suspend fun createLinkNote(link: String): NetworkResult<SummaryDto> {
-        return safeApiCall { studyService.createLink(link) }
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.createLink(LinkRequest(link), uid) }
+        } ?: NetworkResult.Error("User not authenticated")
     }
 
     override suspend fun createFileNote(file: RequestBody): NetworkResult<SummaryDto> {
-        return safeApiCall { studyService.createFile(file) }
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.createFile(file, uid) }
+        } ?: NetworkResult.Error("User not authenticated")
     }
 }

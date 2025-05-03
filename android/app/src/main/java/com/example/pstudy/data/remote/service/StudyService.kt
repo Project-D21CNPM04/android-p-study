@@ -1,5 +1,7 @@
 package com.example.pstudy.data.remote.service
 
+import com.example.pstudy.data.remote.LinkRequest
+import com.example.pstudy.data.remote.TextRequest
 import com.example.pstudy.data.remote.dto.FlashCardDto
 import com.example.pstudy.data.remote.dto.MindMapDto
 import com.example.pstudy.data.remote.dto.NoteDto
@@ -12,13 +14,14 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface StudyService {
     @GET("/quiz/{note_id}")
-    suspend fun getQuiz(@Path("note_id") noteId: String): Response<QuizDto>
+    suspend fun getQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
 
     @POST("/quiz/{note_id}")
-    suspend fun createQuiz(@Path("note_id") noteId: String): Response<QuizDto>
+    suspend fun createQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
 
     @GET("/summary/{note_id}")
     suspend fun getSummary(@Path("note_id") noteId: String): Response<SummaryDto>
@@ -30,24 +33,24 @@ interface StudyService {
     suspend fun createMindMap(@Path("note_id") noteId: String): Response<MindMapDto>
 
     @GET("/flashcard/{note_id}")
-    suspend fun getFlashCard(@Path("note_id") noteId: String): Response<FlashCardDto>
+    suspend fun getFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
 
     @POST("/flashcard/{note_id}")
-    suspend fun createFlashCard(@Path("note_id") noteId: String): Response<FlashCardDto>
+    suspend fun createFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
 
     @GET("/note")
-    suspend fun getNoteList(): Response<List<NoteDto>>
+    suspend fun getNoteList(@Query("user_id") userId: String): Response<List<NoteDto>>
 
     @GET("/note/{note_id}")
     suspend fun getNoteDetail(@Path("note_id") noteId: String): Response<NoteDto>
 
     @POST("/create/text")
-    suspend fun createText(@Body request: String): Response<SummaryDto>
+    suspend fun createText(@Body request: TextRequest, @Query("user_id") userId: String): Response<SummaryDto>
 
     @POST("/create/link")
-    suspend fun createLink(@Body request: String): Response<SummaryDto>
+    suspend fun createLink(@Body request: LinkRequest, @Query("user_id") userId: String): Response<SummaryDto>
 
     @Multipart
     @POST("/create/file")
-    suspend fun createFile(@Body file: RequestBody): Response<SummaryDto>
+    suspend fun createFile(@Body file: RequestBody, @Query("user_id") userId: String): Response<SummaryDto>
 }

@@ -24,8 +24,12 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
     private val viewModel: ResultViewModel by viewModels()
 
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ResultActivity::class.java)
+        private const val EXTRA_STUDY_MATERIALS = "extra_study_materials"
+
+        fun start(context: Context, studyMaterials: StudyMaterials) {
+            val intent = Intent(context, ResultActivity::class.java)
+            intent.putExtra(EXTRA_STUDY_MATERIALS, studyMaterials)
+            context.startActivity(intent)
         }
     }
 
@@ -37,8 +41,13 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
         setupToolbar()
         setupViewPagerAndTabs()
         observeViewModel()
-        val sampleData = createSampleData()
-        viewModel.loadResultData(sampleData)
+        val studyMaterials = getStudyMaterialsFromIntent()
+        if (studyMaterials != null) {
+            viewModel.loadResultData(studyMaterials)
+        } else {
+            val sampleData = createSampleData()
+            viewModel.loadResultData(sampleData)
+        }
     }
 
     private fun setupToolbar() {
@@ -300,5 +309,11 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
             flashCards = flashCards,
             quizzes = quizzes
         )
+    }
+
+    private fun getStudyMaterialsFromIntent(): StudyMaterials? {
+        @Suppress("DEPRECATION")
+        val serializable = intent.getSerializableExtra(EXTRA_STUDY_MATERIALS)
+        return serializable as? StudyMaterials
     }
 }
