@@ -234,7 +234,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
 
         val flashCards = listOf(
             FlashCard(
-                id = 1,
+                id = "1",
                 title = "Basic Kotlin",
                 content = Content(
                     front = "What is a key feature of Kotlin that helps prevent NullPointerException?",
@@ -242,7 +242,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
                 )
             ),
             FlashCard(
-                id = 2,
+                id = "2",
                 title = "Coroutines",
                 content = Content(
                     front = "What Kotlin feature is designed to simplify asynchronous programming?",
@@ -250,7 +250,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
                 )
             ),
             FlashCard(
-                id = 3,
+                id = "3",
                 title = "Extension Functions",
                 content = Content(
                     front = "How do you add new functionality to existing classes without inheritance?",
@@ -261,13 +261,13 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
 
         val quizzes = listOf(
             Quiz(
-                id = 1,
+                id = "1",
                 questions = "Which keyword is used to define a variable that cannot be reassigned?",
                 choices = listOf("val", "var", "const", "final"),
                 answer = "val"
             ),
             Quiz(
-                id = 2,
+                id = "2",
                 questions = "Which of these is NOT a benefit of using Kotlin?",
                 choices = listOf(
                     "Interoperability with Java",
@@ -278,7 +278,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
                 answer = "Requires more code than Java"
             ),
             Quiz(
-                id = 3,
+                id = "3",
                 questions = "What is the correct way to create an immutable list in Kotlin?",
                 choices = listOf(
                     "listOf(1, 2, 3)",
