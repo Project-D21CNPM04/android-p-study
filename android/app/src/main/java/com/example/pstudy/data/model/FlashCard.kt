@@ -1,7 +1,7 @@
 package com.example.pstudy.data.model
 
 data class FlashCard(
-    val id: Int,
+    val id: String,
     val content: Content,
     val title: String,
 )

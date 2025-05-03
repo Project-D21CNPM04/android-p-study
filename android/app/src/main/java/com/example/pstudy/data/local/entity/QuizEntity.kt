@@ -19,8 +19,8 @@ import com.example.pstudy.data.local.converter.StringListConverter
 )
 @TypeConverters(StringListConverter::class)
 data class QuizEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String = "",
     val questions: String,
     val choices: List<String>,
     val answer: String,

@@ -16,8 +16,8 @@ import androidx.room.PrimaryKey
     ]
 )
 data class FlashCardEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String = "",
     val studyMaterialId: String,
     val title: String,
     val frontContent: String,

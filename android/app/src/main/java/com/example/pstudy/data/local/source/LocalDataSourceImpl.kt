@@ -4,9 +4,10 @@ import com.example.pstudy.data.local.dao.*
 import com.example.pstudy.data.local.entity.FlashCardEntity
 import com.example.pstudy.data.local.entity.MindMapEntity
 import com.example.pstudy.data.local.entity.QuizEntity
-import com.example.pstudy.data.local.entity.StudyMaterialEntity
 import com.example.pstudy.data.local.entity.SummaryEntity
-import com.example.pstudy.data.local.mapper.*
+import com.example.pstudy.data.mapper.toDomain
+import com.example.pstudy.data.mapper.toEntity
+import com.example.pstudy.data.mapper.toEntityList
 import com.example.pstudy.data.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
