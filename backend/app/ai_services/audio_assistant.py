@@ -11,7 +11,7 @@ class AudioAssistant:
         
     def transcribe_audio(self, audio_file_path):
         try:
-            config = aai.TranscriptionConfig(speech_model=aai.SpeechModel.best)
+            config = aai.TranscriptionConfig(language_code="vi")
             transcript = aai.Transcriber(config=config).transcribe(audio_file_path)
             
             if transcript.status == "error":

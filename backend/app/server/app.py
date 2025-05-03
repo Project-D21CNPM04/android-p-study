@@ -7,7 +7,7 @@ from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summ
 from .service import Service
 
 load_dotenv()
-MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
 DB_NAME = os.getenv("DB_NAME", "study_app")
 
 # Router setup
