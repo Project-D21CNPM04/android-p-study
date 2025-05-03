@@ -1,7 +1,8 @@
-package com.example.pstudy.data.local.mapper
+package com.example.pstudy.data.mapper
 
 import com.example.pstudy.data.local.entity.SummaryEntity
 import com.example.pstudy.data.model.Summary
+import com.example.pstudy.data.remote.dto.SummaryDto
 
 fun SummaryEntity.toDomain(): Summary {
     return Summary(
@@ -16,5 +17,21 @@ fun Summary.toEntity(): SummaryEntity {
         id = id,
         content = content,
         studyMaterialId = noteId
+    )
+}
+
+fun SummaryDto.toDomain(): Summary {
+    return Summary(
+        id = id,
+        content = content,
+        noteId = noteId
+    )
+}
+
+fun Summary.toDto(): SummaryDto {
+    return SummaryDto(
+        id = id,
+        content = content,
+        noteId = noteId
     )
 }

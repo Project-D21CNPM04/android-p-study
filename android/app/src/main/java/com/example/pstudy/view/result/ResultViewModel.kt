@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel
 class ResultViewModel : ViewModel() {
 
     private val _viewState = MutableStateFlow(ResultViewState())

@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.regex.Pattern
 
-@HiltViewModel
 class InputViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(InputUiState())
     val uiState = _uiState.asStateFlow()

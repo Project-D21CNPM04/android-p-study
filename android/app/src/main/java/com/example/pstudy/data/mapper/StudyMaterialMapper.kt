@@ -1,13 +1,17 @@
-package com.example.pstudy.data.local.mapper
+package com.example.pstudy.data.mapper
 
 import com.example.pstudy.data.local.entity.StudyMaterialEntity
+import com.example.pstudy.data.model.FlashCard
+import com.example.pstudy.data.model.MindMap
+import com.example.pstudy.data.model.Quiz
 import com.example.pstudy.data.model.StudyMaterials
+import com.example.pstudy.data.model.Summary
 
 fun StudyMaterialEntity.toDomain(
-    summary: com.example.pstudy.data.model.Summary? = null,
-    mindMap: com.example.pstudy.data.model.MindMap? = null,
-    flashCards: List<com.example.pstudy.data.model.FlashCard>? = null,
-    quizzes: List<com.example.pstudy.data.model.Quiz>? = null
+    summary: Summary? = null,
+    mindMap: MindMap? = null,
+    flashCards: List<FlashCard>? = null,
+    quizzes: List<Quiz>? = null
 ): StudyMaterials {
     return StudyMaterials(
         id = id,
