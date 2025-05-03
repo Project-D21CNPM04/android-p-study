@@ -27,7 +27,7 @@ interface FlashCardDao {
     suspend fun getFlashCardById(id: Int): FlashCardEntity?
 
     @Query("SELECT * FROM flash_cards WHERE studyMaterialId = :studyMaterialId")
-    fun getFlashCardsByStudyMaterialId(studyMaterialId: String): Flow<List<FlashCardEntity>>
+    suspend fun getFlashCardsByStudyMaterialId(studyMaterialId: String): List<FlashCardEntity>
 
     @Query("DELETE FROM flash_cards WHERE studyMaterialId = :studyMaterialId")
     suspend fun deleteFlashCardsByStudyMaterialId(studyMaterialId: String)

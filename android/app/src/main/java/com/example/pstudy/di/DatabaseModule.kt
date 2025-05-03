@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.pstudy.data.local.dao.*
 import com.example.pstudy.data.local.db.PStudyDatabase
+import com.example.pstudy.data.local.source.LocalDataSource
+import com.example.pstudy.data.local.source.LocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,5 +55,23 @@ object DatabaseModule {
     @Singleton
     fun provideSummaryDao(database: PStudyDatabase): SummaryDao {
         return database.summaryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(
+        studyMaterialDao: StudyMaterialDao,
+        flashCardDao: FlashCardDao,
+        quizDao: QuizDao,
+        mindMapDao: MindMapDao,
+        summaryDao: SummaryDao
+    ): LocalDataSource {
+        return LocalDataSourceImpl(
+            studyMaterialDao,
+            flashCardDao,
+            quizDao,
+            mindMapDao,
+            summaryDao
+        )
     }
 }

@@ -27,7 +27,7 @@ interface QuizDao {
     suspend fun getQuizById(id: Int): QuizEntity?
 
     @Query("SELECT * FROM quizzes WHERE studyMaterialId = :studyMaterialId")
-    fun getQuizzesByStudyMaterialId(studyMaterialId: String): Flow<List<QuizEntity>>
+    suspend fun getQuizzesByStudyMaterialId(studyMaterialId: String): List<QuizEntity>
 
     @Query("DELETE FROM quizzes WHERE studyMaterialId = :studyMaterialId")
     suspend fun deleteQuizzesByStudyMaterialId(studyMaterialId: String)
