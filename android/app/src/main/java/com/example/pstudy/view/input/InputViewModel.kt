@@ -3,11 +3,13 @@ package com.example.pstudy.view.input
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_TEXT
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.regex.Pattern
 
+@HiltViewModel
 class InputViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(InputUiState())
     val uiState = _uiState.asStateFlow()

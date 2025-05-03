@@ -8,10 +8,10 @@ import androidx.activity.viewModels
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
 import com.example.pstudy.databinding.ActivityResultBinding
-import com.example.pstudy.view.result.ResultPagerAdapter
-import com.example.pstudy.view.result.ResultViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResultActivity : BindingActivity<ActivityResultBinding>() {
 
     private val viewModel: ResultViewModel by viewModels()

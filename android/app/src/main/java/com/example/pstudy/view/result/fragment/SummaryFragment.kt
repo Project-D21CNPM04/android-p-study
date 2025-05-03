@@ -7,7 +7,9 @@ import androidx.fragment.app.activityViewModels
 import com.example.base.ui.base.BindingFragmentLazyPager
 import com.example.pstudy.databinding.FragmentSummaryBinding
 import com.example.pstudy.view.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SummaryFragment : BindingFragmentLazyPager<FragmentSummaryBinding>() {
 
     private val viewModel: ResultViewModel by activityViewModels()

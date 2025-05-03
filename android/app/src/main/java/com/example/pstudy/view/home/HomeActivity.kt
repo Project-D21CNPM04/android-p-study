@@ -23,7 +23,9 @@ import com.example.pstudy.view.input.InputActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : BindingActivity<ActivityHomeBinding>() {
     override fun inflateBinding(layoutInflater: LayoutInflater) =
         ActivityHomeBinding.inflate(layoutInflater)

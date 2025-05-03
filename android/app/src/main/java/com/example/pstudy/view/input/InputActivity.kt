@@ -12,7 +12,9 @@ import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
 import com.example.pstudy.databinding.ActivityInputBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class InputActivity : BindingActivity<ActivityInputBinding>() {
     override fun inflateBinding(layoutInflater: LayoutInflater) =
         ActivityInputBinding.inflate(layoutInflater)

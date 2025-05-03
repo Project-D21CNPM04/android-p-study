@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import com.example.base.ui.base.BindingFragment
 import com.example.pstudy.databinding.FragmentSharedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SharedFragment : BindingFragment<FragmentSharedBinding>() {
     override fun inflateBinding(inflater: LayoutInflater) =
         FragmentSharedBinding.inflate(inflater)
