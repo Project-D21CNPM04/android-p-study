@@ -75,4 +75,14 @@ dependencies {
     // kotlinx serialization
     implementation(libs.kotlinx.serialization.json)
 
+    ksp("com.google.dagger:hilt-android-compiler:2.56.1")
+
+    // Firebase
+    implementation(libs.firebase.auth.ktx)
+    implementation(platform(libs.firebase.bom))
+
+    // Markdown support
+    implementation("io.noties.markwon:core:4.6.2")
+    implementation("io.noties.markwon:html:4.6.2")
+    implementation("io.noties.markwon:image:4.6.2")
 }

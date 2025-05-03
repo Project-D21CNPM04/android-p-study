@@ -38,7 +38,7 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/light_gray"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -13,7 +13,7 @@ import com.example.pstudy.view.result.fragment.SummaryFragment
 class ResultPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
     companion object {
-        private const val NUM_TABS = 6
+        private const val NUM_TABS = 4
     }
 
     override fun getItemCount(): Int {
@@ -23,11 +23,9 @@ class ResultPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(acti
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> SummaryFragment.newInstance()
-            1 -> RecordFragment.newInstance()
-            2 -> MaterialFragment.newInstance()
-            3 -> MindMapFragment.newInstance()
-            4 -> FlashcardsFragment.newInstance()
-            5 -> QuizzesFragment.newInstance()
+            1 -> MindMapFragment.newInstance()
+            2 -> FlashcardsFragment.newInstance()
+            3 -> QuizzesFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid tab position: $position")
         }
     }
