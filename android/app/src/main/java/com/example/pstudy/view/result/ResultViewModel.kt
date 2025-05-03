@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pstudy.data.model.FlashCard
 import com.example.pstudy.data.model.StudyMaterials
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class ResultViewModel : ViewModel() {
 
     private val _viewState = MutableStateFlow(ResultViewState())

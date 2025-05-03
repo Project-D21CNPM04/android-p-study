@@ -9,7 +9,9 @@ import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.databinding.ActivitySignUpBinding
 import com.example.pstudy.view.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : BindingActivity<ActivitySignUpBinding>() {
     override fun inflateBinding(layoutInflater: LayoutInflater) =
         ActivitySignUpBinding.inflate(layoutInflater)

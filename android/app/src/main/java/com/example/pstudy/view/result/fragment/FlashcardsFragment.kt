@@ -17,10 +17,12 @@ import com.example.pstudy.data.model.FlashCard
 import com.example.pstudy.databinding.FragmentFlashcardsBinding
 import com.example.pstudy.view.result.ResultViewModel
 import com.example.pstudy.view.result.ResultViewState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>() {
 
     private val viewModel: ResultViewModel by activityViewModels()

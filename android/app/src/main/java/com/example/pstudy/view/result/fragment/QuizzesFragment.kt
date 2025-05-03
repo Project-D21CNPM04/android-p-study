@@ -7,7 +7,9 @@ import androidx.fragment.app.activityViewModels
 import com.example.base.ui.base.BindingFragmentLazyPager
 import com.example.pstudy.databinding.FragmentQuizzesBinding
 import com.example.pstudy.view.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
 
     private val viewModel: ResultViewModel by activityViewModels()

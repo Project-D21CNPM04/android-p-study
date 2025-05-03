@@ -7,7 +7,9 @@ import androidx.fragment.app.activityViewModels
 import com.example.base.ui.base.BindingFragmentLazyPager
 import com.example.pstudy.databinding.FragmentMindMapBinding
 import com.example.pstudy.view.result.ResultViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
 
     private val viewModel: ResultViewModel by activityViewModels()
