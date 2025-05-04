@@ -7,6 +7,10 @@ import com.example.pstudy.data.model.MindMap
 import com.example.pstudy.data.model.Quiz
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.data.model.Summary
+import com.example.pstudy.data.remote.dto.FlashCardDto
+import com.example.pstudy.data.remote.dto.MindMapDto
+import com.example.pstudy.data.remote.dto.NoteDto
+import com.example.pstudy.data.remote.dto.QuizDto
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.source.RemoteDataSource
 import com.example.pstudy.data.remote.utils.NetworkResult
@@ -43,6 +47,15 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteStudyMaterial(id)
     }
 
+    // Remote note operations
+    override suspend fun getRemoteNoteList(): NetworkResult<List<NoteDto>> {
+        return remoteDataSource.getNoteList()
+    }
+
+    override suspend fun getRemoteNoteDetail(noteId: String): NetworkResult<NoteDto> {
+        return remoteDataSource.getNoteDetail(noteId)
+    }
+
     // FlashCard operations
     override suspend fun getFlashCards(noteId: String): List<FlashCard> {
         val localFlashCards = localDataSource.getFlashCardsByStudyMaterialId(noteId)
@@ -50,20 +63,23 @@ class StudyRepositoryImpl @Inject constructor(
             return localFlashCards
         }
 
-        return when (val remoteResponse = remoteDataSource.getFlashCard(noteId)) {
+        return when (val remoteResponse = remoteDataSource.getFlashCards(noteId)) {
             is NetworkResult.Success -> {
-                val flashCardDto = remoteResponse.data
-                val flashCard = FlashCard(
-                    id = flashCardDto.id,
-                    title = flashCardDto.title,
-                    content = Content(
-                        front = flashCardDto.content.front,
-                        back = flashCardDto.content.back
+                val flashCardDtoList = remoteResponse.data
+                val flashCards = flashCardDtoList.map { flashCardDto ->
+                    FlashCard(
+                        id = flashCardDto.id,
+                        title = flashCardDto.title,
+                        content = Content(
+                            front = flashCardDto.content.front,
+                            back = flashCardDto.content.back
+                        )
                     )
-                )
-                localDataSource.insertFlashCards(listOf(flashCard), noteId)
-                listOf(flashCard)
+                }
+//                localDataSource.insertFlashCards(flashCards, noteId)
+                flashCards
             }
+
             is NetworkResult.Error -> emptyList()
             is NetworkResult.Loading -> emptyList()
         }
@@ -81,8 +97,8 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteFlashCard(id)
     }
 
-    override suspend fun generateFlashCards(noteId: String): NetworkResult<Unit> {
-        return remoteDataSource.createFlashCard(noteId)
+    override suspend fun generateFlashCards(noteId: String): NetworkResult<List<FlashCardDto>> {
+        return remoteDataSource.createFlashCards(noteId)
     }
 
     // Quiz operations
@@ -92,18 +108,21 @@ class StudyRepositoryImpl @Inject constructor(
             return localQuizzes
         }
 
-        return when (val remoteResponse = remoteDataSource.getQuiz(noteId)) {
+        return when (val remoteResponse = remoteDataSource.getQuizzes(noteId)) {
             is NetworkResult.Success -> {
-                val quizDto = remoteResponse.data
-                val quiz = Quiz(
-                    id = quizDto.id,
-                    questions = quizDto.question,
-                    choices = quizDto.choices,
-                    answer = quizDto.answer
-                )
-                localDataSource.insertQuizzes(listOf(quiz), noteId)
-                listOf(quiz)
+                val quizDtoList = remoteResponse.data
+                val quizzes = quizDtoList.map { quizDto ->
+                    Quiz(
+                        id = quizDto.id,
+                        questions = quizDto.question,
+                        choices = quizDto.choices,
+                        answer = quizDto.answer
+                    )
+                }
+                localDataSource.insertQuizzes(quizzes, noteId)
+                quizzes
             }
+
             is NetworkResult.Error -> emptyList()
             is NetworkResult.Loading -> emptyList()
         }
@@ -121,8 +140,8 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteQuiz(id)
     }
 
-    override suspend fun generateQuiz(noteId: String): NetworkResult<Unit> {
-        return remoteDataSource.createQuiz(noteId)
+    override suspend fun generateQuiz(noteId: String): NetworkResult<List<QuizDto>> {
+        return remoteDataSource.createQuizzes(noteId)
     }
 
     // MindMap operations
@@ -140,9 +159,10 @@ class StudyRepositoryImpl @Inject constructor(
                     content = mindMapDto.content,
                     summary = mindMapDto.summary
                 )
-                localDataSource.insertMindMap(mindMap, noteId)
+//                localDataSource.insertMindMap(mindMap, noteId)
                 mindMap
             }
+
             is NetworkResult.Error -> null
             is NetworkResult.Loading -> null
         }
@@ -160,7 +180,7 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteMindMap(id)
     }
 
-    override suspend fun generateMindMap(noteId: String): NetworkResult<Unit> {
+    override suspend fun generateMindMap(noteId: String): NetworkResult<MindMapDto> {
         return remoteDataSource.createMindMap(noteId)
     }
 
@@ -179,9 +199,10 @@ class StudyRepositoryImpl @Inject constructor(
                     content = summaryDto.content,
                     noteId = noteId
                 )
-                localDataSource.insertSummary(summary)
+//                localDataSource.insertSummary(summary)
                 summary
             }
+
             is NetworkResult.Error -> null
             is NetworkResult.Loading -> null
         }

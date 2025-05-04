@@ -101,6 +101,20 @@ class InputViewModel @Inject constructor(
                         // Convert URI to file path
                         val filePath = getFilePathFromUri(context, uri)
                         filePath?.let {
+                            Log.d("TAG", "filePath: $filePath")
+                            repository.createFileNoteSummary(it).let { result ->
+                                when (result) {
+                                    is NetworkResult.Error -> {
+                                        Log.d("TAG", "Error: ${result.message} ${result.code} ${result.exception}")
+                                    }
+                                    is NetworkResult.Loading -> {
+                                        Log.d("TAG", "Loading")
+                                    }
+                                    is NetworkResult.Success -> {
+                                        Log.d("TAG", "Success: ${result.data.content}")
+                                    }
+                                }
+                            }
                             val response = repository.createFileNoteSummary(it)
                             Log.d("InputViewModel", "Response: $response")
                             _uiState.update { state ->

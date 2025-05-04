@@ -3,13 +3,18 @@ package com.example.pstudy.view.home.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.pstudy.R
+import com.example.pstudy.data.repository.StudyRepository
 import com.example.pstudy.view.home.uistate.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: StudyRepository,
+) : ViewModel() {
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
 
