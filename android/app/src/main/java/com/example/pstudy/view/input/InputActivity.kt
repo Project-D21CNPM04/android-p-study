@@ -14,10 +14,12 @@ import androidx.lifecycle.lifecycleScope
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
+import com.example.pstudy.data.mapper.toDomain
 import com.example.pstudy.data.model.MaterialType
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.databinding.ActivityInputBinding
+import com.example.pstudy.ext.getMaterialType
 import com.example.pstudy.view.result.ResultActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,14 +120,16 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
                 Log.d("InputViewModel", "Result: $result")
                 when (result) {
                     is NetworkResult.Success -> {
+                        val material = StudyMaterials.fromSummaryDto(
+                            summaryDto = result.data,
+                            type = viewModel.uiState.value.inputType.getMaterialType(),
+                            input = viewModel.currentText,
+                            userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
+                        )
+                        viewModel.saveToDatabase(material, result.data.toDomain())
                         ResultActivity.start(
                             this@InputActivity,
-                            StudyMaterials.fromSummaryDto(
-                                summaryDto = result.data,
-                                type = MaterialType.TEXT,
-                                input = viewModel.currentText,
-                                userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
-                            )
+                            material
                         )
                         showSuccessAndFinish()
                     }

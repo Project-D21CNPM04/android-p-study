@@ -1,5 +1,6 @@
 package com.example.pstudy.view.result
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pstudy.data.model.Content
@@ -11,6 +12,7 @@ import com.example.pstudy.data.model.Summary
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.repository.StudyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,52 +28,24 @@ class ResultViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     fun loadResultData(studyMaterials: StudyMaterials?) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             // Initialize with basic data first
             _viewState.update { currentState ->
-                val flashCardStates =
-                    studyMaterials?.flashCards?.map { Pair(it, true) } ?: emptyList()
-                val quizStates = studyMaterials?.quizzes?.map { Pair(it, false) } ?: emptyList()
 
                 currentState.copy(
                     isLoading = false,
                     resultTitle = studyMaterials?.input ?: "Result",
                     result = studyMaterials?.copy(),
-                    flashCardStates = FlashCardState(
-                        flashCards = flashCardStates,
-                        currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
-                    ),
-                    quizzesState = QuizzesState(
-                        quizzes = quizStates,
-                        currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
-                        selectedAnswerIndexes = emptyMap()
-                    )
                 )
             }
 
             // Check for missing components and generate them if needed
             if (studyMaterials != null) {
                 val noteId = studyMaterials.id
-
-                // Check and generate missing summary
-                if (studyMaterials.summary == null) {
-                    generateSummary(noteId, studyMaterials)
-                }
-
-                // Check and generate missing mind map
-                if (studyMaterials.mindMap == null) {
-                    generateMindMap(noteId, studyMaterials)
-                }
-
-                // Check and generate missing flashcards
-                if (studyMaterials.flashCards.isNullOrEmpty()) {
-                    generateFlashCards(noteId, studyMaterials)
-                }
-
-                // Check and generate missing quizzes
-                if (studyMaterials.quizzes.isNullOrEmpty()) {
-                    generateQuizzes(noteId, studyMaterials)
-                }
+                generateSummary(noteId, studyMaterials)
+                generateMindMap(noteId, studyMaterials)
+                generateFlashCards(noteId, studyMaterials)
+                generateQuizzes(noteId, studyMaterials)
             }
         }
     }
@@ -182,15 +156,11 @@ class ResultViewModel @Inject constructor(
                 val localSummary = studyRepository.getSummary(noteId)
 
                 if (localSummary != null) {
-                    // Use the local summary if available
-                    val updatedStudyMaterials = _viewState.value.result?.copy(
-                        summary = localSummary
-                    )
 
                     _viewState.update {
                         it.copy(
                             isSummaryLoading = false,
-                            result = updatedStudyMaterials
+                            summary = localSummary,
                         )
                     }
                 } else {
@@ -205,20 +175,15 @@ class ResultViewModel @Inject constructor(
                             content = result.data.content
                         )
 
-                        // Save summary to local storage
-                        studyRepository.insertSummary(summary)
-
-                        // Update the study materials with the new summary
-                        val updatedStudyMaterials = _viewState.value.result?.copy(
-                            summary = summary
-                        )
-
                         _viewState.update {
                             it.copy(
                                 isSummaryLoading = false,
-                                result = updatedStudyMaterials
+                                summary = summary,
                             )
                         }
+
+                        // Save summary to local storage
+                        studyRepository.insertSummary(summary)
                     } else {
                         _viewState.update { it.copy(isSummaryLoading = false) }
                     }
@@ -238,15 +203,10 @@ class ResultViewModel @Inject constructor(
                 val localMindMap = studyRepository.getMindMap(noteId)
 
                 if (localMindMap != null) {
-                    // Use the local mind map if available
-                    val updatedStudyMaterials = _viewState.value.result?.copy(
-                        mindMap = localMindMap
-                    )
-
                     _viewState.update {
                         it.copy(
                             isMindMapLoading = false,
-                            result = updatedStudyMaterials
+                            mindMap = localMindMap,
                         )
                     }
                 } else {
@@ -260,25 +220,21 @@ class ResultViewModel @Inject constructor(
                             summary = result.data.summary
                         )
 
-                        // Save mind map to local storage
-                        studyRepository.createMindMap(mindMap, studyMaterials.id)
-
-                        // Update the study materials with the new mind map
-                        val updatedStudyMaterials = _viewState.value.result?.copy(
-                            mindMap = mindMap
-                        )
-
                         _viewState.update {
                             it.copy(
                                 isMindMapLoading = false,
-                                result = updatedStudyMaterials
+                                mindMap = mindMap,
                             )
                         }
+
+                        // Save mind map to local storage
+                        studyRepository.createMindMap(mindMap, studyMaterials.id)
                     } else {
                         _viewState.update { it.copy(isMindMapLoading = false) }
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update { it.copy(isMindMapLoading = false) }
             }
         }
@@ -297,23 +253,20 @@ class ResultViewModel @Inject constructor(
                     // Create flashcard states with default front showing (true)
                     val flashCardStates = localFlashCards.map { Pair(it, true) }
 
-                    val updatedStudyMaterials = _viewState.value.result?.copy(
-                        flashCards = localFlashCards
-                    )
-
                     _viewState.update { currentState ->
                         currentState.copy(
                             isFlashCardsLoading = false,
-                            result = updatedStudyMaterials,
                             flashCardStates = FlashCardState(
                                 flashCards = flashCardStates,
                                 currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
-                            )
+                            ),
                         )
                     }
                 } else {
                     // If not available locally, generate from API
                     val result = studyRepository.generateFlashCards(noteId)
+
+                    Log.d("StudyViewModel", "FlashCards result: $result")
 
                     if (result is NetworkResult.Success) {
                         val flashCards = result.data.map { dto ->
@@ -327,27 +280,23 @@ class ResultViewModel @Inject constructor(
                             )
                         }
 
-                        // Save flashcards to local storage
-                        studyRepository.createFlashCards(flashCards, studyMaterials.id)
-
                         // Create flashcard states with default front showing (true)
                         val flashCardStates = flashCards.map { Pair(it, true) }
 
-                        // Update the study materials with the new flashcards
-                        val updatedStudyMaterials = _viewState.value.result?.copy(
-                            flashCards = flashCards
-                        )
+                        Log.d("StudyViewModel", "FlashCards: $flashCardStates")
 
                         _viewState.update { currentState ->
                             currentState.copy(
                                 isFlashCardsLoading = false,
-                                result = updatedStudyMaterials,
                                 flashCardStates = FlashCardState(
                                     flashCards = flashCardStates,
                                     currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
-                                )
+                                ),
                             )
                         }
+
+                        // Save flashcards to local storage
+                        studyRepository.createFlashCards(flashCards, studyMaterials.id)
                     } else {
                         _viewState.update { it.copy(isFlashCardsLoading = false) }
                     }
@@ -371,19 +320,14 @@ class ResultViewModel @Inject constructor(
                     // Create quiz states with default unanswered state (false)
                     val quizStates = localQuizzes.map { Pair(it, false) }
 
-                    val updatedStudyMaterials = _viewState.value.result?.copy(
-                        quizzes = localQuizzes
-                    )
-
                     _viewState.update { currentState ->
                         currentState.copy(
                             isQuizzesLoading = false,
-                            result = updatedStudyMaterials,
                             quizzesState = QuizzesState(
                                 quizzes = quizStates,
                                 currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
                                 selectedAnswerIndexes = emptyMap()
-                            )
+                            ),
                         )
                     }
                 } else {
@@ -400,28 +344,22 @@ class ResultViewModel @Inject constructor(
                             )
                         }
 
-                        // Save quizzes to local storage
-                        studyRepository.createQuizzes(quizzes, studyMaterials.id)
-
                         // Create quiz states with default unanswered state (false)
                         val quizStates = quizzes.map { Pair(it, false) }
-
-                        // Update the study materials with the new quizzes
-                        val updatedStudyMaterials = _viewState.value.result?.copy(
-                            quizzes = quizzes
-                        )
 
                         _viewState.update { currentState ->
                             currentState.copy(
                                 isQuizzesLoading = false,
-                                result = updatedStudyMaterials,
                                 quizzesState = QuizzesState(
                                     quizzes = quizStates,
                                     currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
                                     selectedAnswerIndexes = emptyMap()
-                                )
+                                ),
                             )
                         }
+
+                        // Save quizzes to local storage
+                        studyRepository.createQuizzes(quizzes, studyMaterials.id)
                     } else {
                         _viewState.update { it.copy(isQuizzesLoading = false) }
                     }
@@ -442,6 +380,8 @@ data class ResultViewState(
     val resultTitle: String = "Processing Result",
     val result: StudyMaterials? = null,
     val currentTab: Int = 0,
+    val summary: Summary? = null,
+    val mindMap: MindMap? = null,
     val flashCardStates: FlashCardState = FlashCardState(),
     val quizzesState: QuizzesState = QuizzesState()
 )

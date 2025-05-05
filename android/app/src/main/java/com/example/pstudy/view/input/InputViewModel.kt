@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pstudy.data.model.StudyMaterials
+import com.example.pstudy.data.model.Summary
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.repository.StudyRepository
@@ -74,6 +75,13 @@ class InputViewModel @Inject constructor(
     fun isValidText(): Boolean {
         val text = _uiState.value.textInput.trim()
         return text.isNotEmpty() && text.length <= 20000
+    }
+
+    fun saveToDatabase(material: StudyMaterials, summary: Summary) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertStudyMaterial(material)
+            repository.insertSummary(summary)
+        }
     }
 
     fun generateStudy(context: Context) {

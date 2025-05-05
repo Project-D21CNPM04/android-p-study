@@ -1,5 +1,6 @@
 package com.example.pstudy.data.remote.source
 
+import android.util.Log
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.data.remote.LinkRequest
 import com.example.pstudy.data.remote.TextRequest
@@ -63,6 +64,7 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun createTextNote(text: String): NetworkResult<SummaryDto> {
         return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            Log.d("GiangPT", "createTextNote: $uid")
             safeApiCall { studyService.createText(TextRequest(text), uid) }
         } ?: NetworkResult.Error("User not authenticated")
     }
