@@ -36,7 +36,7 @@ class SummaryFragment : BindingFragmentLazyPager<FragmentSummaryBinding>() {
     private fun observeViewState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewState
-                .map { Triple(it.result?.summary?.content, it.isSummaryLoading, it.resultTitle) }
+                .map { Triple(it.summary?.content, it.isSummaryLoading, it.resultTitle) }
                 .distinctUntilChanged()
                 .collect { (summaryContent, isSummaryLoading, title) ->
                     if (isSummaryLoading) {

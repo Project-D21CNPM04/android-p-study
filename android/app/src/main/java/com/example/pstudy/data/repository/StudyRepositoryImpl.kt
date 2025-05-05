@@ -14,16 +14,24 @@ import com.example.pstudy.data.remote.dto.QuizDto
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.source.RemoteDataSource
 import com.example.pstudy.data.remote.utils.NetworkResult
+import android.content.Context
+import android.net.Uri
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
+import okio.BufferedSink
 
 @Singleton
 class StudyRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val context: Context
 ) : StudyRepository {
 
     // Study materials operations
@@ -228,9 +236,47 @@ class StudyRepositoryImpl @Inject constructor(
         return remoteDataSource.createLinkNote(link)
     }
 
-    override suspend fun createFileNoteSummary(filePath: String): NetworkResult<SummaryDto> {
-        val file = File(filePath)
-        val requestBody = RequestBody.create(null, file)
-        return remoteDataSource.createFileNote(requestBody)
+    override suspend fun createFileNoteSummary(fileUri: String): NetworkResult<SummaryDto> {
+        try {
+            val uri = Uri.parse(fileUri)
+
+            // Get file name from the URI
+            var fileName = "file.pdf"
+            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1 && cursor.moveToFirst()) {
+                    fileName = cursor.getString(nameIndex)
+                }
+            }
+
+            // Create RequestBody from URI content
+            val inputStream = context.contentResolver.openInputStream(uri)
+            if (inputStream == null) {
+                Log.e("StudyRepositoryImpl", "Could not open input stream for URI: $uri")
+                return NetworkResult.Error("Could not open file")
+            }
+
+            val bytes = inputStream.readBytes()
+            inputStream.close()
+
+            val mediaType = MediaType.parse("application/pdf")
+            val requestBody = object : RequestBody() {
+                override fun contentType(): MediaType? = mediaType
+
+                override fun contentLength(): Long = bytes.size.toLong()
+
+                override fun writeTo(sink: BufferedSink) {
+                    sink.write(bytes)
+                }
+            }
+
+            // Create MultipartBody.Part
+            val part = MultipartBody.Part.createFormData("file", fileName, requestBody)
+
+            return remoteDataSource.createFileNote(part)
+        } catch (e: Exception) {
+            Log.e("StudyRepositoryImpl", "Error processing file", e)
+            return NetworkResult.Error("Error processing file: ${e.message}")
+        }
     }
 }

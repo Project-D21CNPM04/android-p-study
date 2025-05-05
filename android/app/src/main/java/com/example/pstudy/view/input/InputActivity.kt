@@ -14,10 +14,12 @@ import androidx.lifecycle.lifecycleScope
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
+import com.example.pstudy.data.mapper.toDomain
 import com.example.pstudy.data.model.MaterialType
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.databinding.ActivityInputBinding
+import com.example.pstudy.ext.getMaterialType
 import com.example.pstudy.view.result.ResultActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,14 +120,16 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
                 Log.d("InputViewModel", "Result: $result")
                 when (result) {
                     is NetworkResult.Success -> {
+                        val material = StudyMaterials.fromSummaryDto(
+                            summaryDto = result.data,
+                            type = viewModel.uiState.value.inputType.getMaterialType(),
+                            input = viewModel.currentText,
+                            userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
+                        )
+                        viewModel.saveToDatabase(material, result.data.toDomain())
                         ResultActivity.start(
                             this@InputActivity,
-                            StudyMaterials.fromSummaryDto(
-                                summaryDto = result.data,
-                                type = MaterialType.TEXT,
-                                input = viewModel.currentText,
-                                userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
-                            )
+                            material
                         )
                         showSuccessAndFinish()
                     }
@@ -183,7 +187,15 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
             when (viewModel.currentInputType) {
                 INPUT_TYPE_FILE -> {
                     if (viewModel.selectedFileUri != null) {
-                        viewModel.generateStudy(this)
+                        if (viewModel.isValidFile(this, viewModel.selectedFileUri)) {
+                            viewModel.generateStudy(this)
+                        } else {
+                            Snackbar.make(
+                                binding.root,
+                                R.string.error_invalid_file,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -231,15 +243,23 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                viewModel.setSelectedFile(it)
-                binding.tvSelectedFile.text = getFileNameFromUri(it)
-                binding.tvNoFileSelected.visibility = View.GONE
-                binding.fileInfoCard.visibility = View.VISIBLE
+                if (viewModel.isValidFile(this, it)) {
+                    viewModel.setSelectedFile(it)
+                    binding.tvSelectedFile.text = getFileNameFromUri(it)
+                    binding.tvNoFileSelected.visibility = View.GONE
+                    binding.fileInfoCard.visibility = View.VISIBLE
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.error_invalid_file,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
     private fun selectFile() {
-        getContent.launch("*/*")
+        getContent.launch("application/pdf")
     }
 
     private fun pasteFromClipboard() {

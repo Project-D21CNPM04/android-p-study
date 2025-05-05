@@ -14,8 +14,6 @@ data class StudyMaterialEntity(
     val input: String,
     val type: MaterialType,
     val userId: String,
-    val summaryId: String?,
-    val mindMapId: String?,
     val timeStamp: Long,
     val languageCode: String
 )

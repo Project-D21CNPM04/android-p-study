@@ -6,7 +6,7 @@ import com.example.pstudy.data.remote.dto.NoteDto
 import com.example.pstudy.data.remote.dto.QuizDto
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.utils.NetworkResult
-import okhttp3.RequestBody
+import okhttp3.MultipartBody
 
 interface RemoteDataSource {
     // Study materials/notes operations
@@ -29,5 +29,5 @@ interface RemoteDataSource {
     suspend fun getSummary(noteId: String): NetworkResult<SummaryDto>
     suspend fun createTextNote(text: String): NetworkResult<SummaryDto>
     suspend fun createLinkNote(link: String): NetworkResult<SummaryDto>
-    suspend fun createFileNote(file: RequestBody): NetworkResult<SummaryDto>
+    suspend fun createFileNote(file: MultipartBody.Part): NetworkResult<SummaryDto>
 }

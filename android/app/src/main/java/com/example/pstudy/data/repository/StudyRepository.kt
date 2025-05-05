@@ -53,5 +53,5 @@ interface StudyRepository {
     suspend fun deleteSummary(id: String)
     suspend fun createTextNoteSummary(text: String): NetworkResult<SummaryDto>
     suspend fun createLinkNoteSummary(link: String): NetworkResult<SummaryDto>
-    suspend fun createFileNoteSummary(filePath: String): NetworkResult<SummaryDto>
+    suspend fun createFileNoteSummary(fileUri: String): NetworkResult<SummaryDto>
 }

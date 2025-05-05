@@ -25,42 +25,12 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun insertStudyMaterial(studyMaterial: StudyMaterials): String {
         val entity = studyMaterial.toEntity()
         studyMaterialDao.insertStudyMaterial(entity)
-
-        // Insert related entities if they exist
-        studyMaterial.summary?.let {
-            insertSummary(it)
-        }
-
-        studyMaterial.mindMap?.let {
-            insertMindMap(it, entity.id)
-        }
-
-        studyMaterial.flashCards?.let {
-            insertFlashCards(it, entity.id)
-        }
-
-        studyMaterial.quizzes?.let {
-            insertQuizzes(it, entity.id)
-        }
-
         return entity.id
     }
 
     override suspend fun updateStudyMaterial(studyMaterial: StudyMaterials) {
         val entity = studyMaterial.toEntity()
         studyMaterialDao.updateStudyMaterial(entity)
-
-        // Update related entities if they exist
-        studyMaterial.summary?.let {
-            updateSummary(it)
-        }
-
-        studyMaterial.mindMap?.let {
-            updateMindMap(it, entity.id)
-        }
-
-        // For FlashCards and Quizzes, we would typically need more complex logic
-        // to handle updates, additions, and removals from the collections
     }
 
     override suspend fun deleteStudyMaterial(id: String) {
@@ -73,32 +43,13 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun getStudyMaterialById(id: String): StudyMaterials? {
         val entity = studyMaterialDao.getStudyMaterialById(id) ?: return null
-
-        // Load related data
-        val summary = getSummaryByStudyMaterialId(entity.id)
-        val mindMap = getMindMapByStudyMaterialId(entity.id)
-        val flashCards = getFlashCardsByStudyMaterialId(entity.id)
-        val quizzes = getQuizzesByStudyMaterialId(entity.id)
-
-        return entity.toDomain(summary, mindMap, flashCards, quizzes)
+        return entity.toDomain()
     }
 
     override fun getStudyMaterialsByUserId(userId: String): Flow<List<StudyMaterials>> {
         return studyMaterialDao.getStudyMaterialsByUserId(userId).map { entities ->
             entities.map { entity ->
-                // For each entity, we need to load its related data
-                val summary = summaryDao.getSummaryByStudyMaterialId(entity.id)?.let {
-                    it.toDomain()
-                }
-                val mindMap = mindMapDao.getMindMapByStudyMaterialId(entity.id)?.let {
-                    it.toDomain()
-                }
-                val flashCards = flashCardDao.getFlashCardsByStudyMaterialId(entity.id)
-                    .map { it.toDomain() }
-                val quizzes = quizDao.getQuizzesByStudyMaterialId(entity.id)
-                    .map { it.toDomain() }
-
-                entity.toDomain(summary, mindMap, flashCards, quizzes)
+                entity.toDomain()
             }
         }
     }
@@ -107,18 +58,7 @@ class LocalDataSourceImpl @Inject constructor(
         return studyMaterialDao.getAllStudyMaterials().map { entities ->
             entities.map { entity ->
                 // For each entity, we need to load its related data
-                val summary = summaryDao.getSummaryByStudyMaterialId(entity.id)?.let {
-                    it.toDomain()
-                }
-                val mindMap = mindMapDao.getMindMapByStudyMaterialId(entity.id)?.let {
-                    it.toDomain()
-                }
-                val flashCards = flashCardDao.getFlashCardsByStudyMaterialId(entity.id)
-                    .map { it.toDomain() }
-                val quizzes = quizDao.getQuizzesByStudyMaterialId(entity.id)
-                    .map { it.toDomain() }
-
-                entity.toDomain(summary, mindMap, flashCards, quizzes)
+                entity.toDomain()
             }
         }
     }

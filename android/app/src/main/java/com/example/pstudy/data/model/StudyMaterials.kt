@@ -9,10 +9,6 @@ data class StudyMaterials(
     val input: String,
     val type: MaterialType,
     val userId: String,
-    val summary: Summary? = null,
-    val mindMap: MindMap? = null,
-    val flashCards: List<FlashCard>? = null,
-    val quizzes: List<Quiz>? = null,
     val timeStamp: Long = System.currentTimeMillis(),
     val languageCode: String = "en",
 ) : Serializable {
@@ -32,16 +28,15 @@ data class StudyMaterials(
         ): StudyMaterials {
             val summary = Summary(
                 content = summaryDto.content,
-                id = summaryDto.id ?: UUID.randomUUID().toString(),
-                noteId = summaryDto.id ?: UUID.randomUUID().toString()
+                id = summaryDto.id,
+                noteId = summaryDto.noteId
             )
 
             return StudyMaterials(
-                id = UUID.randomUUID().toString(),
+                id = summaryDto.noteId,
                 input = input,
                 type = type,
                 userId = userId,
-                summary = summary,
                 timeStamp = System.currentTimeMillis(),
                 languageCode = "en"
             )
