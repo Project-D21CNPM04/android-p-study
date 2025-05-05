@@ -3,16 +3,29 @@ package com.example.pstudy.view.input
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.lifecycleScope
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
+import com.example.pstudy.data.firebase.FirebaseAuthHelper
+import com.example.pstudy.data.model.MaterialType
+import com.example.pstudy.data.model.StudyMaterials
+import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.databinding.ActivityInputBinding
+import com.example.pstudy.view.result.ResultActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class InputActivity : BindingActivity<ActivityInputBinding>() {
@@ -88,21 +101,89 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
     }
 
     private fun observeViewModel() {
-        // Observe ViewModel states if needed
+        viewModel.uiState
+            .map {
+                it.isLoading
+            }
+            .distinctUntilChanged()
+            .onEach { isLoading ->
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }.launchIn(lifecycleScope)
+
+        viewModel.uiState
+            .map { it.responseResult }
+            .filterNotNull()
+            .distinctUntilChanged()
+            .onEach { result ->
+                Log.d("InputViewModel", "Result: $result")
+                when (result) {
+                    is NetworkResult.Success -> {
+                        ResultActivity.start(
+                            this@InputActivity,
+                            StudyMaterials.fromSummaryDto(
+                                summaryDto = result.data,
+                                type = MaterialType.TEXT,
+                                input = viewModel.currentText,
+                                userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
+                            )
+                        )
+                        showSuccessAndFinish()
+                    }
+
+                    is NetworkResult.Error -> {
+                        Snackbar.make(
+                            binding.root,
+                            result.message,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    is NetworkResult.Loading -> {
+                        // Already handled by isLoading state
+                    }
+                }
+            }
+            .launchIn(lifecycleScope)
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (!viewModel.isLoading) {
+                        finish()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            R.string.please_wait,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            })
     }
 
     private fun handleOnClick() {
         binding.btnBack.setOnClickListener {
-            finish()
+            if (!viewModel.isLoading) {
+                finish()
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    R.string.please_wait,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.btnSubmit.setOnClickListener {
+            if (viewModel.isLoading) {
+                return@setOnClickListener
+            }
+
             when (viewModel.currentInputType) {
                 INPUT_TYPE_FILE -> {
                     if (viewModel.selectedFileUri != null) {
-                        // TODO: Implement upload file to server logic
-                        // uploadFileToServer(viewModel.selectedFileUri)
-                        showSuccessAndFinish()
+                        viewModel.generateStudy(this)
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -114,9 +195,7 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
 
                 INPUT_TYPE_LINK -> {
                     if (viewModel.isValidLink()) {
-                        // TODO: Implement upload link to server logic
-                        // uploadLinkToServer(viewModel.currentLink)
-                        showSuccessAndFinish()
+                        viewModel.generateStudy(this)
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -128,9 +207,7 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
 
                 INPUT_TYPE_TEXT -> {
                     if (viewModel.isValidText()) {
-                        // TODO: Implement upload text to server logic
-                        // uploadTextToServer(viewModel.currentText)
-                        showSuccessAndFinish()
+                        viewModel.generateStudy(this)
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -194,10 +271,7 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
             Snackbar.LENGTH_SHORT
         ).show()
 
-        // Close this activity after a short delay to show success message
-        binding.root.postDelayed({
-            finish()
-        }, 1500)
+        finish()
     }
 
     companion object {

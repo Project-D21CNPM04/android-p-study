@@ -66,12 +66,12 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
                 Triple(
                     it.flashCardStates.flashCards,
                     it.flashCardStates.currentFlashcardIndex,
-                    it.isLoading
+                    it.isFlashCardsLoading
                 )
             }
             .distinctUntilChanged()
-            .onEach { (flashCardStates, currentIndex, isLoading) ->
-                if (isLoading) {
+            .onEach { (flashCardStates, currentIndex, isFlashCardsLoading) ->
+                if (isFlashCardsLoading) {
                     binding.cardFront.isVisible = false
                     binding.cardBack.isVisible = false
                     binding.progressBar.isVisible = true

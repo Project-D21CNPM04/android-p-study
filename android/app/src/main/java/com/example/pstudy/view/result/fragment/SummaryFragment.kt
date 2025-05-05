@@ -36,10 +36,10 @@ class SummaryFragment : BindingFragmentLazyPager<FragmentSummaryBinding>() {
     private fun observeViewState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewState
-                .map { Triple(it.result?.summary?.content, it.isLoading, it.resultTitle) }
+                .map { Triple(it.result?.summary?.content, it.isSummaryLoading, it.resultTitle) }
                 .distinctUntilChanged()
-                .collect { (summaryContent, isLoading, title) ->
-                    if (isLoading) {
+                .collect { (summaryContent, isSummaryLoading, title) ->
+                    if (isSummaryLoading) {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.tvSummary.visibility = View.GONE
                         binding.tvEmptyState.visibility = View.GONE

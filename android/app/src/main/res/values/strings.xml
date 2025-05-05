@@ -70,4 +70,5 @@
     <string name="file_upload_icon_description">File upload icon</string>
     <string name="file_type_icon_description">File type icon</string>
     <string name="link_icon_description">Link sharing icon</string>
+    <string name="please_wait">Please wait, processing your request...</string>
 </resources>

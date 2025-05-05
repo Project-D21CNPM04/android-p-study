@@ -115,12 +115,12 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
                     Triple(
                         it.quizzesState.quizzes,
                         it.quizzesState.currentQuizIndex,
-                        it.isLoading
+                        it.isQuizzesLoading
                     )
                 }
                 .distinctUntilChanged()
-                .collect { (quizzes, currentIndex, isLoading) ->
-                    if (isLoading) {
+                .collect { (quizzes, currentIndex, isQuizzesLoading) ->
+                    if (isQuizzesLoading) {
                         binding.progressBar.isVisible = true
                         binding.tvEmptyState.isVisible = false
                         binding.tvQuizNumber.isVisible = false

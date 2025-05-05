@@ -80,16 +80,3 @@ private fun getErrorMessageByStatusCode(code: Int): String {
         else -> NetworkConfig.GENERIC_ERROR_MESSAGE
     }
 }
-
-// Extension function to log API responses consistently
-fun <T> logApiResponse(tag: String, result: NetworkResult<T>) {
-    when (result) {
-        is NetworkResult.Success -> android.util.Log.d(tag, "Success")
-        is NetworkResult.Error -> android.util.Log.e(
-            tag,
-            "Error - ${result.message} (${result.code})"
-        )
-
-        is NetworkResult.Loading -> android.util.Log.d(tag, "Loading")
-    }
-}

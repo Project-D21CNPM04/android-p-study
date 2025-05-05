@@ -58,11 +58,11 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
     private fun observeViewState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewState
-                .map { Triple(it.result?.mindMap?.content, it.isLoading, it.resultTitle) }
+                .map { Triple(it.result?.mindMap?.content, it.isMindMapLoading, it.resultTitle) }
                 .distinctUntilChanged()
-                .collect { (mindMapContent, isLoading, title) ->
-                    Log.d("GiangPT", "$mindMapContent, $isLoading, $title")
-                    if (isLoading) {
+                .collect { (mindMapContent, isMindMapLoading, title) ->
+                    Log.d("GiangPT", "$mindMapContent, $isMindMapLoading, $title")
+                    if (isMindMapLoading) {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.webViewMindMap.visibility = View.GONE
                         binding.tvEmptyState.visibility = View.GONE
