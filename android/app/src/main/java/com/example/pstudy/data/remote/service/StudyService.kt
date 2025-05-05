@@ -8,11 +8,13 @@ import com.example.pstudy.data.remote.dto.NoteDto
 import com.example.pstudy.data.remote.dto.QuizDto
 import com.example.pstudy.data.remote.dto.SummaryDto
 import okhttp3.RequestBody
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -52,5 +54,8 @@ interface StudyService {
 
     @Multipart
     @POST("/create/file")
-    suspend fun createFile(@Body file: RequestBody, @Query("user_id") userId: String): Response<SummaryDto>
+    suspend fun createFile(
+        @Part file: MultipartBody.Part,
+        @Query("user_id") userId: String
+    ): Response<SummaryDto>
 }

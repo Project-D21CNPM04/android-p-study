@@ -12,6 +12,7 @@ import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.service.StudyService
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.remote.utils.safeApiCall
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
 
@@ -75,7 +76,7 @@ class RemoteDataSourceImpl @Inject constructor(
         } ?: NetworkResult.Error("User not authenticated")
     }
 
-    override suspend fun createFileNote(file: RequestBody): NetworkResult<SummaryDto> {
+    override suspend fun createFileNote(file: MultipartBody.Part): NetworkResult<SummaryDto> {
         return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
             safeApiCall { studyService.createFile(file, uid) }
         } ?: NetworkResult.Error("User not authenticated")

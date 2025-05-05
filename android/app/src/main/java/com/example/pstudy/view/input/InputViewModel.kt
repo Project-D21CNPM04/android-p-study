@@ -64,17 +64,43 @@ class InputViewModel @Inject constructor(
         val link = _uiState.value.linkInput.trim()
         if (link.isEmpty()) return false
 
-        // Simple URL validation pattern
-        val urlPattern = Pattern.compile(
-            "^(https?|ftp)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]",
-            Pattern.CASE_INSENSITIVE
+        // YouTube video URL validation patterns
+        val youtubePatterns = listOf(
+            "^https?://(?:www\\.)?youtube\\.com/watch\\?v=[\\w-]+(&\\S*)?$",
+            "^https?://(?:www\\.)?youtu\\.be/[\\w-]+(&\\S*)?$",
+            "^https?://(?:www\\.)?youtube\\.com/embed/[\\w-]+(&\\S*)?$",
+            "^https?://(?:www\\.)?youtube\\.com/shorts/[\\w-]+(&\\S*)?$"
         )
-        return urlPattern.matcher(link).matches()
+
+        return youtubePatterns.any { pattern ->
+            Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(link).matches()
+        }
     }
 
     fun isValidText(): Boolean {
         val text = _uiState.value.textInput.trim()
         return text.isNotEmpty() && text.length <= 20000
+    }
+
+    fun isValidFile(context: Context, uri: Uri?): Boolean {
+        uri ?: return false
+
+        val contentResolver = context.contentResolver
+
+        // Check file type - must be PDF
+        val mimeType = contentResolver.getType(uri)
+        if (mimeType != "application/pdf") {
+            return false
+        }
+
+        // Check file size - must be <= 10MB
+        val fileDescriptor = contentResolver.openFileDescriptor(uri, "r")
+        val fileSize = fileDescriptor?.statSize ?: 0
+        fileDescriptor?.close()
+
+        val maxSizeBytes = 10 * 1024 * 1024 // 10MB in bytes
+
+        return fileSize <= maxSizeBytes
     }
 
     fun saveToDatabase(material: StudyMaterials, summary: Summary) {
@@ -106,29 +132,23 @@ class InputViewModel @Inject constructor(
                 }
                 INPUT_TYPE_FILE -> {
                     uiState.value.fileUri?.let { uri ->
-                        // Convert URI to file path
-                        val filePath = getFilePathFromUri(context, uri)
-                        filePath?.let {
-                            Log.d("TAG", "filePath: $filePath")
-                            repository.createFileNoteSummary(it).let { result ->
-                                when (result) {
-                                    is NetworkResult.Error -> {
-                                        Log.d("TAG", "Error: ${result.message} ${result.code} ${result.exception}")
-                                    }
-                                    is NetworkResult.Loading -> {
-                                        Log.d("TAG", "Loading")
-                                    }
-                                    is NetworkResult.Success -> {
-                                        Log.d("TAG", "Success: ${result.data.content}")
-                                    }
-                                }
-                            }
-                            val response = repository.createFileNoteSummary(it)
-                            Log.d("InputViewModel", "Response: $response")
+                        Log.d("InputViewModel", "Processing file URI: $uri")
+                        try {
+                            // Pass the URI string directly to repository
+                            val response = repository.createFileNoteSummary(uri.toString())
+                            Log.d("InputViewModel", "File upload response: $response")
                             _uiState.update { state ->
                                 state.copy(
                                     isLoading = false,
                                     responseResult = response
+                                )
+                            }
+                        } catch (e: Exception) {
+                            Log.e("InputViewModel", "Error processing file", e)
+                            _uiState.update { state ->
+                                state.copy(
+                                    isLoading = false,
+                                    responseResult = NetworkResult.Error("Error processing file: ${e.message}")
                                 )
                             }
                         }
@@ -136,31 +156,6 @@ class InputViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false) }
                     }
                 }
-            }
-        }
-    }
-
-    private fun getFilePathFromUri(context: Context, uri: Uri): String? {
-        val contentResolver = context.contentResolver
-
-        when (uri.scheme) {
-            "content" -> {
-                val cursor = contentResolver.query(uri, null, null, null, null)
-                cursor?.use {
-                    if (it.moveToFirst()) {
-                        val columnIndex = it.getColumnIndexOrThrow("_data")
-                        if (columnIndex >= 0) {
-                            return it.getString(columnIndex)
-                        }
-                    }
-                }
-                return uri.toString()
-            }
-            "file" -> {
-                return uri.path
-            }
-            else -> {
-                return uri.toString()
             }
         }
     }

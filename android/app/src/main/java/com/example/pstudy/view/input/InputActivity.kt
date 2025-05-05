@@ -187,7 +187,15 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
             when (viewModel.currentInputType) {
                 INPUT_TYPE_FILE -> {
                     if (viewModel.selectedFileUri != null) {
-                        viewModel.generateStudy(this)
+                        if (viewModel.isValidFile(this, viewModel.selectedFileUri)) {
+                            viewModel.generateStudy(this)
+                        } else {
+                            Snackbar.make(
+                                binding.root,
+                                R.string.error_invalid_file,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
                         Snackbar.make(
                             binding.root,
@@ -235,15 +243,23 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                viewModel.setSelectedFile(it)
-                binding.tvSelectedFile.text = getFileNameFromUri(it)
-                binding.tvNoFileSelected.visibility = View.GONE
-                binding.fileInfoCard.visibility = View.VISIBLE
+                if (viewModel.isValidFile(this, it)) {
+                    viewModel.setSelectedFile(it)
+                    binding.tvSelectedFile.text = getFileNameFromUri(it)
+                    binding.tvNoFileSelected.visibility = View.GONE
+                    binding.fileInfoCard.visibility = View.VISIBLE
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        R.string.error_invalid_file,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
     private fun selectFile() {
-        getContent.launch("*/*")
+        getContent.launch("application/pdf")
     }
 
     private fun pasteFromClipboard() {
