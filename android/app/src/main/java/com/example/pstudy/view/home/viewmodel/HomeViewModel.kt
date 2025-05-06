@@ -2,14 +2,19 @@ package com.example.pstudy.view.home.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pstudy.R
+import com.example.pstudy.data.model.MaterialType.TEXT
+import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.data.repository.StudyRepository
 import com.example.pstudy.view.home.uistate.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.example.pstudy.data.remote.utils.NetworkResult
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -20,6 +25,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         initData()
+        fetchStudyMaterials()
     }
 
     fun getItemTab(context: Context, position: Int) =
@@ -34,6 +40,68 @@ class HomeViewModel @Inject constructor(
                     R.string.home_tab_shared
                 )
             )
+        }
+    }
+
+    private fun fetchStudyMaterials() {
+        viewModelScope.launch {
+            _homeUiState.update { it.copy(isLoading = true, error = null) }
+
+            try {
+                repository.getStudyMaterials().collect { materials ->
+                    if (materials.isEmpty()) {
+                        fetchRemoteStudyMaterials()
+                    } else {
+                        _homeUiState.update {
+                            it.copy(studyMaterials = materials, isLoading = false)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                _homeUiState.update {
+                    it.copy(error = e.message, isLoading = false)
+                }
+            }
+        }
+    }
+
+    private fun fetchRemoteStudyMaterials() {
+        viewModelScope.launch {
+            try {
+                val result = repository.getRemoteNoteList()
+                if (result is NetworkResult.Success) {
+                    val noteDtos = result.data
+                    val studyMaterials = noteDtos.map { noteDto ->
+                        StudyMaterials(
+                            id = noteDto.id,
+                            input = noteDto.input,
+                            type = TEXT,
+                            userId = noteDto.userId,
+                            timeStamp = System.currentTimeMillis(),
+                            languageCode = "en"
+                        )
+                    }
+
+                    studyMaterials.forEach { material ->
+                        repository.insertStudyMaterial(material)
+                    }
+
+                    _homeUiState.update {
+                        it.copy(studyMaterials = studyMaterials, isLoading = false)
+                    }
+                } else if (result is NetworkResult.Error) {
+                    _homeUiState.update {
+                        it.copy(
+                            error = result.message,
+                            isLoading = false
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _homeUiState.update {
+                    it.copy(error = e.message, isLoading = false)
+                }
+            }
         }
     }
 }
