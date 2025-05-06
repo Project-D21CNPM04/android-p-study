@@ -7,13 +7,7 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
-import com.example.pstudy.data.model.Content
-import com.example.pstudy.data.model.FlashCard
-import com.example.pstudy.data.model.MaterialType
-import com.example.pstudy.data.model.MindMap
-import com.example.pstudy.data.model.Quiz
 import com.example.pstudy.data.model.StudyMaterials
-import com.example.pstudy.data.model.Summary
 import com.example.pstudy.databinding.ActivityResultBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +26,8 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
             context.startActivity(intent)
         }
     }
+
+    override fun getStatusBarColor() = R.color.black
 
     override fun inflateBinding(layoutInflater: LayoutInflater): ActivityResultBinding {
         return ActivityResultBinding.inflate(layoutInflater)

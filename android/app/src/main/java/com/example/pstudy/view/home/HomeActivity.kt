@@ -102,7 +102,7 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
                 addFeature.isVisible = false
             }
 
-            icSound.setOnClickListener {
+            icText.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_TEXT)
                 })
