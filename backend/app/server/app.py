@@ -5,12 +5,21 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
 from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
 from .service import Service
-
+from fastapi.middleware.cors import CORSMiddleware
+from urllib.parse import quote_plus
 load_dotenv()
+
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
+
+USERNAME = os.getenv("MONGODB_USERNAME", "chiyeuemthoi2k33")
+PASSWORD = os.getenv("MONGODB_PASSWORD", "Huongdz@2003")
+CLUSTER = os.getenv("MONGODB_CLUSTER", "harry.ggquwfj.mongodb.net")
 DB_NAME = os.getenv("DB_NAME", "study_app")
 
-# Router setup
+encoded_username = quote_plus(USERNAME)
+encoded_password = quote_plus(PASSWORD)
+
+MONGODB_URL = f"mongodb+srv://{encoded_username}:{encoded_password}@{CLUSTER}/?retryWrites=true&w=majority&appName=Harry"
 router = APIRouter()
 service = Service()
 
@@ -82,4 +91,12 @@ async def lifespan(app: FastAPI):
     app.mongodb_client.close()
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(router)
