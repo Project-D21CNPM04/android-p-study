@@ -34,22 +34,24 @@ class Repository:
             return Note(**note)
         return None
 
-    async def create_note(self, db: AsyncIOMotorDatabase, text: str, user_id: str):
+    async def create_note(self, db: AsyncIOMotorDatabase, text: str, user_id: str, title: str = None):
         note = Note(
             id=str(uuid.uuid4()),
             input=text,
             type=NoteType.TEXT,
-            user_id=user_id
+            user_id=user_id,
+            title=title
         )
         await db["notes"].insert_one(note.dict())
         return note
 
-    async def create_audio_note(self, db: AsyncIOMotorDatabase, transcribed_text: str, user_id: str):
+    async def create_audio_note(self, db: AsyncIOMotorDatabase, transcribed_text: str, user_id: str, title: str = None):
         note = Note(
             id=str(uuid.uuid4()),
             input=transcribed_text,
             type=NoteType.AUDIO,
-            user_id=user_id
+            user_id=user_id,
+            title=title
         )
         await db["notes"].insert_one(note.dict())
         return note

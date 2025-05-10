@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from utils.url_extractor import extract_text_from_url
 from utils.mindmap_processing import text_to_mindmap
 from utils.document_extractor import DocumentExtractor
+from utils.image_extractor import extract_base64_from_image
 from .models import Note, NoteType
 from ai_services.audio_assistant import AudioAssistant
 import uuid
@@ -76,7 +77,7 @@ class Service:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to create mindmap: {str(e)}")
 
-    async def create_flashcard(self, db: AsyncIOMotorDatabase, note_id: str):
+    async def create_flashcard(self, db: AsyncIOMotorDatabase, note_id: str, num_flashcards: int = 5, difficulty: int = 4):
         # Flow get Note By note_id
         # Create List flashcard base on Note use AI
         # Save to database
@@ -86,7 +87,16 @@ class Service:
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
-            flashcards_json = self.ai_assistant.generate_flashcards(note.input)
+            # Convert numeric difficulty to text format
+            difficulty_text = "Mixed"
+            if difficulty == 1:
+                difficulty_text = "Easy"
+            elif difficulty == 2:
+                difficulty_text = "Medium"
+            elif difficulty == 3:
+                difficulty_text = "Hard"
+            
+            flashcards_json = self.ai_assistant.generate_flashcards(note.input, num_flashcards, difficulty_text)
             flashcards_data = json.loads(flashcards_json)
             flashcards_result = []
             
@@ -108,7 +118,7 @@ class Service:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to create flashcard: {str(e)}")
 
-    async def create_quiz(self, db: AsyncIOMotorDatabase, note_id: str):
+    async def create_quiz(self, db: AsyncIOMotorDatabase, note_id: str, num_quizzes: int = 5, difficulty: int = 4):
         # Flow get Note By note_id
         # Create List of Quiz base on Note use AI
         # Save to database
@@ -118,7 +128,16 @@ class Service:
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
-            quizzes_json = self.ai_assistant.generate_quiz(note.input)
+            # Convert numeric difficulty to text format
+            difficulty_text = "Mixed"
+            if difficulty == 1:
+                difficulty_text = "Easy"
+            elif difficulty == 2:
+                difficulty_text = "Medium"
+            elif difficulty == 3:
+                difficulty_text = "Hard"
+            
+            quizzes_json = self.ai_assistant.generate_quiz(note.input, num_quizzes, difficulty_text)
             quizzes_data = json.loads(quizzes_json)
             quizzes_result = []
             
@@ -144,7 +163,8 @@ class Service:
         # Save to database
         # Return Summary
         try:
-            note = await self.repo.create_note(db, text, user_id)
+            title = self.ai_assistant.generate_title(text)
+            note = await self.repo.create_note(db, text, user_id, title)
             summary_content = self.ai_assistant.summarize_text(text)
             summary = await self.repo.create_summary(db, summary_content, note.id)
             return summary
@@ -160,11 +180,13 @@ class Service:
         # Return Summary
         try:
             extracted_text = extract_text_from_url(link)
+            title = self.ai_assistant.generate_title(extracted_text)
             note = Note(
                 id=str(uuid.uuid4()),
                 input=extracted_text,
                 type=NoteType.LINK,
-                user_id=user_id
+                user_id=user_id,
+                title=title
             )
             await db["notes"].insert_one(note.dict())
 
@@ -191,11 +213,14 @@ class Service:
             os.remove(file_path)
             if extracted_text.startswith("Error") or extracted_text.startswith("Unsupported"):
                 raise HTTPException(status_code=400, detail=extracted_text)
+            
+            title = self.ai_assistant.generate_title(extracted_text)
             note = Note(
                 id=str(uuid.uuid4()),
                 input=extracted_text,
                 type=NoteType.FILE,
-                user_id=user_id
+                user_id=user_id,
+                title=title
             )
             await db["notes"].insert_one(note.dict())
             summary_content = self.ai_assistant.summarize_text(extracted_text)
@@ -223,16 +248,57 @@ class Service:
             
             if transcribed_text.startswith("Error"):
                 raise HTTPException(status_code=400, detail=transcribed_text)
-                
-            note = Note(
-                id=str(uuid.uuid4()),
-                input=transcribed_text,
-                type=NoteType.AUDIO,
-                user_id=user_id
-            )
-            await db["notes"].insert_one(note.dict())
+            
+            title = self.ai_assistant.generate_title(transcribed_text)
+            note = await self.repo.create_audio_note(db, transcribed_text, user_id, title)
+            
             summary_content = self.ai_assistant.summarize_text(transcribed_text)
             summary = await self.repo.create_summary(db, summary_content, note.id)
             return summary
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to process audio file: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Failed to process audio: {str(e)}")
+    
+    async def create_image(self, db: AsyncIOMotorDatabase, file: UploadFile, user_id: str):
+        # Image to Text
+        # Create Note
+        # Create Summary base on Note use AI
+        # Save to database
+        # Return Summary
+        try:
+            contents = await file.read()
+            
+            file_ext = file.filename.lower().split('.')[-1]
+            supported_formats = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']
+            
+            if file_ext not in supported_formats:
+                raise HTTPException(
+                    status_code=400, 
+                    detail=f"Unsupported image format: {file_ext}. Supported formats are: {', '.join(supported_formats)}"
+                )
+            
+            base64_image = extract_base64_from_image(contents)
+            
+            if base64_image.startswith("Error"):
+                raise HTTPException(status_code=400, detail=base64_image)
+            
+            extracted_text = self.ai_assistant.extract_text_from_image(base64_image)
+            
+            if not extracted_text or extracted_text == "[unreadable]":
+                extracted_text = "Cannot extract text from image."
+            
+            title = self.ai_assistant.generate_title(extracted_text)
+            note = Note(
+                id=str(uuid.uuid4()),
+                input=extracted_text,
+                type=NoteType.IMAGE,
+                user_id=user_id,
+                title=title
+            )
+            await db["notes"].insert_one(note.dict())
+            
+            summary_content = self.ai_assistant.summarize_text(extracted_text)
+            summary = await self.repo.create_summary(db, summary_content, note.id)
+            
+            return summary
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to process image: {str(e)}")
