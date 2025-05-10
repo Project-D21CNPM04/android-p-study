@@ -249,16 +249,10 @@ class Service:
                 raise HTTPException(status_code=400, detail=transcribed_text)
             
             title = self.ai_assistant.generate_title(transcribed_text)
-            note = Note(
-                id=str(uuid.uuid4()),
-                input=transcribed_text,
-                type=NoteType.AUDIO,
-                user_id=user_id,
-                title=title
-            )
-            await db["notes"].insert_one(note.dict())
+            note = await self.repo.create_audio_note(db, transcribed_text, user_id, title)
+            
             summary_content = self.ai_assistant.summarize_text(transcribed_text)
             summary = await self.repo.create_summary(db, summary_content, note.id)
             return summary
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to process audio file: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Failed to process audio: {str(e)}")
