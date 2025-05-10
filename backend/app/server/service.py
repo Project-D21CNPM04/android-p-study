@@ -76,7 +76,7 @@ class Service:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to create mindmap: {str(e)}")
 
-    async def create_flashcard(self, db: AsyncIOMotorDatabase, note_id: str):
+    async def create_flashcard(self, db: AsyncIOMotorDatabase, note_id: str, num_flashcards: int = 5, difficulty: int = 4):
         # Flow get Note By note_id
         # Create List flashcard base on Note use AI
         # Save to database
@@ -86,7 +86,16 @@ class Service:
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
-            flashcards_json = self.ai_assistant.generate_flashcards(note.input)
+            # Convert numeric difficulty to text format
+            difficulty_text = "Mixed"
+            if difficulty == 1:
+                difficulty_text = "Easy"
+            elif difficulty == 2:
+                difficulty_text = "Medium"
+            elif difficulty == 3:
+                difficulty_text = "Hard"
+            
+            flashcards_json = self.ai_assistant.generate_flashcards(note.input, num_flashcards, difficulty_text)
             flashcards_data = json.loads(flashcards_json)
             flashcards_result = []
             
@@ -108,7 +117,7 @@ class Service:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to create flashcard: {str(e)}")
 
-    async def create_quiz(self, db: AsyncIOMotorDatabase, note_id: str):
+    async def create_quiz(self, db: AsyncIOMotorDatabase, note_id: str, num_quizzes: int = 5, difficulty: int = 4):
         # Flow get Note By note_id
         # Create List of Quiz base on Note use AI
         # Save to database
@@ -118,7 +127,16 @@ class Service:
             if not note:
                 raise HTTPException(status_code=404, detail="Note not found")
             
-            quizzes_json = self.ai_assistant.generate_quiz(note.input)
+            # Convert numeric difficulty to text format
+            difficulty_text = "Mixed"
+            if difficulty == 1:
+                difficulty_text = "Easy"
+            elif difficulty == 2:
+                difficulty_text = "Medium"
+            elif difficulty == 3:
+                difficulty_text = "Hard"
+            
+            quizzes_json = self.ai_assistant.generate_quiz(note.input, num_quizzes, difficulty_text)
             quizzes_data = json.loads(quizzes_json)
             quizzes_result = []
             

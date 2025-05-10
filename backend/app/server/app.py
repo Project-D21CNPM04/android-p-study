@@ -46,12 +46,12 @@ async def create_mindmap(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db
     return await service.create_mindmap(db, note_id)
 
 @router.post("/flashcard/{note_id}", response_model=list[Flashcard])
-async def create_flashcard(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.create_flashcard(db, note_id)
+async def create_flashcard(note_id: str, num_flashcards: int = 5, difficulty: int = 4, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_flashcard(db, note_id, num_flashcards, difficulty)
 
 @router.post("/quiz/{note_id}", response_model=list[Quiz])
-async def create_quiz(note_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
-    return await service.create_quiz(db, note_id)
+async def create_quiz(note_id: str, num_quizzes: int = 5, difficulty: int = 4, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_quiz(db, note_id, num_quizzes, difficulty)
 
 @router.post("/create/text", response_model=Summary)
 async def create_text(data: TextCreate, user_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
