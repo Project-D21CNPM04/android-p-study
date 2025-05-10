@@ -51,7 +51,8 @@ QUIZ_PROMPT = '''Objective: Create multiple-choice quiz questions from the follo
 "{text}"
 
 Quiz Requirements:
-- Generate 10 quiz questions with 4 options each
+- Generate {num_quizzes} quizzes questions with 4 options each
+- Difficulty level: {difficulty} (Easy: Basic recall, Medium: Conceptual understanding, Hard: Application or analysis, Mixed: Combination of Easy, Medium, and Hard questions)
 - Each question should test understanding of key concepts from the text
 - One clear correct answer per question
 - Distractors (wrong answers) should be plausible but clearly incorrect
@@ -68,8 +69,9 @@ Response Format Requirements:
   }},
   ...
 ]
-- Each question object must contain "question", "choices" (array of 4 strings), and "answer" (one of the choices)
+- Each question object must contain "question", "choices" (array of 4 strings), "answer" (one of the choices), and "difficulty"
 - The answer must match exactly with one of the choices
+- For Mixed difficulty, assign an appropriate difficulty level to each question (Easy, Medium, or Hard)
 - No additional explanation or commentary
 - IMPORTANT: Do NOT include ```json closing tag in your response
 - IMPORTANT: Output should end with the last content line, with no closing tags'''
@@ -78,7 +80,8 @@ FLASHCARD_PROMPT = '''Objective: Create flashcards from the following text:
 "{text}"
 
 Flashcard Requirements:
-- Generate 10 flashcards covering key concepts, terms, and information
+- Generate {num_flashcards} flashcards covering key concepts, terms, and information
+- Difficulty level: {difficulty} (Easy: Basic recall, Medium: Conceptual understanding, Hard: Application or analysis, Mixed: Combination of Easy, Medium, and Hard flashcards)
 - Front side: Question, term, or concept
 - Back side: Answer, definition, or explanation
 - Cover the most important information from the text
@@ -129,10 +132,10 @@ class PromptAssistant:
         prompt = SUMMARY_PROMPT.format(text=text)
         return self._send_to_model(prompt)
     
-    def generate_quiz(self, text):
-        prompt = QUIZ_PROMPT.format(text=text)
+    def generate_quiz(self, text, num_quizzes, difficulty):
+        prompt = QUIZ_PROMPT.format(text=text, num_quizzes=num_quizzes, difficulty=difficulty)
         return self._send_to_model(prompt)
     
-    def generate_flashcards(self, text):
-        prompt = FLASHCARD_PROMPT.format(text=text)
+    def generate_flashcards(self, text, num_flashcards, difficulty):
+        prompt = FLASHCARD_PROMPT.format(text=text, num_flashcards=num_flashcards, difficulty=difficulty)
         return self._send_to_model(prompt)
