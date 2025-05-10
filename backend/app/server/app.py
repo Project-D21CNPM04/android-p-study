@@ -69,6 +69,10 @@ async def create_file(file: UploadFile = File(...), user_id: str = None, db: Asy
 async def create_audio(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.create_audio(db, file, user_id)
 
+@router.post("/create/image", response_model=Summary)
+async def create_image(file: UploadFile = File(...), user_id: str = None, db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.create_image(db, file, user_id)
+
 # FastAPI app setup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
