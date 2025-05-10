@@ -13,7 +13,7 @@ prompt_assistant_cfg = {
 model_type = prompt_assistant_cfg["model_type"]
 api_key = prompt_assistant_cfg["api_key"]
 
-SUMMARY_PROMPT = '''Objective: Transform the following text into a comprehensive mindmap:
+SUMMARY_PROMPT = '''Objective: Transform the following text into a beautiful, comprehensive mindmap:
 "{text}"
 
 Mindmap Requirements:
@@ -22,20 +22,24 @@ Mindmap Requirements:
 - Concise node labels capturing key points
 - Appropriate relationship connections between ideas
 - Balanced visual representation of information importance
+- Use appropriate emoji icons for each main topic (🔍, 📊, 💡, 🧩, etc.)
+- Add visual appeal with formatting and emoji indicators
 
 Essential Guidelines:
 - Maintain the original meaning and context
-- Identify and highlight main themes
+- Identify and highlight main themes with relevant icons
 - Group related concepts together
 - Present information in digestible segments
 - Preserve critical details while removing redundancy
+- Use icons to emphasize important points
 
-Focus on:
-- Main topics and subtopics organization
-- Relationships between concepts
-- Key terms and definitions
-- Supporting evidence and examples
-- Logical flow of information
+Format Guidelines:
+- Use # for main topics with icons (e.g., # 🌟 Main Topic)
+- Use ## for subtopics with relevant icons
+- Use ### for tertiary topics with appropriate icons
+- Use bullet points (-, *) for details under each topic
+- Use **bold** and *italic* for emphasis
+- Include appropriate emoji indicators throughout (📝, ✅, ⚠️, 📊, etc.)
 
 Response Requirements:
 - Format using markdown with many headings and bullet points
@@ -47,15 +51,17 @@ Response Requirements:
 - Output should end with the last content line, with no closing tags
 - IMPORTANT: The response must be in Vietnamese'''
 
-QUIZ_PROMPT = '''Objective: Create multiple-choice quiz questions from the following text:
+QUIZ_PROMPT = '''Objective: Create visually appealing multiple-choice quiz questions from the following text:
 "{text}"
 
 Quiz Requirements:
-- Generate 10 quiz questions with 4 options each
+- Generate {num_quizzes} quizzes questions with 4 options each
+- Difficulty level: {difficulty} (Easy: Basic recall, Medium: Conceptual understanding, Hard: Application or analysis, Mixed: Combination of Easy, Medium, and Hard questions)
 - Each question should test understanding of key concepts from the text
 - One clear correct answer per question
 - Distractors (wrong answers) should be plausible but clearly incorrect
 - Questions should cover different parts of the text
+- Include relevant emoji icons for each question type (e.g., 🤔 for thought questions, 📝 for definitions)
 - IMPORTANT: All questions and answers must be in Vietnamese
 
 Response Format Requirements:
@@ -68,22 +74,30 @@ Response Format Requirements:
   }},
   ...
 ]
-- Each question object must contain "question", "choices" (array of 4 strings), and "answer" (one of the choices)
+- Each question object must contain "question", "choices" (array of 4 strings), "answer" (one of the choices), and "difficulty"
 - The answer must match exactly with one of the choices
+- For Mixed difficulty, assign an appropriate difficulty level to each question (Easy, Medium, or Hard)
 - No additional explanation or commentary
 - IMPORTANT: Do NOT include ```json closing tag in your response
 - IMPORTANT: Output should end with the last content line, with no closing tags'''
 
-FLASHCARD_PROMPT = '''Objective: Create flashcards from the following text:
+FLASHCARD_PROMPT = '''Objective: Create visually appealing flashcards from the following text:
 "{text}"
 
 Flashcard Requirements:
-- Generate 10 flashcards covering key concepts, terms, and information
+- Generate {num_flashcards} flashcards covering key concepts, terms, and information
+- Difficulty level: {difficulty} (Easy: Basic recall, Medium: Conceptual understanding, Hard: Application or analysis, Mixed: Combination of Easy, Medium, and Hard flashcards)
 - Front side: Question, term, or concept
 - Back side: Answer, definition, or explanation
 - Cover the most important information from the text
 - Varied card types (definitions, concepts, facts, relationships)
 - Cards should test recall of significant information
+- ✨ Include relevant emoji icons for each flashcard type:
+  - 📝 Definition cards
+  - 🔄 Process cards
+  - 💡 Concept cards
+  - 📊 Fact/data cards
+  - 🔍 Detail cards
 - IMPORTANT: All flashcards content must be in Vietnamese
 
 Response Format Requirements:
@@ -102,6 +116,29 @@ Response Format Requirements:
 - IMPORTANT: Do NOT include ```json closing tag in your response
 - IMPORTANT: Output should end with the last content line, with no closing tags
 - No additional explanation or commentary'''
+
+TITLE_PROMPT = '''Generate a concise, informative title that accurately reflects the main topic of the following text in ONE SINGLE LINE.
+The title must be brief (maximum 50 characters), descriptive, and capture the essence of the content.
+
+TEXT: "{text}"
+
+Format Requirements:
+- Return ONLY the title text without any formatting, quotes or explanation
+- Ensure the title is in Vietnamese
+- Do not include any labels, quotation marks, or formatting
+- Provide ONLY the title text, nothing else'''
+
+IMAGE_EXTRACT_PROMPT = '''Extract and transcribe ALL text visible in the provided image with 100% accuracy.
+Analyze the image thoroughly and capture every piece of text content.
+
+Important Requirements:
+- Extract ALL visible text, including small or partially visible text
+- Maintain the original formatting as much as possible (paragraphs, bullet points, etc.)
+- Preserve the reading order of the text
+- If the text is in Vietnamese, maintain all diacritical marks
+- If any text is unclear or unreadable, indicate with [unreadable]
+- Do not add any commentary, descriptions, or explanations
+- Output ONLY the extracted text, nothing else'''
 
 class PromptAssistant:
     def __init__(self):
@@ -125,14 +162,39 @@ class PromptAssistant:
         )
         return self._clean_response(response.text)
     
+    def _send_image_to_model(self, prompt, image_data):
+        image_parts = [
+            {"mime_type": "image/jpeg", "data": image_data},
+            {"text": prompt}
+        ]
+
+        response = self.model.generate_content(
+            image_parts,
+            generation_config={
+                "top_k": 32,
+                "top_p": 0.95,
+                "temperature": 0.2,
+                "max_output_tokens": 2048
+            }
+        )
+        return self._clean_response(response.text)
+    
     def summarize_text(self, text):
         prompt = SUMMARY_PROMPT.format(text=text)
         return self._send_to_model(prompt)
     
-    def generate_quiz(self, text):
-        prompt = QUIZ_PROMPT.format(text=text)
+    def generate_quiz(self, text, num_quizzes, difficulty):
+        prompt = QUIZ_PROMPT.format(text=text, num_quizzes=num_quizzes, difficulty=difficulty)
         return self._send_to_model(prompt)
     
-    def generate_flashcards(self, text):
-        prompt = FLASHCARD_PROMPT.format(text=text)
+    def generate_flashcards(self, text, num_flashcards, difficulty):
+        prompt = FLASHCARD_PROMPT.format(text=text, num_flashcards=num_flashcards, difficulty=difficulty)
         return self._send_to_model(prompt)
+    
+    def generate_title(self, text):
+        prompt = TITLE_PROMPT.format(text=text)
+        return self._send_to_model(prompt)
+    
+    def extract_text_from_image(self, image_data):
+        prompt = IMAGE_EXTRACT_PROMPT
+        return self._send_image_to_model(prompt, image_data)

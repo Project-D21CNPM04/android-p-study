@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 from typing import List, Optional
+import time
 
 class FlashcardContent(BaseModel):
     front: str
@@ -40,12 +41,16 @@ class NoteType(str, Enum):
     TEXT = "text"
     LINK = "link"
     FILE = "file"
+    AUDIO = "audio"
+    IMAGE = "image"
 
 class Note(BaseModel):
     id: str = Field(..., description="Unique identifier for the note")
     input: str = Field(..., description="Content of the note")
     type: NoteType = Field(..., description="Type of the note (e.g., text, image)")
     user_id: str = Field(..., description="Identifier of the user who created the note")
+    timestamp: int = Field(default_factory=lambda: int(time.time()), description="Creation timestamp of the note")
+    title: str = Field(..., description="Title of the note")
 
     class Config:
         json_schema_extra = {
@@ -54,6 +59,8 @@ class Note(BaseModel):
                 "input": "Hello World!",
                 "type": "text",
                 "user_id": "user123",
+                "timestamp": 1698765432,
+                "title": "Sample Note"
             }
         }
 

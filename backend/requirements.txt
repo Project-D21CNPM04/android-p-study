@@ -13,3 +13,5 @@ PyPDF2
 docx2txt
 python-docx
 docx2pdf
+assemblyai
+pillow
