@@ -128,6 +128,18 @@ Format Requirements:
 - Do not include any labels, quotation marks, or formatting
 - Provide ONLY the title text, nothing else'''
 
+IMAGE_EXTRACT_PROMPT = '''Extract and transcribe ALL text visible in the provided image with 100% accuracy.
+Analyze the image thoroughly and capture every piece of text content.
+
+Important Requirements:
+- Extract ALL visible text, including small or partially visible text
+- Maintain the original formatting as much as possible (paragraphs, bullet points, etc.)
+- Preserve the reading order of the text
+- If the text is in Vietnamese, maintain all diacritical marks
+- If any text is unclear or unreadable, indicate with [unreadable]
+- Do not add any commentary, descriptions, or explanations
+- Output ONLY the extracted text, nothing else'''
+
 class PromptAssistant:
     def __init__(self):
         self.model = GenerativeModel(model_type.lower())
@@ -150,6 +162,23 @@ class PromptAssistant:
         )
         return self._clean_response(response.text)
     
+    def _send_image_to_model(self, prompt, image_data):
+        image_parts = [
+            {"mime_type": "image/jpeg", "data": image_data},
+            {"text": prompt}
+        ]
+
+        response = self.model.generate_content(
+            image_parts,
+            generation_config={
+                "top_k": 32,
+                "top_p": 0.95,
+                "temperature": 0.2,
+                "max_output_tokens": 2048
+            }
+        )
+        return self._clean_response(response.text)
+    
     def summarize_text(self, text):
         prompt = SUMMARY_PROMPT.format(text=text)
         return self._send_to_model(prompt)
@@ -165,3 +194,7 @@ class PromptAssistant:
     def generate_title(self, text):
         prompt = TITLE_PROMPT.format(text=text)
         return self._send_to_model(prompt)
+    
+    def extract_text_from_image(self, image_data):
+        prompt = IMAGE_EXTRACT_PROMPT
+        return self._send_image_to_model(prompt, image_data)
