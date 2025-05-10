@@ -13,7 +13,7 @@ prompt_assistant_cfg = {
 model_type = prompt_assistant_cfg["model_type"]
 api_key = prompt_assistant_cfg["api_key"]
 
-SUMMARY_PROMPT = '''Objective: Transform the following text into a comprehensive mindmap:
+SUMMARY_PROMPT = '''Objective: Transform the following text into a beautiful, comprehensive mindmap:
 "{text}"
 
 Mindmap Requirements:
@@ -22,20 +22,24 @@ Mindmap Requirements:
 - Concise node labels capturing key points
 - Appropriate relationship connections between ideas
 - Balanced visual representation of information importance
+- Use appropriate emoji icons for each main topic (🔍, 📊, 💡, 🧩, etc.)
+- Add visual appeal with formatting and emoji indicators
 
 Essential Guidelines:
 - Maintain the original meaning and context
-- Identify and highlight main themes
+- Identify and highlight main themes with relevant icons
 - Group related concepts together
 - Present information in digestible segments
 - Preserve critical details while removing redundancy
+- Use icons to emphasize important points
 
-Focus on:
-- Main topics and subtopics organization
-- Relationships between concepts
-- Key terms and definitions
-- Supporting evidence and examples
-- Logical flow of information
+Format Guidelines:
+- Use # for main topics with icons (e.g., # 🌟 Main Topic)
+- Use ## for subtopics with relevant icons
+- Use ### for tertiary topics with appropriate icons
+- Use bullet points (-, *) for details under each topic
+- Use **bold** and *italic* for emphasis
+- Include appropriate emoji indicators throughout (📝, ✅, ⚠️, 📊, etc.)
 
 Response Requirements:
 - Format using markdown with many headings and bullet points
@@ -47,7 +51,7 @@ Response Requirements:
 - Output should end with the last content line, with no closing tags
 - IMPORTANT: The response must be in Vietnamese'''
 
-QUIZ_PROMPT = '''Objective: Create multiple-choice quiz questions from the following text:
+QUIZ_PROMPT = '''Objective: Create visually appealing multiple-choice quiz questions from the following text:
 "{text}"
 
 Quiz Requirements:
@@ -57,6 +61,7 @@ Quiz Requirements:
 - One clear correct answer per question
 - Distractors (wrong answers) should be plausible but clearly incorrect
 - Questions should cover different parts of the text
+- Include relevant emoji icons for each question type (e.g., 🤔 for thought questions, 📝 for definitions)
 - IMPORTANT: All questions and answers must be in Vietnamese
 
 Response Format Requirements:
@@ -76,7 +81,7 @@ Response Format Requirements:
 - IMPORTANT: Do NOT include ```json closing tag in your response
 - IMPORTANT: Output should end with the last content line, with no closing tags'''
 
-FLASHCARD_PROMPT = '''Objective: Create flashcards from the following text:
+FLASHCARD_PROMPT = '''Objective: Create visually appealing flashcards from the following text:
 "{text}"
 
 Flashcard Requirements:
@@ -87,6 +92,12 @@ Flashcard Requirements:
 - Cover the most important information from the text
 - Varied card types (definitions, concepts, facts, relationships)
 - Cards should test recall of significant information
+- ✨ Include relevant emoji icons for each flashcard type:
+  - 📝 Definition cards
+  - 🔄 Process cards
+  - 💡 Concept cards
+  - 📊 Fact/data cards
+  - 🔍 Detail cards
 - IMPORTANT: All flashcards content must be in Vietnamese
 
 Response Format Requirements:
