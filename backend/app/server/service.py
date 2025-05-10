@@ -162,7 +162,8 @@ class Service:
         # Save to database
         # Return Summary
         try:
-            note = await self.repo.create_note(db, text, user_id)
+            title = self.ai_assistant.generate_title(text)
+            note = await self.repo.create_note(db, text, user_id, title)
             summary_content = self.ai_assistant.summarize_text(text)
             summary = await self.repo.create_summary(db, summary_content, note.id)
             return summary
@@ -178,11 +179,13 @@ class Service:
         # Return Summary
         try:
             extracted_text = extract_text_from_url(link)
+            title = self.ai_assistant.generate_title(extracted_text)
             note = Note(
                 id=str(uuid.uuid4()),
                 input=extracted_text,
                 type=NoteType.LINK,
-                user_id=user_id
+                user_id=user_id,
+                title=title
             )
             await db["notes"].insert_one(note.dict())
 
@@ -209,11 +212,14 @@ class Service:
             os.remove(file_path)
             if extracted_text.startswith("Error") or extracted_text.startswith("Unsupported"):
                 raise HTTPException(status_code=400, detail=extracted_text)
+            
+            title = self.ai_assistant.generate_title(extracted_text)
             note = Note(
                 id=str(uuid.uuid4()),
                 input=extracted_text,
                 type=NoteType.FILE,
-                user_id=user_id
+                user_id=user_id,
+                title=title
             )
             await db["notes"].insert_one(note.dict())
             summary_content = self.ai_assistant.summarize_text(extracted_text)
@@ -241,12 +247,14 @@ class Service:
             
             if transcribed_text.startswith("Error"):
                 raise HTTPException(status_code=400, detail=transcribed_text)
-                
+            
+            title = self.ai_assistant.generate_title(transcribed_text)
             note = Note(
                 id=str(uuid.uuid4()),
                 input=transcribed_text,
                 type=NoteType.AUDIO,
-                user_id=user_id
+                user_id=user_id,
+                title=title
             )
             await db["notes"].insert_one(note.dict())
             summary_content = self.ai_assistant.summarize_text(transcribed_text)
