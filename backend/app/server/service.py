@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from utils.url_extractor import extract_text_from_url
 from utils.mindmap_processing import text_to_mindmap
 from utils.document_extractor import DocumentExtractor
+from utils.image_extractor import extract_base64_from_image
 from .models import Note, NoteType
 from ai_services.audio_assistant import AudioAssistant
 import uuid
@@ -256,3 +257,48 @@ class Service:
             return summary
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to process audio: {str(e)}")
+    
+    async def create_image(self, db: AsyncIOMotorDatabase, file: UploadFile, user_id: str):
+        # Image to Text
+        # Create Note
+        # Create Summary base on Note use AI
+        # Save to database
+        # Return Summary
+        try:
+            contents = await file.read()
+            
+            file_ext = file.filename.lower().split('.')[-1]
+            supported_formats = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']
+            
+            if file_ext not in supported_formats:
+                raise HTTPException(
+                    status_code=400, 
+                    detail=f"Unsupported image format: {file_ext}. Supported formats are: {', '.join(supported_formats)}"
+                )
+            
+            base64_image = extract_base64_from_image(contents)
+            
+            if base64_image.startswith("Error"):
+                raise HTTPException(status_code=400, detail=base64_image)
+            
+            extracted_text = self.ai_assistant.extract_text_from_image(base64_image)
+            
+            if not extracted_text or extracted_text == "[unreadable]":
+                extracted_text = "Cannot extract text from image."
+            
+            title = self.ai_assistant.generate_title(extracted_text)
+            note = Note(
+                id=str(uuid.uuid4()),
+                input=extracted_text,
+                type=NoteType.IMAGE,
+                user_id=user_id,
+                title=title
+            )
+            await db["notes"].insert_one(note.dict())
+            
+            summary_content = self.ai_assistant.summarize_text(extracted_text)
+            summary = await self.repo.create_summary(db, summary_content, note.id)
+            
+            return summary
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to process image: {str(e)}")
