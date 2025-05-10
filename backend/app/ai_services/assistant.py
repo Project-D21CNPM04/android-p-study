@@ -117,6 +117,17 @@ Response Format Requirements:
 - IMPORTANT: Output should end with the last content line, with no closing tags
 - No additional explanation or commentary'''
 
+TITLE_PROMPT = '''Generate a concise, informative title that accurately reflects the main topic of the following text in ONE SINGLE LINE.
+The title must be brief (maximum 50 characters), descriptive, and capture the essence of the content.
+
+TEXT: "{text}"
+
+Format Requirements:
+- Return ONLY the title text without any formatting, quotes or explanation
+- Ensure the title is in Vietnamese
+- Do not include any labels, quotation marks, or formatting
+- Provide ONLY the title text, nothing else'''
+
 class PromptAssistant:
     def __init__(self):
         self.model = GenerativeModel(model_type.lower())
@@ -149,4 +160,8 @@ class PromptAssistant:
     
     def generate_flashcards(self, text, num_flashcards, difficulty):
         prompt = FLASHCARD_PROMPT.format(text=text, num_flashcards=num_flashcards, difficulty=difficulty)
+        return self._send_to_model(prompt)
+    
+    def generate_title(self, text):
+        prompt = TITLE_PROMPT.format(text=text)
         return self._send_to_model(prompt)
