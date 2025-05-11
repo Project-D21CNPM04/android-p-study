@@ -64,6 +64,20 @@ class AudioInputFragment : BaseInputFragment<FragmentAudioInputBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val hasPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+
+        binding.tvRecordingStatus.text = if (hasPermission) {
+            getString(R.string.ready_to_record)
+        } else {
+            getString(R.string.needs_mic_permission)
+        }
+    }
+
     override fun observeViewModel() {
         // No specific observations needed for audio fragment
     }
@@ -93,10 +107,25 @@ class AudioInputFragment : BaseInputFragment<FragmentAudioInputBinding>() {
                 startRecording()
             }
 
+            shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) -> {
+                showPermissionRationaleDialog()
+            }
+
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             }
         }
+    }
+
+    private fun showPermissionRationaleDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle(R.string.permission_required)
+            .setMessage(R.string.mic_permission_rationale)
+            .setPositiveButton(android.R.string.ok) { dialog, which ->
+                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun startRecording() {

@@ -40,9 +40,23 @@
         android:text="@string/select_photo"
         app:icon="@drawable/ic_photo_library"
         app:iconGravity="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnTakePhoto"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPhotoInstructions" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        style="@style/GradientButton"
+        android:text="@string/take_photo"
+        app:icon="@drawable/ic_camera"
+        app:iconGravity="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSelectPhoto"
+        app:layout_constraintTop_toTopOf="@+id/btnSelectPhoto" />
 
     <TextView
         android:id="@+id/tvNoPhotoSelected"

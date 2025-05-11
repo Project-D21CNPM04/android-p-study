@@ -175,17 +175,18 @@ class InputViewModel @Inject constructor(
                 INPUT_TYPE_AUDIO -> {
                     if (uiState.value.audioPath != null) {
                         try {
-                            /*val response = repository.createAudioNoteSummary(uiState.value.audioPath!!)
+                            val response =
+                                repository.createAudioNoteSummary(uiState.value.audioPath!!)
                             _uiState.update {
-                                it.copy(
+                            it.copy(
                                     isLoading = false,
                                     responseResult = response
                                 )
-                            }*/
+                            }
                         } catch (e: Exception) {
                             Log.e("InputViewModel", "Error processing audio", e)
                             _uiState.update {
-                                it.copy(
+                            it.copy(
                                     isLoading = false,
                                     responseResult = NetworkResult.Error("Error processing audio: ${e.message}")
                                 )
@@ -195,21 +196,20 @@ class InputViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false) }
                     }
                 }
-
                 INPUT_TYPE_PHOTO -> {
                     uiState.value.photoUri?.let { uri ->
                         try {
-                            /*val response = repository.createImageNoteSummary(uri.toString())
+                            val response = repository.createImageNoteSummary(uri.toString())
                             _uiState.update {
-                                it.copy(
+                            it.copy(
                                     isLoading = false,
                                     responseResult = response
                                 )
-                            }*/
+                            }
                         } catch (e: Exception) {
                             Log.e("InputViewModel", "Error processing image", e)
                             _uiState.update {
-                                it.copy(
+                            it.copy(
                                     isLoading = false,
                                     responseResult = NetworkResult.Error("Error processing image: ${e.message}")
                                 )

@@ -65,9 +65,14 @@
     <string name="play_recording">Play recording</string>
     <string name="permission_denied">Permission to record audio was denied</string>
     <string name="no_recording_available">No recording available. Please record audio first.</string>
+    <string name="camera_permission_denied">Camera permission denied. Cannot take photos.</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="mic_permission_rationale">Microphone permission is needed to record audio. Please grant this permission to continue.</string>
+    <string name="needs_mic_permission">Needs microphone permission</string>
     <string name="photo_icon_description">Photo input icon</string>
     <string name="photo_input_instructions">Select a photo from your device to analyze</string>
     <string name="select_photo">Choose Photo</string>
+    <string name="take_photo">Take Photo</string>
     <string name="no_photo_selected">No photo selected</string>
     <string name="selected_photo_preview">Selected photo preview</string>
     <string name="back_button_description">Back button</string>

@@ -58,4 +58,18 @@ interface StudyService {
         @Part file: MultipartBody.Part,
         @Query("user_id") userId: String
     ): Response<SummaryDto>
+
+    @Multipart
+    @POST("/create/audio")
+    suspend fun createAudio(
+        @Part file: MultipartBody.Part,
+        @Query("user_id") userId: String
+    ): Response<SummaryDto>
+
+    @Multipart
+    @POST("/create/image")
+    suspend fun createImage(
+        @Part file: MultipartBody.Part,
+        @Query("user_id") userId: String
+    ) : Response<SummaryDto>
 }
