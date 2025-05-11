@@ -9,6 +9,12 @@
     android:padding="16dp"
     tools:context=".view.home.HomeActivity">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="ivAvatar, tvGreeting, tvSubtitle" />
+
     <ImageView
         android:id="@+id/ivAvatar"
         android:layout_width="40dp"

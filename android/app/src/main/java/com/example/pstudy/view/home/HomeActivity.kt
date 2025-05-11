@@ -20,6 +20,7 @@ import com.example.pstudy.view.home.fragment.FolderFragment
 import com.example.pstudy.view.home.fragment.SharedFragment
 import com.example.pstudy.view.home.viewmodel.HomeViewModel
 import com.example.pstudy.view.input.InputActivity
+import com.example.pstudy.view.settings.SettingsActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -107,6 +108,18 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_TEXT)
                 })
                 addFeature.isVisible = false
+            }
+
+            ivAvatar.setOnClickListener {
+                SettingsActivity.start(this@HomeActivity)
+            }
+
+            tvGreeting.setOnClickListener {
+                SettingsActivity.start(this@HomeActivity)
+            }
+
+            tvSubtitle.setOnClickListener {
+                SettingsActivity.start(this@HomeActivity)
             }
         }
     }

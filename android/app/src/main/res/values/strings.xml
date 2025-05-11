@@ -94,4 +94,12 @@
     <string name="file_type_icon_description">File type icon</string>
     <string name="link_icon_description">Link sharing icon</string>
     <string name="please_wait">Please wait, processing your request...</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Cài đặt</string>
+    <string name="reminder">Lời nhắc</string>
+    <string name="contact_support">Liên hệ hỗ trợ</string>
+    <string name="about_us">Về chúng tôi</string>
+    <string name="terms">Điều khoản sử dụng</string>
+    <string name="privacy_policy">Chính sách riêng tư</string>
 </resources>
