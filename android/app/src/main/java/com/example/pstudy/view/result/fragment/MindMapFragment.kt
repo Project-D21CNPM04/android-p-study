@@ -40,6 +40,8 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
                 binding.btnGenerateMindMap.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+                binding.tvEmptyState.visibility = View.GONE
                 viewModel.generateMindMap(studyMaterials.id, studyMaterials)
             }
         }
