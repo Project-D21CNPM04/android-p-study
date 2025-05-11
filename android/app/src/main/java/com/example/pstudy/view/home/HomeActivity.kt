@@ -85,11 +85,25 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
     private fun handleOnClick() {
         with(binding) {
+            icMic.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
+                })
+                addFeature.isVisible = false
+            }
+
             icAdd.setOnClickListener {
                 addFeature.isVisible = !addFeature.isVisible
             }
 
             icFile.setOnClickListener {
+                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
+                })
+                addFeature.isVisible = false
+            }
+
+            icImage.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_PHOTO)
                 })
@@ -98,7 +112,7 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
             icLink.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
-                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_LINK)
                 })
                 addFeature.isVisible = false
             }

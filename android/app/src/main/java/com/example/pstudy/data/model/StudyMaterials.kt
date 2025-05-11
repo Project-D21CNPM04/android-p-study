@@ -11,6 +11,7 @@ data class StudyMaterials(
     val userId: String,
     val timeStamp: Long = System.currentTimeMillis(),
     val languageCode: String = "en",
+    val title: String = ""
 ) : Serializable {
     companion object {
         /**
@@ -19,12 +20,14 @@ data class StudyMaterials(
          * @param type The type of material (FILE, LINK, TEXT)
          * @param input The original input content
          * @param userId The user ID
+         * @param title The title of the study material
          */
         fun fromSummaryDto(
             summaryDto: SummaryDto,
             type: MaterialType,
             input: String,
-            userId: String
+            userId: String,
+            title: String = ""
         ): StudyMaterials {
             val summary = Summary(
                 content = summaryDto.content,
@@ -38,7 +41,8 @@ data class StudyMaterials(
                 type = type,
                 userId = userId,
                 timeStamp = System.currentTimeMillis(),
-                languageCode = "en"
+                languageCode = "en",
+                title = title
             )
         }
     }
@@ -47,5 +51,7 @@ data class StudyMaterials(
 enum class MaterialType {
     FILE,
     LINK,
-    TEXT
+    TEXT,
+    PHOTO,
+    AUDIO,
 }

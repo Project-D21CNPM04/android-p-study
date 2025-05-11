@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.example.pstudy.data.remote.utils.NetworkResult
+import com.example.pstudy.ext.getMaterialType
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -75,10 +76,11 @@ class HomeViewModel @Inject constructor(
                         StudyMaterials(
                             id = noteDto.id,
                             input = noteDto.input,
-                            type = TEXT,
+                            type = noteDto.type.getMaterialType(),
                             userId = noteDto.userId,
-                            timeStamp = System.currentTimeMillis(),
-                            languageCode = "en"
+                            timeStamp = noteDto.timestamp,
+                            languageCode = "en",
+                            title = noteDto.title
                         )
                     }
 

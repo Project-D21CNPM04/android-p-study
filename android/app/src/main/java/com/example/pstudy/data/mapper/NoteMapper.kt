@@ -8,7 +8,9 @@ fun NoteDto.toDomain(): Note {
         id = id,
         input = input,
         type = type,
-        userId = userId
+        userId = userId,
+        timestamp = timestamp,
+        title = title
     )
 }
 
@@ -17,7 +19,9 @@ fun Note.toDto(): NoteDto {
         id = id,
         input = input,
         type = type,
-        userId = userId
+        userId = userId,
+        timestamp = timestamp,
+        title = title
     )
 }
 

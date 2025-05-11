@@ -8,16 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.databinding.ItemStudyMaterialBinding
 import java.util.Calendar
-import java.util.concurrent.ConcurrentHashMap
 
 class StudyMaterialsAdapter(
     private val onItemClick: (StudyMaterials) -> Unit
 ) : ListAdapter<StudyMaterials, StudyMaterialsAdapter.ViewHolder>(StudyMaterialsDiffCallback()) {
-
-    // Map to store ID to color index mapping
-    private val colorMap = ConcurrentHashMap<String, Int>()
-    private var nextColorIndex = 0
-    private val totalColors = RainbowColors.entries.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,32 +23,13 @@ class StudyMaterialsAdapter(
         holder.bind(getItem(position))
     }
 
-    // Clear the color mapping when the list changes significantly
-    override fun submitList(list: List<StudyMaterials>?) {
-        if (list != null && list.size <= 1) {
-            colorMap.clear()
-            nextColorIndex = 0
-        }
-        super.submitList(list)
-    }
-
     inner class ViewHolder(private val binding: ItemStudyMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: StudyMaterials) {
             binding.apply {
-                tvTitle.text = item.id
+                tvTitle.text = item.title
                 tvDate.text = formatDate(item.timeStamp)
-
-                // Get or assign a color index for this item
-                val colorIndex = colorMap.getOrPut(item.id) {
-                    val index = nextColorIndex
-                    nextColorIndex = (nextColorIndex + 1) % totalColors
-                    index
-                }
-
-                root.setCardBackgroundColor(
-                    RainbowColors.entries[colorIndex].colorValue
-                )
+                tvType.text = item.type.name.uppercase()
 
                 root.setOnClickListener {
                     onItemClick(item)

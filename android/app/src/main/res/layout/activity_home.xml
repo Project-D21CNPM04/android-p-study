@@ -96,7 +96,7 @@
         android:id="@+id/icAdd"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/bg_circle"
         android:backgroundTint="@color/primary_blue"
         android:padding="12dp"
@@ -139,22 +139,36 @@
         app:layout_constraintTop_toTopOf="@id/icLink"
         app:srcCompat="@drawable/ic_text" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icAdd"
+        app:srcCompat="@drawable/ic_image" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/addFeature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="icLink, icFile, icText" />
+        android:visibility="visible"
+        app:constraint_referenced_ids="icLink, icFile, icText, icImage" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icMic"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/primary_blue"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_mic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
