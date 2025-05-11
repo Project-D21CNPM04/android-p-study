@@ -89,6 +89,8 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
                 binding.btnGenerateFlashcards.visibility = View.GONE
+                binding.progressBar.isVisible = true
+                binding.tvEmptyState.isVisible = false
                 viewModel.generateFlashCards(studyMaterials.id, studyMaterials)
             }
         }
