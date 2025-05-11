@@ -102,4 +102,23 @@
     <string name="about_us">Về chúng tôi</string>
     <string name="terms">Điều khoản sử dụng</string>
     <string name="privacy_policy">Chính sách riêng tư</string>
+
+    <!-- Reminder Dialog -->
+    <string name="set_reminder">Đặt lời nhắc</string>
+    <string name="reminder_content">Nội dung lời nhắc</string>
+    <string name="date">Ngày:</string>
+    <string name="time">Giờ:</string>
+    <string name="repeat_daily">Lặp lại hàng ngày</string>
+    <string name="reminder_set_success">Đã đặt lời nhắc thành công</string>
+    <string name="reminder_set_error">Không thể đặt lời nhắc</string>
+    <string name="invalid_time">Thời gian đã qua, vui lòng chọn thời gian trong tương lai</string>
+    <string name="empty_content">Vui lòng nhập nội dung lời nhắc</string>
+    <string name="select_date_time">Vui lòng chọn ngày và giờ</string>
+    <string name="notification_channel_name">Lời nhắc học tập</string>
+    <string name="notification_channel_description">Kênh thông báo lời nhắc học tập</string>
+
+    <!-- Notification Permissions -->
+    <string name="notification_permission_granted">Notification permission granted</string>
+    <string name="notification_permission_denied">Notification permission denied. Reminders won\'t work properly</string>
+    <string name="notification_permission_rationale">Notification permission is needed for reminders. Please grant this permission for the app to work properly</string>
 </resources>
