@@ -23,7 +23,11 @@ interface StudyService {
     suspend fun getQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
 
     @POST("/quiz/{note_id}")
-    suspend fun createQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
+    suspend fun createQuizzes(
+        @Path("note_id") noteId: String,
+        @Path("num_quizzes") numQuizzes: Int,
+        @Path("difficulty") difficulty: Int
+    ): Response<List<QuizDto>>
 
     @GET("/summary/{note_id}")
     suspend fun getSummary(@Path("note_id") noteId: String): Response<SummaryDto>
@@ -38,7 +42,11 @@ interface StudyService {
     suspend fun getFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
 
     @POST("/flashcard/{note_id}")
-    suspend fun createFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
+    suspend fun createFlashCards(
+        @Path("note_id") noteId: String,
+        @Path("num_flashcards") numFlashcards: Int,
+        @Path("difficulty") difficulty: Int
+    ): Response<List<FlashCardDto>>
 
     @GET("/note")
     suspend fun getNoteList(@Query("user_id") userId: String): Response<List<NoteDto>>

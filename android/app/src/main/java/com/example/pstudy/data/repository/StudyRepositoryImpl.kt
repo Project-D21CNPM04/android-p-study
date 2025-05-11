@@ -105,8 +105,12 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteFlashCard(id)
     }
 
-    override suspend fun generateFlashCards(noteId: String): NetworkResult<List<FlashCardDto>> {
-        return remoteDataSource.createFlashCards(noteId)
+    override suspend fun generateFlashCards(
+        noteId: String,
+        numFlashCards: Int,
+        difficulty: Int,
+    ): NetworkResult<List<FlashCardDto>> {
+        return remoteDataSource.createFlashCards(noteId, numFlashCards, difficulty)
     }
 
     // Quiz operations
@@ -148,8 +152,12 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteQuiz(id)
     }
 
-    override suspend fun generateQuiz(noteId: String): NetworkResult<List<QuizDto>> {
-        return remoteDataSource.createQuizzes(noteId)
+    override suspend fun generateQuiz(
+        noteId: String,
+        numQuizzes: Int,
+        difficulty: Int,
+    ): NetworkResult<List<QuizDto>> {
+        return remoteDataSource.createQuizzes(noteId, numQuizzes, difficulty)
     }
 
     // MindMap operations

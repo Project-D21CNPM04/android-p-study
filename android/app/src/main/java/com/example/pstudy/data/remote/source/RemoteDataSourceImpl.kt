@@ -34,8 +34,12 @@ class RemoteDataSourceImpl @Inject constructor(
         return safeApiCall { studyService.getFlashCards(noteId) }
     }
 
-    override suspend fun createFlashCards(noteId: String): NetworkResult<List<FlashCardDto>> {
-        return safeApiCall { studyService.createFlashCards(noteId) }
+    override suspend fun createFlashCards(
+        noteId: String,
+        numFlashCards: Int,
+        difficulty: Int,
+    ): NetworkResult<List<FlashCardDto>> {
+        return safeApiCall { studyService.createFlashCards(noteId, numFlashCards, difficulty) }
     }
 
     // Quiz operations
@@ -43,8 +47,12 @@ class RemoteDataSourceImpl @Inject constructor(
         return safeApiCall { studyService.getQuizzes(noteId) }
     }
 
-    override suspend fun createQuizzes(noteId: String): NetworkResult<List<QuizDto>> {
-        return safeApiCall { studyService.createQuizzes(noteId) }
+    override suspend fun createQuizzes(
+        noteId: String,
+        numQuizzes: Int,
+        difficulty: Int,
+    ): NetworkResult<List<QuizDto>> {
+        return safeApiCall { studyService.createQuizzes(noteId, numQuizzes, difficulty) }
     }
 
     // MindMap operations

@@ -30,14 +30,22 @@ interface StudyRepository {
     suspend fun createFlashCards(flashCards: List<FlashCard>, studyMaterialId: String)
     suspend fun updateFlashCard(flashCard: FlashCard, studyMaterialId: String)
     suspend fun deleteFlashCard(id: Int)
-    suspend fun generateFlashCards(noteId: String): NetworkResult<List<FlashCardDto>>
+    suspend fun generateFlashCards(
+        noteId: String,
+        numFlashCards: Int,
+        difficulty: Int,
+    ): NetworkResult<List<FlashCardDto>>
 
     // Quiz operations
     suspend fun getQuizzes(noteId: String): List<Quiz>
     suspend fun createQuizzes(quizzes: List<Quiz>, studyMaterialId: String)
     suspend fun updateQuiz(quiz: Quiz, studyMaterialId: String)
     suspend fun deleteQuiz(id: Int)
-    suspend fun generateQuiz(noteId: String): NetworkResult<List<QuizDto>>
+    suspend fun generateQuiz(
+        noteId: String,
+        numQuizzes: Int,
+        difficulty: Int,
+    ): NetworkResult<List<QuizDto>>
 
     // MindMap operations
     suspend fun getMindMap(noteId: String): MindMap?

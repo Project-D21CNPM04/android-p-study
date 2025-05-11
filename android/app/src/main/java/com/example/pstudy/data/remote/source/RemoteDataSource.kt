@@ -15,11 +15,19 @@ interface RemoteDataSource {
 
     // FlashCard operations
     suspend fun getFlashCards(noteId: String): NetworkResult<List<FlashCardDto>>
-    suspend fun createFlashCards(noteId: String): NetworkResult<List<FlashCardDto>>
+    suspend fun createFlashCards(
+        noteId: String,
+        numFlashCards: Int,
+        difficulty: Int,
+    ): NetworkResult<List<FlashCardDto>>
 
     // Quiz operations
     suspend fun getQuizzes(noteId: String): NetworkResult<List<QuizDto>>
-    suspend fun createQuizzes(noteId: String): NetworkResult<List<QuizDto>>
+    suspend fun createQuizzes(
+        noteId: String,
+        numQuizzes: Int,
+        difficulty: Int,
+    ): NetworkResult<List<QuizDto>>
 
     // MindMap operations
     suspend fun getMindMap(noteId: String): NetworkResult<MindMapDto>
