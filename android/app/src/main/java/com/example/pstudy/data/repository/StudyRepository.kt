@@ -54,4 +54,6 @@ interface StudyRepository {
     suspend fun createTextNoteSummary(text: String): NetworkResult<SummaryDto>
     suspend fun createLinkNoteSummary(link: String): NetworkResult<SummaryDto>
     suspend fun createFileNoteSummary(fileUri: String): NetworkResult<SummaryDto>
+    suspend fun createAudioNoteSummary(audioPath: String): NetworkResult<SummaryDto>
+    suspend fun createImageNoteSummary(imageUri: String): NetworkResult<SummaryDto>
 }

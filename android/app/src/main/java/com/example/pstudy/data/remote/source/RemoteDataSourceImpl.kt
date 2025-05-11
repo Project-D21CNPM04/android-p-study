@@ -78,4 +78,16 @@ class RemoteDataSourceImpl @Inject constructor(
             safeApiCall { studyService.createFile(file, uid) }
         } ?: NetworkResult.Error("User not authenticated")
     }
+
+    override suspend fun createAudioNote(audio: MultipartBody.Part): NetworkResult<SummaryDto> {
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.createAudio(audio, uid) }
+        } ?: NetworkResult.Error("User not authenticated")
+    }
+
+    override suspend fun createImageNote(image: MultipartBody.Part): NetworkResult<SummaryDto> {
+        return FirebaseAuthHelper.getCurrentUserUid()?.let { uid ->
+            safeApiCall { studyService.createImage(image, uid) }
+        } ?: NetworkResult.Error("User not authenticated")
+    }
 }

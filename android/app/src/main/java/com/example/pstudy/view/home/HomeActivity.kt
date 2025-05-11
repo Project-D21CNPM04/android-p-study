@@ -90,14 +90,14 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
             icFile.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
-                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_PHOTO)
                 })
                 addFeature.isVisible = false
             }
 
             icLink.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
-                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_LINK)
+                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
                 })
                 addFeature.isVisible = false
             }

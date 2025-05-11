@@ -30,4 +30,6 @@ interface RemoteDataSource {
     suspend fun createTextNote(text: String): NetworkResult<SummaryDto>
     suspend fun createLinkNote(link: String): NetworkResult<SummaryDto>
     suspend fun createFileNote(file: MultipartBody.Part): NetworkResult<SummaryDto>
+    suspend fun createAudioNote(audio: MultipartBody.Part): NetworkResult<SummaryDto>
+    suspend fun createImageNote(image: MultipartBody.Part): NetworkResult<SummaryDto>
 }

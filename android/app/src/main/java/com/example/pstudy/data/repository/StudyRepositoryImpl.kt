@@ -279,4 +279,77 @@ class StudyRepositoryImpl @Inject constructor(
             return NetworkResult.Error("Error processing file: ${e.message}")
         }
     }
+
+    override suspend fun createAudioNoteSummary(audioPath: String): NetworkResult<SummaryDto> {
+        try {
+            // Create a File from the path
+            val audioFile = File(audioPath)
+            if (!audioFile.exists()) {
+                return NetworkResult.Error("Audio file not found")
+            }
+
+            // Get file name
+            val fileName = audioFile.name
+
+            // Create RequestBody from File
+            val mediaType = MediaType.parse("audio/mpeg")
+            val requestBody = RequestBody.create(mediaType, audioFile)
+
+            // Create MultipartBody.Part
+            val part = MultipartBody.Part.createFormData("file", fileName, requestBody)
+
+            // Call the remote data source
+            // For now, we'll use the text note API as a placeholder
+            // This should be replaced with a proper audio API endpoint when available
+            return remoteDataSource.createAudioNote(part)
+        } catch (e: Exception) {
+            Log.e("StudyRepositoryImpl", "Error processing audio", e)
+            return NetworkResult.Error("Error processing audio: ${e.message}")
+        }
+    }
+
+    override suspend fun createImageNoteSummary(imageUri: String): NetworkResult<SummaryDto> {
+        try {
+            val uri = Uri.parse(imageUri)
+
+            // Get file name from the URI
+            var fileName = "image.jpg"
+            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1 && cursor.moveToFirst()) {
+                    fileName = cursor.getString(nameIndex)
+                }
+            }
+
+            // Create RequestBody from URI content
+            val inputStream = context.contentResolver.openInputStream(uri)
+            if (inputStream == null) {
+                Log.e("StudyRepositoryImpl", "Could not open input stream for URI: $uri")
+                return NetworkResult.Error("Could not open image file")
+            }
+
+            val bytes = inputStream.readBytes()
+            inputStream.close()
+
+            val mediaType = MediaType.parse("image/jpeg")
+            val requestBody = object : RequestBody() {
+                override fun contentType(): MediaType? = mediaType
+                override fun contentLength(): Long = bytes.size.toLong()
+                override fun writeTo(sink: BufferedSink) {
+                    sink.write(bytes)
+                }
+            }
+
+            // Create MultipartBody.Part
+            val part = MultipartBody.Part.createFormData("file", fileName, requestBody)
+
+            // Call the remote data source
+            // For now, we'll use the text note API as a placeholder
+            // This should be replaced with a proper image API endpoint when available
+            return remoteDataSource.createImageNote(part)
+        } catch (e: Exception) {
+            Log.e("StudyRepositoryImpl", "Error processing image", e)
+            return NetworkResult.Error("Error processing image: ${e.message}")
+        }
+    }
 }
