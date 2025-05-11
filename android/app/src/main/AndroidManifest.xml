@@ -51,6 +51,10 @@
             android:name=".view.result.ResultActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".view.settings.SettingsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
