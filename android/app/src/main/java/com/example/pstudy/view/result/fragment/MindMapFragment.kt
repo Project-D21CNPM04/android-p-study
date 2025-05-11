@@ -31,7 +31,18 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupWebView()
+        setupClickListeners()
         observeViewState()
+    }
+
+    private fun setupClickListeners() {
+        binding.btnGenerateMindMap.setOnClickListener {
+            val studyMaterials = viewModel.viewState.value.result
+            if (studyMaterials != null) {
+                binding.btnGenerateMindMap.visibility = View.GONE
+                viewModel.generateMindMap(studyMaterials.id, studyMaterials)
+            }
+        }
     }
 
     private fun setupWebView() {
@@ -66,16 +77,18 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.webViewMindMap.visibility = View.GONE
                         binding.tvEmptyState.visibility = View.GONE
+                        binding.btnGenerateMindMap.visibility = View.GONE
                     } else {
                         binding.progressBar.visibility = View.GONE
 
-                        if (mindMapContent.isNullOrEmpty()) {
+                        if (mindMapContent.isNullOrEmpty() && !isMindMapLoading) {
                             binding.webViewMindMap.visibility = View.GONE
-                            binding.tvEmptyState.visibility = View.VISIBLE
-                            binding.tvEmptyState.text = "No mind map available for '$title'"
-                        } else {
+                            binding.tvEmptyState.visibility = View.GONE
+                            binding.btnGenerateMindMap.visibility = View.VISIBLE
+                        } else if (!mindMapContent.isNullOrEmpty()) {
                             binding.webViewMindMap.visibility = View.VISIBLE
                             binding.tvEmptyState.visibility = View.GONE
+                            binding.btnGenerateMindMap.visibility = View.GONE
                             Log.d(
                                 "GiangPT",
                                 "Loading mind map HTML content: ${mindMapContent.take(200)}..."
