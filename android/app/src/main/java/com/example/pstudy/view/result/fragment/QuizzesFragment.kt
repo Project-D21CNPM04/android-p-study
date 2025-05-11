@@ -12,6 +12,7 @@ import com.example.pstudy.R
 import com.example.pstudy.data.model.Quiz
 import com.example.pstudy.databinding.FragmentQuizzesBinding
 import com.example.pstudy.view.result.ResultViewModel
+import com.example.pstudy.view.result.dialog.GenerateOptionsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -35,10 +36,7 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         binding.btnGenerateQuizzes.setOnClickListener {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
-                binding.btnGenerateQuizzes.visibility = View.GONE
-                binding.progressBar.isVisible = true
-                binding.tvEmptyState.isVisible = false
-                viewModel.generateQuizzes(studyMaterials.id, studyMaterials)
+                showGenerateOptionsDialog(studyMaterials.id)
             }
         }
 
@@ -235,6 +233,27 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         // Update navigation buttons
         binding.btnNext.isEnabled = currentIndex < quizzes.size - 1
         binding.btnPrevious.isEnabled = currentIndex > 0
+    }
+
+    private fun showGenerateOptionsDialog(noteId: String) {
+        val dialog = GenerateOptionsDialog.newInstance(
+            "Generate Quizzes",
+            GenerateOptionsDialog.TYPE_QUIZZES
+        )
+
+        dialog.setOptionsListener(object : GenerateOptionsDialog.GenerateOptionsListener {
+            override fun onGenerateOptionsConfirmed(count: Int, difficulty: Int, type: String) {
+                val studyMaterials = viewModel.viewState.value.result
+                if (studyMaterials != null) {
+                    binding.btnGenerateQuizzes.visibility = View.GONE
+                    binding.progressBar.isVisible = true
+                    binding.tvEmptyState.isVisible = false
+                    viewModel.generateQuizzes(noteId, studyMaterials, count, difficulty)
+                }
+            }
+        })
+
+        dialog.show(childFragmentManager)
     }
 
     companion object {

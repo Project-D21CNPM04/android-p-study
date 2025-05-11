@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.base.ui.base.BindingFragmentLazyPager
 import com.example.pstudy.databinding.FragmentMindMapBinding
 import com.example.pstudy.view.result.ResultViewModel
+import com.example.pstudy.view.result.dialog.GenerateOptionsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -39,12 +40,30 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
         binding.btnGenerateMindMap.setOnClickListener {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
-                binding.btnGenerateMindMap.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
-                binding.tvEmptyState.visibility = View.GONE
-                viewModel.generateMindMap(studyMaterials.id, studyMaterials)
+                showGenerateOptionsDialog(studyMaterials.id)
             }
         }
+    }
+
+    private fun showGenerateOptionsDialog(noteId: String) {
+        val dialog = GenerateOptionsDialog.newInstance(
+            "Generate Mind Map",
+            GenerateOptionsDialog.TYPE_FLASHCARDS // Reuse the flashcards type since there's no specific type for mind maps
+        )
+
+        dialog.setOptionsListener(object : GenerateOptionsDialog.GenerateOptionsListener {
+            override fun onGenerateOptionsConfirmed(count: Int, difficulty: Int, type: String) {
+                val studyMaterials = viewModel.viewState.value.result
+                if (studyMaterials != null) {
+                    binding.btnGenerateMindMap.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.tvEmptyState.visibility = View.GONE
+                    viewModel.generateMindMap(noteId, studyMaterials, count, difficulty)
+                }
+            }
+        })
+
+        dialog.show(childFragmentManager)
     }
 
     private fun setupWebView() {

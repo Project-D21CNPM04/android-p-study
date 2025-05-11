@@ -336,13 +336,18 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    fun generateMindMap(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateMindMap(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
         viewModelScope.launch {
             _viewState.update { it.copy(isMindMapLoading = true, needsGenerateMindMap = false) }
 
             try {
                 // Generate from API
-                val result = studyRepository.generateMindMap(noteId)
+                val result = studyRepository.generateMindMap(noteId, count, difficulty)
 
                 if (result is NetworkResult.Success) {
                     val mindMap = MindMap(
@@ -375,7 +380,12 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    fun generateFlashCards(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateFlashCards(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
         viewModelScope.launch {
             _viewState.update {
                 it.copy(
@@ -385,8 +395,8 @@ class ResultViewModel @Inject constructor(
             }
 
             try {
-                // Generate from API
-                val result = studyRepository.generateFlashCards(noteId)
+                // Generate from API with count and difficulty
+                val result = studyRepository.generateFlashCards(noteId, count, difficulty)
 
                 Log.d("StudyViewModel", "FlashCards result: $result")
 
@@ -438,13 +448,18 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    fun generateQuizzes(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateQuizzes(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
         viewModelScope.launch {
             _viewState.update { it.copy(isQuizzesLoading = true, needsGenerateQuizzes = false) }
 
             try {
-                // Generate from API
-                val result = studyRepository.generateQuiz(noteId)
+                // Generate from API with count and difficulty
+                val result = studyRepository.generateQuiz(noteId, count, difficulty)
 
                 if (result is NetworkResult.Success) {
                     val quizzes = result.data.map { dto ->

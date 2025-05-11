@@ -15,6 +15,7 @@ import com.example.pstudy.data.model.FlashCard
 import com.example.pstudy.databinding.FragmentFlashcardsBinding
 import com.example.pstudy.view.result.ResultViewModel
 import com.example.pstudy.view.result.ResultViewState
+import com.example.pstudy.view.result.dialog.GenerateOptionsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -88,10 +89,7 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
         binding.btnGenerateFlashcards.setOnClickListener {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
-                binding.btnGenerateFlashcards.visibility = View.GONE
-                binding.progressBar.isVisible = true
-                binding.tvEmptyState.isVisible = false
-                viewModel.generateFlashCards(studyMaterials.id, studyMaterials)
+                showGenerateOptionsDialog(studyMaterials.id)
             }
         }
 
@@ -106,6 +104,27 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
         binding.flashcardContainer.setOnClickListener {
             viewModel.flipCurrentFlashcard()
         }
+    }
+
+    private fun showGenerateOptionsDialog(noteId: String) {
+        val dialog = GenerateOptionsDialog.newInstance(
+            "Generate Flashcards",
+            GenerateOptionsDialog.TYPE_FLASHCARDS
+        )
+
+        dialog.setOptionsListener(object : GenerateOptionsDialog.GenerateOptionsListener {
+            override fun onGenerateOptionsConfirmed(count: Int, difficulty: Int, type: String) {
+                val studyMaterials = viewModel.viewState.value.result
+                if (studyMaterials != null) {
+                    binding.btnGenerateFlashcards.visibility = View.GONE
+                    binding.progressBar.isVisible = true
+                    binding.tvEmptyState.isVisible = false
+                    viewModel.generateFlashCards(noteId, studyMaterials, count, difficulty)
+                }
+            }
+        })
+
+        dialog.show(childFragmentManager)
     }
 
     private fun updateFlashcardUI(
