@@ -36,6 +36,8 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
                 binding.btnGenerateQuizzes.visibility = View.GONE
+                binding.progressBar.isVisible = true
+                binding.tvEmptyState.isVisible = false
                 viewModel.generateQuizzes(studyMaterials.id, studyMaterials)
             }
         }
