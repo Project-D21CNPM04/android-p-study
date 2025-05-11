@@ -27,6 +27,24 @@ class ResultViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(ResultViewState())
     val viewState = _viewState.asStateFlow()
 
+    fun initializeWithStudyMaterials(studyMaterials: StudyMaterials) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // Initialize with basic data 
+            _viewState.update { currentState ->
+                currentState.copy(
+                    isLoading = false,
+                    resultTitle = studyMaterials.input ?: "Result",
+                    result = studyMaterials.copy(),
+                )
+            }
+            // Automatically load summary data
+            generateSummary(studyMaterials.id, studyMaterials)
+            checkMindMap(studyMaterials.id)
+            checkFlashCards(studyMaterials.id)
+            checkQuizzes(studyMaterials.id)
+        }
+    }
+
     fun loadResultData(studyMaterials: StudyMaterials?) {
         viewModelScope.launch(Dispatchers.IO) {
             // Initialize with basic data first
@@ -43,9 +61,9 @@ class ResultViewModel @Inject constructor(
             if (studyMaterials != null) {
                 val noteId = studyMaterials.id
                 generateSummary(noteId, studyMaterials)
-                generateMindMap(noteId, studyMaterials)
-                generateFlashCards(noteId, studyMaterials)
-                generateQuizzes(noteId, studyMaterials)
+                checkMindMap(noteId)
+                checkFlashCards(noteId)
+                checkQuizzes(noteId)
             }
         }
     }
@@ -147,7 +165,7 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateSummary(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateSummary(noteId: String, studyMaterials: StudyMaterials) {
         viewModelScope.launch {
             _viewState.update { it.copy(isSummaryLoading = true) }
 
@@ -194,12 +212,12 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateMindMap(noteId: String, studyMaterials: StudyMaterials) {
+    fun checkMindMap(noteId: String) {
         viewModelScope.launch {
             _viewState.update { it.copy(isMindMapLoading = true) }
 
             try {
-                // First try to get from local storage
+                // Try to get from local storage
                 val localMindMap = studyRepository.getMindMap(noteId)
 
                 if (localMindMap != null) {
@@ -207,45 +225,36 @@ class ResultViewModel @Inject constructor(
                         it.copy(
                             isMindMapLoading = false,
                             mindMap = localMindMap,
+                            needsGenerateMindMap = false
                         )
                     }
                 } else {
-                    // If not available locally, generate from API
-                    val result = studyRepository.generateMindMap(noteId)
-
-                    if (result is NetworkResult.Success) {
-                        val mindMap = MindMap(
-                            id = result.data.id,
-                            content = result.data.content,
-                            summary = result.data.summary
+                    // Set flag that generation is needed
+                    _viewState.update {
+                        it.copy(
+                            isMindMapLoading = false,
+                            needsGenerateMindMap = true
                         )
-
-                        _viewState.update {
-                            it.copy(
-                                isMindMapLoading = false,
-                                mindMap = mindMap,
-                            )
-                        }
-
-                        // Save mind map to local storage
-                        studyRepository.createMindMap(mindMap, studyMaterials.id)
-                    } else {
-                        _viewState.update { it.copy(isMindMapLoading = false) }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                _viewState.update { it.copy(isMindMapLoading = false) }
+                _viewState.update {
+                    it.copy(
+                        isMindMapLoading = false,
+                        needsGenerateMindMap = true
+                    )
+                }
             }
         }
     }
 
-    private fun generateFlashCards(noteId: String, studyMaterials: StudyMaterials) {
+    fun checkFlashCards(noteId: String) {
         viewModelScope.launch {
             _viewState.update { it.copy(isFlashCardsLoading = true) }
 
             try {
-                // First try to get from local storage
+                // Try to get from local storage
                 val localFlashCards = studyRepository.getFlashCards(noteId)
 
                 if (localFlashCards.isNotEmpty()) {
@@ -260,59 +269,35 @@ class ResultViewModel @Inject constructor(
                                 flashCards = flashCardStates,
                                 currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
                             ),
+                            needsGenerateFlashCards = false
                         )
                     }
                 } else {
-                    // If not available locally, generate from API
-                    val result = studyRepository.generateFlashCards(noteId)
-
-                    Log.d("StudyViewModel", "FlashCards result: $result")
-
-                    if (result is NetworkResult.Success) {
-                        val flashCards = result.data.map { dto ->
-                            FlashCard(
-                                id = dto.id,
-                                title = dto.title,
-                                content = Content(
-                                    front = dto.content.front,
-                                    back = dto.content.back
-                                )
-                            )
-                        }
-
-                        // Create flashcard states with default front showing (true)
-                        val flashCardStates = flashCards.map { Pair(it, true) }
-
-                        Log.d("StudyViewModel", "FlashCards: $flashCardStates")
-
-                        _viewState.update { currentState ->
-                            currentState.copy(
-                                isFlashCardsLoading = false,
-                                flashCardStates = FlashCardState(
-                                    flashCards = flashCardStates,
-                                    currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
-                                ),
-                            )
-                        }
-
-                        // Save flashcards to local storage
-                        studyRepository.createFlashCards(flashCards, studyMaterials.id)
-                    } else {
-                        _viewState.update { it.copy(isFlashCardsLoading = false) }
+                    // Set flag that generation is needed
+                    _viewState.update {
+                        it.copy(
+                            isFlashCardsLoading = false,
+                            needsGenerateFlashCards = true
+                        )
                     }
                 }
             } catch (e: Exception) {
-                _viewState.update { it.copy(isFlashCardsLoading = false) }
+                _viewState.update {
+                    it.copy(
+                        isFlashCardsLoading = false,
+                        needsGenerateFlashCards = true
+                    )
+                }
             }
         }
     }
 
-    private fun generateQuizzes(noteId: String, studyMaterials: StudyMaterials) {
+    fun checkQuizzes(noteId: String) {
         viewModelScope.launch {
             _viewState.update { it.copy(isQuizzesLoading = true) }
 
             try {
-                // First try to get from local storage
+                // Try to get from local storage
                 val localQuizzes = studyRepository.getQuizzes(noteId)
 
                 if (localQuizzes.isNotEmpty()) {
@@ -328,44 +313,190 @@ class ResultViewModel @Inject constructor(
                                 currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
                                 selectedAnswerIndexes = emptyMap()
                             ),
+                            needsGenerateQuizzes = false
                         )
                     }
                 } else {
-                    // If not available locally, generate from API
-                    val result = studyRepository.generateQuiz(noteId)
-
-                    if (result is NetworkResult.Success) {
-                        val quizzes = result.data.map { dto ->
-                            Quiz(
-                                id = dto.id,
-                                questions = dto.question,
-                                choices = dto.choices,
-                                answer = dto.answer
-                            )
-                        }
-
-                        // Create quiz states with default unanswered state (false)
-                        val quizStates = quizzes.map { Pair(it, false) }
-
-                        _viewState.update { currentState ->
-                            currentState.copy(
-                                isQuizzesLoading = false,
-                                quizzesState = QuizzesState(
-                                    quizzes = quizStates,
-                                    currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
-                                    selectedAnswerIndexes = emptyMap()
-                                ),
-                            )
-                        }
-
-                        // Save quizzes to local storage
-                        studyRepository.createQuizzes(quizzes, studyMaterials.id)
-                    } else {
-                        _viewState.update { it.copy(isQuizzesLoading = false) }
+                    // Set flag that generation is needed
+                    _viewState.update {
+                        it.copy(
+                            isQuizzesLoading = false,
+                            needsGenerateQuizzes = true
+                        )
                     }
                 }
             } catch (e: Exception) {
-                _viewState.update { it.copy(isQuizzesLoading = false) }
+                _viewState.update {
+                    it.copy(
+                        isQuizzesLoading = false,
+                        needsGenerateQuizzes = true
+                    )
+                }
+            }
+        }
+    }
+
+    fun generateMindMap(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
+        viewModelScope.launch {
+            _viewState.update { it.copy(isMindMapLoading = true, needsGenerateMindMap = false) }
+
+            try {
+                // Generate from API
+                val result = studyRepository.generateMindMap(noteId, count, difficulty)
+
+                if (result is NetworkResult.Success) {
+                    val mindMap = MindMap(
+                        id = result.data.id,
+                        content = result.data.content,
+                        summary = result.data.summary
+                    )
+
+                    _viewState.update {
+                        it.copy(
+                            isMindMapLoading = false,
+                            mindMap = mindMap,
+                        )
+                    }
+
+                    // Save mind map to local storage
+                    studyRepository.createMindMap(mindMap, studyMaterials.id)
+                } else {
+                    _viewState.update {
+                        it.copy(
+                            isMindMapLoading = false,
+                            needsGenerateMindMap = true
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _viewState.update { it.copy(isMindMapLoading = false, needsGenerateMindMap = true) }
+            }
+        }
+    }
+
+    fun generateFlashCards(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
+        viewModelScope.launch {
+            _viewState.update {
+                it.copy(
+                    isFlashCardsLoading = true,
+                    needsGenerateFlashCards = false
+                )
+            }
+
+            try {
+                // Generate from API with count and difficulty
+                val result = studyRepository.generateFlashCards(noteId, count, difficulty)
+
+                Log.d("StudyViewModel", "FlashCards result: $result")
+
+                if (result is NetworkResult.Success) {
+                    val flashCards = result.data.map { dto ->
+                        FlashCard(
+                            id = dto.id,
+                            title = dto.title,
+                            content = Content(
+                                front = dto.content.front,
+                                back = dto.content.back
+                            )
+                        )
+                    }
+
+                    // Create flashcard states with default front showing (true)
+                    val flashCardStates = flashCards.map { Pair(it, true) }
+
+                    Log.d("StudyViewModel", "FlashCards: $flashCardStates")
+
+                    _viewState.update { currentState ->
+                        currentState.copy(
+                            isFlashCardsLoading = false,
+                            flashCardStates = FlashCardState(
+                                flashCards = flashCardStates,
+                                currentFlashcardIndex = if (flashCardStates.isNotEmpty()) 0 else -1
+                            ),
+                        )
+                    }
+
+                    // Save flashcards to local storage
+                    studyRepository.createFlashCards(flashCards, studyMaterials.id)
+                } else {
+                    _viewState.update {
+                        it.copy(
+                            isFlashCardsLoading = false,
+                            needsGenerateFlashCards = true
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _viewState.update {
+                    it.copy(
+                        isFlashCardsLoading = false,
+                        needsGenerateFlashCards = true
+                    )
+                }
+            }
+        }
+    }
+
+    fun generateQuizzes(
+        noteId: String,
+        studyMaterials: StudyMaterials,
+        count: Int = 5,
+        difficulty: Int = 2
+    ) {
+        viewModelScope.launch {
+            _viewState.update { it.copy(isQuizzesLoading = true, needsGenerateQuizzes = false) }
+
+            try {
+                // Generate from API with count and difficulty
+                val result = studyRepository.generateQuiz(noteId, count, difficulty)
+
+                if (result is NetworkResult.Success) {
+                    val quizzes = result.data.map { dto ->
+                        Quiz(
+                            id = dto.id,
+                            questions = dto.question,
+                            choices = dto.choices,
+                            answer = dto.answer
+                        )
+                    }
+
+                    // Create quiz states with default unanswered state (false)
+                    val quizStates = quizzes.map { Pair(it, false) }
+
+                    _viewState.update { currentState ->
+                        currentState.copy(
+                            isQuizzesLoading = false,
+                            quizzesState = QuizzesState(
+                                quizzes = quizStates,
+                                currentQuizIndex = if (quizStates.isNotEmpty()) 0 else -1,
+                                selectedAnswerIndexes = emptyMap()
+                            ),
+                        )
+                    }
+
+                    // Save quizzes to local storage
+                    studyRepository.createQuizzes(quizzes, studyMaterials.id)
+                } else {
+                    _viewState.update {
+                        it.copy(
+                            isQuizzesLoading = false,
+                            needsGenerateQuizzes = true
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                _viewState.update { it.copy(isQuizzesLoading = false, needsGenerateQuizzes = true) }
             }
         }
     }
@@ -383,7 +514,10 @@ data class ResultViewState(
     val summary: Summary? = null,
     val mindMap: MindMap? = null,
     val flashCardStates: FlashCardState = FlashCardState(),
-    val quizzesState: QuizzesState = QuizzesState()
+    val quizzesState: QuizzesState = QuizzesState(),
+    val needsGenerateMindMap: Boolean = false,
+    val needsGenerateFlashCards: Boolean = false,
+    val needsGenerateQuizzes: Boolean = false
 )
 
 data class FlashCardState(

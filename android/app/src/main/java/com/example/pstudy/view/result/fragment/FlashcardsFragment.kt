@@ -15,6 +15,7 @@ import com.example.pstudy.data.model.FlashCard
 import com.example.pstudy.databinding.FragmentFlashcardsBinding
 import com.example.pstudy.view.result.ResultViewModel
 import com.example.pstudy.view.result.ResultViewState
+import com.example.pstudy.view.result.dialog.GenerateOptionsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -75,6 +76,7 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
                     binding.cardFront.isVisible = false
                     binding.cardBack.isVisible = false
                     binding.progressBar.isVisible = true
+                    binding.btnGenerateFlashcards.visibility = View.GONE
                 } else {
                     binding.progressBar.isVisible = false
                     updateFlashcardUI(flashCardStates, currentIndex)
@@ -84,6 +86,13 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
     }
 
     private fun setupClickListeners() {
+        binding.btnGenerateFlashcards.setOnClickListener {
+            val studyMaterials = viewModel.viewState.value.result
+            if (studyMaterials != null) {
+                showGenerateOptionsDialog(studyMaterials.id)
+            }
+        }
+
         binding.btnNext.setOnClickListener {
             viewModel.navigateToNextFlashcard()
         }
@@ -97,6 +106,27 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
         }
     }
 
+    private fun showGenerateOptionsDialog(noteId: String) {
+        val dialog = GenerateOptionsDialog.newInstance(
+            "Generate Flashcards",
+            GenerateOptionsDialog.TYPE_FLASHCARDS
+        )
+
+        dialog.setOptionsListener(object : GenerateOptionsDialog.GenerateOptionsListener {
+            override fun onGenerateOptionsConfirmed(count: Int, difficulty: Int, type: String) {
+                val studyMaterials = viewModel.viewState.value.result
+                if (studyMaterials != null) {
+                    binding.btnGenerateFlashcards.visibility = View.GONE
+                    binding.progressBar.isVisible = true
+                    binding.tvEmptyState.isVisible = false
+                    viewModel.generateFlashCards(noteId, studyMaterials, count, difficulty)
+                }
+            }
+        })
+
+        dialog.show(childFragmentManager)
+    }
+
     private fun updateFlashcardUI(
         flashCardStates: List<Pair<FlashCard, Boolean>>,
         currentIndex: Int
@@ -106,19 +136,20 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
             binding.tvAnswer.text = ""
             binding.cardFront.isVisible = false
             binding.cardBack.isVisible = false
-            binding.btnNext.isEnabled = false
-            binding.btnPrevious.isEnabled = false
+            binding.btnNext.isVisible = false
+            binding.btnPrevious.isVisible = false
             binding.flashcardContainer.isClickable = false
             binding.tvPositionIndicator.text = ""
             binding.tvEmptyState.isVisible = true
-            binding.tvEmptyState.text = "No flashcards available"
             previousCardIndex = -1
+            binding.btnGenerateFlashcards.visibility = View.VISIBLE
             return
         }
 
         binding.tvEmptyState.isVisible = false
-        binding.btnNext.isEnabled = true
-        binding.btnPrevious.isEnabled = true
+        binding.btnGenerateFlashcards.visibility = View.GONE
+        binding.btnNext.isVisible = true
+        binding.btnPrevious.isVisible = true
         binding.flashcardContainer.isClickable = true
 
         val (currentCard, isFrontShowing) = flashCardStates[currentIndex]

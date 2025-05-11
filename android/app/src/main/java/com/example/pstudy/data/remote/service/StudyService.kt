@@ -23,7 +23,11 @@ interface StudyService {
     suspend fun getQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
 
     @POST("/quiz/{note_id}")
-    suspend fun createQuizzes(@Path("note_id") noteId: String): Response<List<QuizDto>>
+    suspend fun createQuizzes(
+        @Path("note_id") noteId: String,
+        @Query("num_quizzes") numQuizzes: Int,
+        @Query("difficulty") difficulty: Int
+    ): Response<List<QuizDto>>
 
     @GET("/summary/{note_id}")
     suspend fun getSummary(@Path("note_id") noteId: String): Response<SummaryDto>
@@ -32,13 +36,21 @@ interface StudyService {
     suspend fun getMindMap(@Path("note_id") noteId: String): Response<MindMapDto>
 
     @POST("/mindmap/{note_id}")
-    suspend fun createMindMap(@Path("note_id") noteId: String): Response<MindMapDto>
+    suspend fun createMindMap(
+        @Path("note_id") noteId: String,
+        @Query("num_nodes") numNodes: Int,
+        @Query("difficulty") difficulty: Int
+    ): Response<MindMapDto>
 
     @GET("/flashcard/{note_id}")
     suspend fun getFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
 
     @POST("/flashcard/{note_id}")
-    suspend fun createFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
+    suspend fun createFlashCards(
+        @Path("note_id") noteId: String,
+        @Query("num_flashcards") numFlashcards: Int,
+        @Query("difficulty") difficulty: Int
+    ): Response<List<FlashCardDto>>
 
     @GET("/note")
     suspend fun getNoteList(@Query("user_id") userId: String): Response<List<NoteDto>>

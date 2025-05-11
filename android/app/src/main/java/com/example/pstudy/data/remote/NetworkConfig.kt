@@ -6,7 +6,7 @@ package com.example.pstudy.data.remote
 object NetworkConfig {
     // Base URL for API endpoints
     const val BASE_URL = "https://android-p-study.onrender.com/"
-    const val TIME_OUT = 30L
+    const val TIME_OUT = 120L
 
     // Error messages
     const val NETWORK_ERROR_MESSAGE =

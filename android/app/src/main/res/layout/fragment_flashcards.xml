@@ -67,7 +67,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnPrevious"
+        app:layout_constraintBottom_toTopOf="@+id/btnGenerateFlashcards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvQuestionNumber">
@@ -170,6 +170,18 @@
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
+
+    <Button
+        android:id="@+id/btnGenerateFlashcards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Flashcards"
+        android:backgroundTint="@color/primary_blue"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Previous Button -->
     <ImageView
