@@ -196,8 +196,12 @@ class StudyRepositoryImpl @Inject constructor(
         localDataSource.deleteMindMap(id)
     }
 
-    override suspend fun generateMindMap(noteId: String): NetworkResult<MindMapDto> {
-        return remoteDataSource.createMindMap(noteId)
+    override suspend fun generateMindMap(
+        noteId: String,
+        numNodes: Int,
+        difficulty: Int
+    ): NetworkResult<MindMapDto> {
+        return remoteDataSource.createMindMap(noteId, numNodes, difficulty)
     }
 
     // Summary operations

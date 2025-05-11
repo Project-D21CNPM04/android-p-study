@@ -25,8 +25,8 @@ interface StudyService {
     @POST("/quiz/{note_id}")
     suspend fun createQuizzes(
         @Path("note_id") noteId: String,
-        @Path("num_quizzes") numQuizzes: Int,
-        @Path("difficulty") difficulty: Int
+        @Query("num_quizzes") numQuizzes: Int,
+        @Query("difficulty") difficulty: Int
     ): Response<List<QuizDto>>
 
     @GET("/summary/{note_id}")
@@ -36,7 +36,11 @@ interface StudyService {
     suspend fun getMindMap(@Path("note_id") noteId: String): Response<MindMapDto>
 
     @POST("/mindmap/{note_id}")
-    suspend fun createMindMap(@Path("note_id") noteId: String): Response<MindMapDto>
+    suspend fun createMindMap(
+        @Path("note_id") noteId: String,
+        @Query("num_nodes") numNodes: Int,
+        @Query("difficulty") difficulty: Int
+    ): Response<MindMapDto>
 
     @GET("/flashcard/{note_id}")
     suspend fun getFlashCards(@Path("note_id") noteId: String): Response<List<FlashCardDto>>
@@ -44,8 +48,8 @@ interface StudyService {
     @POST("/flashcard/{note_id}")
     suspend fun createFlashCards(
         @Path("note_id") noteId: String,
-        @Path("num_flashcards") numFlashcards: Int,
-        @Path("difficulty") difficulty: Int
+        @Query("num_flashcards") numFlashcards: Int,
+        @Query("difficulty") difficulty: Int
     ): Response<List<FlashCardDto>>
 
     @GET("/note")

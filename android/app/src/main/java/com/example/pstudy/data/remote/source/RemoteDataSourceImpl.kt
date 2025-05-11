@@ -60,8 +60,12 @@ class RemoteDataSourceImpl @Inject constructor(
         return safeApiCall { studyService.getMindMap(noteId) }
     }
 
-    override suspend fun createMindMap(noteId: String): NetworkResult<MindMapDto> {
-        return safeApiCall { studyService.createMindMap(noteId) }
+    override suspend fun createMindMap(
+        noteId: String,
+        numNodes: Int,
+        difficulty: Int
+    ): NetworkResult<MindMapDto> {
+        return safeApiCall { studyService.createMindMap(noteId, numNodes, difficulty) }
     }
 
     // Summary operations

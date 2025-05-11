@@ -52,7 +52,11 @@ interface StudyRepository {
     suspend fun createMindMap(mindMap: MindMap, studyMaterialId: String): String
     suspend fun updateMindMap(mindMap: MindMap, studyMaterialId: String)
     suspend fun deleteMindMap(id: String)
-    suspend fun generateMindMap(noteId: String): NetworkResult<MindMapDto>
+    suspend fun generateMindMap(
+        noteId: String,
+        numNodes: Int = 5,
+        difficulty: Int = 2
+    ): NetworkResult<MindMapDto>
 
     // Summary operations
     suspend fun getSummary(noteId: String): Summary?
