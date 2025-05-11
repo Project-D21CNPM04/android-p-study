@@ -10,8 +10,10 @@ import com.example.pstudy.data.model.Summary
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.repository.StudyRepository
+import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_AUDIO
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_FILE
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_LINK
+import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_PHOTO
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_TEXT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,8 @@ class InputViewModel @Inject constructor(
     val selectedFileUri get() = _uiState.value.fileUri
     val isLoading get() = _uiState.value.isLoading
     val responseResult get() = _uiState.value.responseResult
+    val selectedPhotoUri get() = _uiState.value.photoUri
+    val audioFilePath get() = _uiState.value.audioPath
 
     fun setInputType(type: String) {
         _uiState.update {
@@ -57,6 +61,18 @@ class InputViewModel @Inject constructor(
     fun setSelectedFile(uri: Uri) {
         _uiState.update {
             it.copy(fileUri = uri)
+        }
+    }
+
+    fun setSelectedPhoto(uri: Uri) {
+        _uiState.update {
+            it.copy(photoUri = uri)
+        }
+    }
+
+    fun setAudioFile(path: String) {
+        _uiState.update {
+            it.copy(audioPath = path)
         }
     }
 
@@ -156,6 +172,53 @@ class InputViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false) }
                     }
                 }
+                INPUT_TYPE_AUDIO -> {
+                    if (uiState.value.audioPath != null) {
+                        try {
+                            /*val response = repository.createAudioNoteSummary(uiState.value.audioPath!!)
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    responseResult = response
+                                )
+                            }*/
+                        } catch (e: Exception) {
+                            Log.e("InputViewModel", "Error processing audio", e)
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    responseResult = NetworkResult.Error("Error processing audio: ${e.message}")
+                                )
+                            }
+                        }
+                    } else {
+                        _uiState.update { it.copy(isLoading = false) }
+                    }
+                }
+
+                INPUT_TYPE_PHOTO -> {
+                    uiState.value.photoUri?.let { uri ->
+                        try {
+                            /*val response = repository.createImageNoteSummary(uri.toString())
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    responseResult = response
+                                )
+                            }*/
+                        } catch (e: Exception) {
+                            Log.e("InputViewModel", "Error processing image", e)
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    responseResult = NetworkResult.Error("Error processing image: ${e.message}")
+                                )
+                            }
+                        }
+                    } ?: run {
+                        _uiState.update { it.copy(isLoading = false) }
+                    }
+                }
             }
         }
     }
@@ -166,6 +229,8 @@ data class InputUiState(
     val linkInput: String = "",
     val textInput: String = "",
     val fileUri: Uri? = null,
+    val photoUri: Uri? = null,
+    val audioPath: String? = null,
     val isLoading: Boolean = false,
     val responseResult: NetworkResult<SummaryDto>? = null
 )
