@@ -27,6 +27,21 @@ class ResultViewModel @Inject constructor(
     private val _viewState = MutableStateFlow(ResultViewState())
     val viewState = _viewState.asStateFlow()
 
+    fun initializeWithStudyMaterials(studyMaterials: StudyMaterials) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // Initialize with basic data 
+            _viewState.update { currentState ->
+                currentState.copy(
+                    isLoading = false,
+                    resultTitle = studyMaterials.input ?: "Result",
+                    result = studyMaterials.copy(),
+                )
+            }
+            // Automatically load summary data
+            generateSummary(studyMaterials.id, studyMaterials)
+        }
+    }
+
     fun loadResultData(studyMaterials: StudyMaterials?) {
         viewModelScope.launch(Dispatchers.IO) {
             // Initialize with basic data first
@@ -147,7 +162,7 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateSummary(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateSummary(noteId: String, studyMaterials: StudyMaterials) {
         viewModelScope.launch {
             _viewState.update { it.copy(isSummaryLoading = true) }
 
@@ -194,7 +209,7 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateMindMap(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateMindMap(noteId: String, studyMaterials: StudyMaterials) {
         viewModelScope.launch {
             _viewState.update { it.copy(isMindMapLoading = true) }
 
@@ -240,7 +255,7 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateFlashCards(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateFlashCards(noteId: String, studyMaterials: StudyMaterials) {
         viewModelScope.launch {
             _viewState.update { it.copy(isFlashCardsLoading = true) }
 
@@ -307,7 +322,7 @@ class ResultViewModel @Inject constructor(
         }
     }
 
-    private fun generateQuizzes(noteId: String, studyMaterials: StudyMaterials) {
+    fun generateQuizzes(noteId: String, studyMaterials: StudyMaterials) {
         viewModelScope.launch {
             _viewState.update { it.copy(isQuizzesLoading = true) }
 

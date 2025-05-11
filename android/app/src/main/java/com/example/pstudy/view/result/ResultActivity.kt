@@ -39,7 +39,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
         observeViewModel()
         val studyMaterials = getStudyMaterialsFromIntent()
         if (studyMaterials != null) {
-            viewModel.loadResultData(studyMaterials)
+            viewModel.initializeWithStudyMaterials(studyMaterials)
         }
     }
 
