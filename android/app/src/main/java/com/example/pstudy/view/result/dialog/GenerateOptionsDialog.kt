@@ -144,7 +144,7 @@ class GenerateOptionsDialog : BaseDialogBinding<DialogGenerateOptionsBinding>() 
 
         // Select the new button
         button.strokeWidth = 2
-        button.backgroundTintList = resources.getColorStateList(R.color.primary_blue, null)
+        button.backgroundTintList = resources.getColorStateList(R.color.color_primary, null)
         button.setTextColor(resources.getColor(android.R.color.white, null))
         selectedButton = button
         selectedDifficulty = button.text.toString()
