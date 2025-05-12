@@ -29,13 +29,18 @@
     <color name="tab_unselected_text_color">@color/gray_medium</color>
 
     <!-- Card / Option Backgrounds -->
-    <color name="bg_option_card">#FFF3F3</color> <!-- Hồng trắng nhạt -->
+    <color name="bg_option_card">#FFF3F3</color>
 
     <!-- Answer Feedback -->
-    <color name="correct_answer">#388E3C</color> <!-- Xanh đúng -->
-    <color name="incorrect_answer">#C62828</color> <!-- Đỏ sai -->
+    <color name="correct_answer">#388E3C</color>
+    <color name="incorrect_answer">#C62828</color>
 
     <!-- Accent / Utility -->
-    <color name="accent_pink">#FF8A80</color> <!-- Nhấn nhá mềm mại -->
+    <color name="accent_pink">#FF8A80</color>
     <color name="divider_color">#BDBDBD</color>
+
+    <!-- Flashcard Specific Colors -->
+    <color name="flashcard_text">#FFFFFF</color>
+    <color name="flashcard_instruction">#E0FFFFFF</color>
+    <color name="flashcard_position_text">#FFFFFF</color>
 </resources>
