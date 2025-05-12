@@ -192,5 +192,3 @@ app.include_router(flashcard_router)
 app.include_router(content_router)
 app.include_router(auth_router)
 app.include_router(stats_router)
-=======
-app.include_router(router)
