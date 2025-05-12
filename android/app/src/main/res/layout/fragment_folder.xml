@@ -11,7 +11,7 @@
         android:id="@+id/llAddFolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_gradient_button"
+        android:background="@drawable/button_gradient"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="16dp">
@@ -24,10 +24,9 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:text="@string/label_add_folder"
-            android:textColor="@color/white"
+            android:textColor="@color/color_on_primary"
             android:textSize="18sp" />
 
     </LinearLayout>
