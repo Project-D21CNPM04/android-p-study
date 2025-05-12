@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@color/color_surface">
 
     <!-- Title -->
     <TextView
@@ -14,7 +14,7 @@
         android:text="Generate Options"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/primary_blue"
+        android:textColor="@color/color_primary"
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="16dp"
@@ -30,6 +30,7 @@
         android:text="Number of Items"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         app:layout_constraintTop_toBottomOf="@id/dialogTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -43,6 +44,8 @@
         android:min="0"
         android:max="25"
         android:progress="0"
+        android:progressTint="@color/color_primary"
+        android:thumbTint="@color/color_primary"
         app:layout_constraintTop_toBottomOf="@id/tvCountLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvCountValue" />
@@ -54,6 +57,7 @@
         android:text="5"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         android:minWidth="30dp"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="@id/countSeekBar"
@@ -66,7 +70,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/divider_color"
         app:layout_constraintTop_toBottomOf="@id/countSeekBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -80,6 +84,7 @@
         android:text="Difficulty Level"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -104,8 +109,8 @@
             android:layout_margin="4dp"
             android:text="Easy"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/primary_blue"
-            app:rippleColor="@android:color/holo_blue_light" />
+            app:strokeColor="@color/color_primary"
+            app:rippleColor="@color/color_secondary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMedium"
@@ -116,8 +121,8 @@
             android:layout_margin="4dp"
             android:text="Medium"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/primary_blue"
-            app:rippleColor="@android:color/holo_blue_light" />
+            app:strokeColor="@color/color_primary"
+            app:rippleColor="@color/color_secondary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnHard"
@@ -128,8 +133,8 @@
             android:layout_margin="4dp"
             android:text="Hard"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/primary_blue"
-            app:rippleColor="@android:color/holo_blue_light" />
+            app:strokeColor="@color/color_primary"
+            app:rippleColor="@color/color_secondary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMixed"
@@ -140,8 +145,8 @@
             android:layout_margin="4dp"
             android:text="Mixed"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/primary_blue"
-            app:rippleColor="@android:color/holo_blue_light" />
+            app:strokeColor="@color/color_primary"
+            app:rippleColor="@color/color_secondary" />
     </GridLayout>
 
     <!-- Action Buttons -->
@@ -163,7 +168,7 @@
             android:layout_marginEnd="8dp"
             android:text="Cancel"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/primary_blue" />
+            app:strokeColor="@color/color_primary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirm"
@@ -171,7 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Generate"
-            android:backgroundTint="@color/primary_blue"
-            android:textColor="@android:color/white" />
+            android:backgroundTint="@color/color_primary"
+            android:textColor="@color/color_on_primary" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,19 +65,20 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) =
-                updateTabStyle(tab, R.color.primary_blue)
+                updateTabStyle(tab, R.color.color_primary, R.color.color_on_primary)
 
             override fun onTabUnselected(tab: TabLayout.Tab?) =
-                updateTabStyle(tab, android.R.color.transparent)
+                updateTabStyle(tab, android.R.color.transparent, R.color.color_primary)
 
             override fun onTabReselected(tab: TabLayout.Tab?) {} // No action needed
         })
 
-        updateTabStyle(binding.tabLayout.getTabAt(0), R.color.primary_blue)
+        updateTabStyle(binding.tabLayout.getTabAt(0), R.color.color_primary, R.color.color_on_primary)
     }
 
-    private fun updateTabStyle(tab: TabLayout.Tab?, colorRes: Int) {
+    private fun updateTabStyle(tab: TabLayout.Tab?, colorRes: Int, textColorRes: Int) {
         tab?.customView?.findViewById<TextView>(R.id.tvTitle)?.apply {
+            setTextColor(ContextCompat.getColor(context, textColorRes))
             backgroundTintList = ContextCompat.getColorStateList(context, colorRes)
             isSingleLine = true
         }

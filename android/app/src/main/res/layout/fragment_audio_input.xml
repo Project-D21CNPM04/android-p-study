@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primary_blue" />
+        app:tint="@color/color_primary" />
 
     <TextView
         android:id="@+id/tvAudioInstructions"
@@ -25,7 +25,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/audio_input_instructions"
-        android:textColor="@color/white"
+        android:textColor="@color/color_on_background"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="@string/ready_to_record"
-        android:textColor="@color/white"
+        android:textColor="@color/color_on_background"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-light"
         android:text="00:00"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/gray_medium"
         android:textSize="24sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,11 +69,11 @@
         android:layout_marginTop="32dp"
         android:contentDescription="@string/record_button"
         android:src="@drawable/ic_mic"
-        app:backgroundTint="@color/primary_blue"
+        app:backgroundTint="@color/color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRecordingTimer"
-        app:tint="@color/white" />
+        app:tint="@color/color_on_primary" />
 
     <!-- Recording Controls -->
     <LinearLayout
@@ -96,9 +96,9 @@
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/stop_recording"
             android:src="@drawable/ic_stop"
-            app:backgroundTint="@color/primary_blue"
+            app:backgroundTint="@color/color_primary"
             app:fabSize="normal"
-            app:tint="@color/white" />
+            app:tint="@color/color_on_primary" />
 
         <!-- Play Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -108,9 +108,9 @@
             android:layout_marginStart="16dp"
             android:contentDescription="@string/play_recording"
             android:src="@drawable/ic_play"
-            app:backgroundTint="@color/primary_blue"
+            app:backgroundTint="@color/color_primary"
             app:fabSize="normal"
-            app:tint="@color/white" />
+            app:tint="@color/color_on_primary" />
     </LinearLayout>
 
     <!-- Audio Info Card -->
@@ -146,7 +146,7 @@
                 android:src="@drawable/ic_mic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
+                app:tint="@color/color_on_background" />
 
             <TextView
                 android:id="@+id/tvAudioInfo"
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/white"
+                android:textColor="@color/color_on_background"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivAudioType"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primary_blue" />
+        app:tint="@color/color_primary" />
 
     <TextView
         android:id="@+id/tvFileInstructions"
@@ -25,7 +25,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/file_input_instructions"
-        android:textColor="@color/white"
+        android:textColor="@color/color_on_background"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
         android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/no_file_selected"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/gray_medium"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
                 android:src="@drawable/ic_file_vector"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
+                app:tint="@color/color_on_background" />
 
             <TextView
                 android:id="@+id/tvSelectedFile"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/white"
+                android:textColor="@color/color_on_background"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivFileType"
                 app:layout_constraintEnd_toEndOf="parent"
