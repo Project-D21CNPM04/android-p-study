@@ -9,6 +9,8 @@ from utils.document_extractor import DocumentExtractor
 from utils.image_extractor import extract_base64_from_image
 from .models import Note, NoteType
 from ai_services.audio_assistant import AudioAssistant
+import firebase_admin
+from firebase_admin import credentials, auth
 import uuid
 import json
 import os
@@ -302,3 +304,206 @@ class Service:
             return summary
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to process image: {str(e)}")
+
+    async def get_dashboard_statistics(self, db: AsyncIOMotorDatabase):
+
+        days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"]
+        content_types = ["Link", "Text", "Audio", "Image", "File"]
+        
+        try:
+            notes_collection = db.notes
+            quizzes_collection = db.quizzes
+            flashcards_collection = db.flashcards
+            mindmaps_collection = db.mindmaps
+            
+            if not firebase_admin._apps:
+                cred = credentials.Certificate(os.path.join(os.path.dirname(__file__), "p-study-firebase-adminsdk-fbsvc-944f2b7686.json"))
+                firebase_admin.initialize_app(cred)
+            
+            total_notes = await notes_collection.count_documents({})
+            
+            notes_by_hour = []
+            for hour in range(24):
+                try:
+                    hour_count = await notes_collection.count_documents({
+                        "$expr": {
+                            "$eq": [
+                                {"$hour": {"$toDate": {"$multiply": ["$timestamp", 1000]}}},
+                                hour
+                            ]
+                        }
+                    })
+                    notes_by_hour.append({"name": f"{hour}:00", "value": hour_count})
+                except Exception as e:
+                    print(f"Error getting hour counts: {e}")
+                    notes_by_hour.append({"name": f"{hour}:00", "value": 0})
+            
+            notes_by_day = []
+            for day_idx, day_name in enumerate(days):
+                try:
+                    mongo_day = (day_idx + 1) % 7 + 1
+                    day_count = await notes_collection.count_documents({
+                        "$expr": {
+                            "$eq": [
+                                {"$dayOfWeek": {"$toDate": {"$multiply": ["$timestamp", 1000]}}},
+                                mongo_day
+                            ]
+                        }
+                    })
+                    notes_by_day.append({"name": day_name, "value": day_count})
+                except Exception as e:
+                    print(f"Error getting day counts: {e}")
+                    notes_by_day.append({"name": day_name, "value": 0})
+            
+            notes_by_type = []
+            for content_type in content_types:
+                try:
+                    type_count = await notes_collection.count_documents({"type": content_type.lower()})
+                    notes_by_type.append({"name": content_type, "value": type_count})
+                except Exception as e:
+                    print(f"Error getting type counts: {e}")
+                    notes_by_type.append({"name": content_type, "value": 0})
+            
+            total_quizzes = await quizzes_collection.count_documents({})
+            quizzes_by_type = []
+            
+            for content_type in content_types:
+                try:
+                    pipeline = [
+                        {
+                            "$lookup": {
+                                "from": "notes",
+                                "localField": "note_id",
+                                "foreignField": "id",
+                                "as": "note"
+                            }
+                        },
+                        {"$match": {"note.type": content_type.lower()}},
+                        {"$count": "count"}
+                    ]
+                    result = await quizzes_collection.aggregate(pipeline).to_list(1)
+                    count = result[0]["count"] if result else 0
+                    quizzes_by_type.append({"name": content_type, "value": count})
+                except Exception as e:
+                    print(f"Error getting quiz type counts: {e}")
+                    quizzes_by_type.append({"name": content_type, "value": 0})
+            
+            total_flashcards = await flashcards_collection.count_documents({})
+            flashcards_by_type = []
+            
+            for content_type in content_types:
+                try:
+                    pipeline = [
+                        {
+                            "$lookup": {
+                                "from": "notes",
+                                "localField": "note_id",
+                                "foreignField": "id",
+                                "as": "note"
+                            }
+                        },
+                        {"$match": {"note.type": content_type.lower()}},
+                        {"$count": "count"}
+                    ]
+                    result = await flashcards_collection.aggregate(pipeline).to_list(1)
+                    count = result[0]["count"] if result else 0
+                    flashcards_by_type.append({"name": content_type, "value": count})
+                except Exception as e:
+                    print(f"Error getting flashcard type counts: {e}")
+                    flashcards_by_type.append({"name": content_type, "value": 0})
+            
+            total_mindmaps = await mindmaps_collection.count_documents({})
+            mindmaps_by_type = []
+            
+            for content_type in content_types:
+                try:
+                    pipeline = [
+                        {
+                            "$lookup": {
+                                "from": "notes",
+                                "localField": "note_id",
+                                "foreignField": "id",
+                                "as": "note"
+                            }
+                        },
+                        {"$match": {"note.type": content_type.lower()}},
+                        {"$count": "count"}
+                    ]
+                    result = await mindmaps_collection.aggregate(pipeline).to_list(1)
+                    count = result[0]["count"] if result else 0
+                    mindmaps_by_type.append({"name": content_type, "value": count})
+                except Exception as e:
+                    print(f"Error getting mindmap type counts: {e}")
+                    mindmaps_by_type.append({"name": content_type, "value": 0})
+            
+            try:
+                firebase_users = auth.list_users().iterate_all()
+                users = []
+                for user in firebase_users:
+                    users.append({
+                        "id": user.uid, 
+                        "name": user.email
+                    })
+                
+                total_users = len(users)
+                
+                notes_per_user = []
+                max_notes = 0
+                min_notes = float('inf')
+                total_user_notes = 0
+                
+                user_notes_data = []
+                for user in users:
+                    try:
+                        user_notes_count = await notes_collection.count_documents({"user_id": user["id"]})
+                        user_notes_data.append({"name": user["name"], "notes": user_notes_count})
+                        max_notes = max(max_notes, user_notes_count)
+                        min_notes = min(min_notes, user_notes_count)
+                        total_user_notes += user_notes_count
+                    except Exception as e:
+                        print(f"Error getting user notes: {e}")
+                
+                # Sort users by note count in descending order and take only top 10
+                user_notes_data.sort(key=lambda x: x["notes"], reverse=True)
+                notes_per_user = user_notes_data[:10]
+                
+                avg_notes = round(total_user_notes / total_users) if total_users > 0 else 0
+                min_notes = min_notes if min_notes != float('inf') else 0
+            except Exception as e:
+                print(f"Error getting Firebase users: {e}")
+                total_users = 0
+                notes_per_user = []
+                max_notes = 0
+                min_notes = 0
+                avg_notes = 0
+            
+            return {
+                "notes": {
+                    "total": total_notes,
+                    "byHour": notes_by_hour,
+                    "byDay": notes_by_day,
+                    "byType": notes_by_type
+                },
+                "quiz": {
+                    "total": total_quizzes,
+                    "byType": quizzes_by_type
+                },
+                "flashcard": {
+                    "total": total_flashcards,
+                    "byType": flashcards_by_type
+                },
+                "mindmap": {
+                    "total": total_mindmaps,
+                    "byType": mindmaps_by_type
+                },
+                "users": {
+                    "total": total_users,
+                    "notesPerUser": notes_per_user,
+                    "maxNotes": max_notes,
+                    "minNotes": min_notes,
+                    "avgNotes": avg_notes
+                }
+            }
+        except Exception as e:
+            print(f"Error generating dashboard statistics: {e}")
+            raise HTTPException(status_code=500, detail=f"Error generating dashboard statistics: {str(e)}")
