@@ -191,3 +191,15 @@ class ApiErrorResponse(BaseModel):
                 "detail": "Note not found with the specified ID"
             }
         }
+
+class FirebaseUser(BaseModel):
+    uid: str = Field(..., description="Firebase user ID")
+    email: str = Field(..., description="User email address")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "uid": "u1s2e3r4-5a6b7-8c9d0",
+                "email": "user@example.com"
+            }
+        }

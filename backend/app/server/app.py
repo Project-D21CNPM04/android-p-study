@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
 from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
-from .models import UserLogin, UserResponse, DashboardStatistics
+from .models import UserLogin, UserResponse, DashboardStatistics, FirebaseUser
 from .service import Service
 from typing import List
 from datetime import datetime, timedelta
@@ -45,6 +45,7 @@ flashcard_router = APIRouter(prefix="/flashcard", tags=["Flashcards"])
 content_router = APIRouter(prefix="/create", tags=["Content Creation"])
 auth_router = APIRouter(prefix="/auth", tags=["Authentication"])
 stats_router = APIRouter(prefix="/stats", tags=["Dashboard Statistics"])
+user_router = APIRouter(prefix="/users", tags=["Users"])
 
 def create_token(data: dict):
     exp = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -75,6 +76,11 @@ async def login(data: UserLogin):
 @stats_router.get("/dashboard", response_model=DashboardStatistics)
 async def get_dashboard_statistics(db: AsyncIOMotorDatabase = Depends(get_db)):
     return await service.get_dashboard_statistics(db)
+
+# User Management Endpoints
+@user_router.get("/firebase", response_model=List[FirebaseUser])
+async def get_firebase_users():
+    return await service.get_firebase_users()
 
 # Notes Endpoints
 @note_router.get("", response_model=List[Note])
@@ -192,3 +198,4 @@ app.include_router(flashcard_router)
 app.include_router(content_router)
 app.include_router(auth_router)
 app.include_router(stats_router)
+app.include_router(user_router)
