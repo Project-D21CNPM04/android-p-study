@@ -16,6 +16,56 @@ class DifficultyLevel(int, Enum):
     HARD = 3
     MIXED = 4
 
+# User authentication models
+class UserLogin(BaseModel):
+    email: str = Field(..., description="User email address")
+    password: str = Field(..., description="User password")
+
+class UserResponse(BaseModel):
+    email: str = Field(..., description="User email address")
+    token: str = Field(..., description="Authentication token")
+
+# Dashboard statistics models
+class HourlyStats(BaseModel):
+    name: str = Field(..., description="Hour of the day (e.g. '8:00')")
+    value: int = Field(..., description="Number of items created in this hour")
+
+class DailyStats(BaseModel):
+    name: str = Field(..., description="Day of the week")
+    value: int = Field(..., description="Number of items created on this day")
+
+class TypeStats(BaseModel):
+    name: str = Field(..., description="Type of content")
+    value: int = Field(..., description="Number of items of this type")
+
+class UserNoteStats(BaseModel):
+    name: str = Field(..., description="User name")
+    notes: int = Field(..., description="Number of notes created by this user")
+
+class NotesStatistics(BaseModel):
+    total: int = Field(..., description="Total number of notes")
+    byHour: List[HourlyStats] = Field(..., description="Notes created by hour of day")
+    byDay: List[DailyStats] = Field(..., description="Notes created by day of week")
+    byType: List[TypeStats] = Field(..., description="Notes created by content type")
+
+class ContentTypeStatistics(BaseModel):
+    total: int = Field(..., description="Total number of items")
+    byType: List[TypeStats] = Field(..., description="Items created by content type")
+
+class UserStatistics(BaseModel):
+    total: int = Field(..., description="Total number of users")
+    notesPerUser: List[UserNoteStats] = Field(..., description="Notes created per user")
+    maxNotes: int = Field(..., description="Maximum notes created by a user")
+    minNotes: int = Field(..., description="Minimum notes created by a user")
+    avgNotes: int = Field(..., description="Average notes created per user")
+
+class DashboardStatistics(BaseModel):
+    notes: NotesStatistics = Field(..., description="Statistics about notes")
+    quiz: ContentTypeStatistics = Field(..., description="Statistics about quizzes")
+    flashcard: ContentTypeStatistics = Field(..., description="Statistics about flashcards")
+    mindmap: ContentTypeStatistics = Field(..., description="Statistics about mindmaps")
+    users: UserStatistics = Field(..., description="Statistics about users")
+
 class FlashcardContent(BaseModel):
     front: str = Field(..., description="Text displayed on the front side of the flashcard")
     back: str = Field(..., description="Text displayed on the back side of the flashcard")
