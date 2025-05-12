@@ -1,16 +1,24 @@
 import os
+import base64
+import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, UploadFile, File, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from contextlib import asynccontextmanager
 from .models import TextCreate, LinkCreate, Flashcard, Mindmap, Note, Quiz, Summary
+from .models import UserLogin, UserResponse, DashboardStatistics
 from .service import Service
 from typing import List
+from datetime import datetime, timedelta
+import secrets
 
+# Load environment variables
 load_dotenv()
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
 DB_NAME = os.getenv("DB_NAME", "study_app")
+SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_hex(32))
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 service = Service()
 
@@ -24,6 +32,38 @@ summary_router = APIRouter(prefix="/summary", tags=["Summaries"])
 mindmap_router = APIRouter(prefix="/mindmap", tags=["Mind Maps"])
 flashcard_router = APIRouter(prefix="/flashcard", tags=["Flashcards"])
 content_router = APIRouter(prefix="/create", tags=["Content Creation"])
+auth_router = APIRouter(prefix="/auth", tags=["Authentication"])
+stats_router = APIRouter(prefix="/stats", tags=["Dashboard Statistics"])
+
+def create_token(data: dict):
+    exp = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    data.update({"exp": exp.timestamp()})
+    
+    json_data = json.dumps(data)
+    token = base64.b64encode(json_data.encode()).decode()
+    
+    return token
+
+# Authentication Endpoints
+@auth_router.post("/login", response_model=UserResponse)
+async def login(data: UserLogin):
+    # Hardcoded authentication for specified user
+    if data.email != "hoanhq.b21cn379@stu.ptit.edu.vn" or data.password != "12345":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Create access token
+    token = create_token({"sub": data.email})
+    
+    return {"email": data.email, "token": token}
+
+# Dashboard Statistics Endpoints
+@stats_router.get("/dashboard", response_model=DashboardStatistics)
+async def get_dashboard_statistics(db: AsyncIOMotorDatabase = Depends(get_db)):
+    return await service.get_dashboard_statistics(db)
 
 # Notes Endpoints
 @note_router.get("", response_model=List[Note])
@@ -140,3 +180,5 @@ app.include_router(summary_router)
 app.include_router(mindmap_router)
 app.include_router(flashcard_router)
 app.include_router(content_router)
+app.include_router(auth_router)
+app.include_router(stats_router)
