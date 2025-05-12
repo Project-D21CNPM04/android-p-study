@@ -14,7 +14,6 @@ from datetime import datetime, timedelta
 import secrets
 from urllib.parse import quote_plus
 
-# Load environment variables
 load_dotenv()
 
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
@@ -28,6 +27,7 @@ encoded_username = quote_plus(USERNAME)
 encoded_password = quote_plus(PASSWORD)
 
 MONGODB_URL = f"mongodb+srv://{encoded_username}:{encoded_password}@{CLUSTER}/?retryWrites=true&w=majority&appName=Harry"
+
 SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_hex(32))
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
@@ -175,7 +175,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -193,3 +192,5 @@ app.include_router(flashcard_router)
 app.include_router(content_router)
 app.include_router(auth_router)
 app.include_router(stats_router)
+=======
+app.include_router(router)
