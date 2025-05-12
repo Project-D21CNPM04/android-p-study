@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/color_surface">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -13,6 +14,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -21,6 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/reminder_content"
+        app:boxStrokeColor="@color/color_primary"
+        app:hintTextColor="@color/color_primary"
         app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -38,6 +42,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/date"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilContent" />
 
@@ -48,6 +53,7 @@
         android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
+        android:textColor="@color/color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDateLabel"
         app:layout_constraintBottom_toBottomOf="@id/tvDateLabel"
@@ -60,6 +66,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/time"
         android:textStyle="bold"
+        android:textColor="@color/color_on_surface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDateValue" />
 
@@ -70,6 +77,7 @@
         android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
+        android:textColor="@color/color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvTimeLabel"
         app:layout_constraintBottom_toBottomOf="@id/tvTimeLabel"
@@ -81,6 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/repeat_daily"
+        android:textColor="@color/color_on_surface"
+        app:thumbTint="@color/color_primary"
+        app:trackTint="@color/color_secondary"
         app:layout_constraintTop_toBottomOf="@id/tvTimeValue" />
 
     <Button
@@ -89,6 +100,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/set_reminder"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@color/color_on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switchRepeatDaily" />
 
