@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/color_background"
     tools:context=".view.input.InputActivity">
 
     <!-- Top gradient background -->
@@ -37,7 +37,7 @@
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
+            app:tint="@color/color_on_background" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -46,7 +46,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@color/white"
+            android:textColor="@color/color_on_background"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btnBack"
@@ -66,7 +66,7 @@
         android:layout_marginBottom="24dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
         app:layout_constraintTop_toBottomOf="@+id/headerSection">
 
@@ -85,284 +85,37 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <!-- File Input Layout -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fileInputLayout"
+                <!-- Fragment Container -->
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/ivFileIcon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="24dp"
-                        android:contentDescription="@string/file_upload_icon_description"
-                        android:src="@drawable/ic_upload"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/primary_blue" />
-
-                    <TextView
-                        android:id="@+id/tvFileInstructions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:text="@string/file_input_instructions"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivFileIcon" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSelectFile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        style="@style/GradientButton"
-                        android:text="@string/select_file"
-                        app:icon="@drawable/ic_search"
-                        app:iconGravity="textStart"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvFileInstructions" />
-
-                    <TextView
-                        android:id="@+id/tvNoFileSelected"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:gravity="center"
-                        android:text="@string/no_file_selected"
-                        android:textColor="@color/light_gray"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/btnSelectFile" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/fileInfoCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/btnSelectFile"
-                        tools:visibility="visible">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/file_card_background" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="16dp">
-
-                            <ImageView
-                                android:id="@+id/ivFileType"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:contentDescription="@string/file_type_icon_description"
-                                android:src="@drawable/ic_file_vector"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/white" />
-
-                            <TextView
-                                android:id="@+id/tvSelectedFile"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:fontFamily="sans-serif-medium"
-                                android:textColor="@color/white"
-                                android:textSize="16sp"
-                                app:layout_constraintBottom_toBottomOf="@+id/ivFileType"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/ivFileType"
-                                app:layout_constraintTop_toTopOf="@+id/ivFileType"
-                                tools:text="selected_file.pdf" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!-- Link Input Layout -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/linkInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fileInputLayout"
-                    tools:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/ivLinkIcon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="24dp"
-                        android:contentDescription="@string/link_icon_description"
-                        android:src="@drawable/ic_link_vector"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/primary_blue" />
-
-                    <TextView
-                        android:id="@+id/tvLinkInstructions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:text="@string/link_input_instructions"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivLinkIcon" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilLink"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:hint="@string/link_hint"
-                        android:textColorHint="@color/light_gray"
-                        app:boxBackgroundColor="#1AFFFFFF"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="@color/primary_blue"
-                        app:boxStrokeWidth="1dp"
-                        app:endIconMode="clear_text"
-                        app:endIconTint="@color/light_gray"
-                        app:hintTextColor="@color/primary_blue"
-                        app:layout_constraintEnd_toStartOf="@+id/btnPaste"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvLinkInstructions"
-                        app:startIconDrawable="@drawable/ic_link_view"
-                        app:startIconTint="@color/primary_blue">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etLink"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:inputType="textUri"
-                            android:padding="16dp"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnPaste"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/GradientButton"
-                        android:text="@string/paste"
-                        app:icon="@drawable/ic_paste"
-                        app:iconGravity="textStart"
-                        app:layout_constraintBottom_toBottomOf="@+id/tilLink"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tilLink" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!-- Text Input Layout -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/textInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="32dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linkInputLayout"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/tvTextInstructions"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/text_input_instructions"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvCharCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/char_count_format"
-                        android:textColor="@color/light_gray"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTextInstructions" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilText"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:hint="@string/text_hint"
-                        android:textColorHint="@color/light_gray"
-                        app:boxBackgroundColor="#1AFFFFFF"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="@color/primary_blue"
-                        app:boxStrokeWidth="1dp"
-                        app:endIconMode="clear_text"
-                        app:endIconTint="@color/light_gray"
-                        app:hintTextColor="@color/primary_blue"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvCharCount">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:fontFamily="sans-serif"
-                            android:gravity="top|start"
-                            android:inputType="textMultiLine"
-                            android:padding="16dp"
-                            android:scrollbars="vertical"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
+
+    <!-- Loading Animation -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="80dp"
+        android:visibility="visible"
+        android:background="#CB000000"
+        android:elevation="10dp"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_speed="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmit"

@@ -7,20 +7,27 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
+import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.databinding.ActivityResultBinding
-import com.example.pstudy.view.result.ResultPagerAdapter
-import com.example.pstudy.view.result.ResultViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResultActivity : BindingActivity<ActivityResultBinding>() {
 
     private val viewModel: ResultViewModel by viewModels()
 
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ResultActivity::class.java)
+        private const val EXTRA_STUDY_MATERIALS = "extra_study_materials"
+
+        fun start(context: Context, studyMaterials: StudyMaterials) {
+            val intent = Intent(context, ResultActivity::class.java)
+            intent.putExtra(EXTRA_STUDY_MATERIALS, studyMaterials)
+            context.startActivity(intent)
         }
     }
+
+    override fun getStatusBarColor() = R.color.black
 
     override fun inflateBinding(layoutInflater: LayoutInflater): ActivityResultBinding {
         return ActivityResultBinding.inflate(layoutInflater)
@@ -30,7 +37,10 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
         setupToolbar()
         setupViewPagerAndTabs()
         observeViewModel()
-        //viewModel.loadResultData()
+        val studyMaterials = getStudyMaterialsFromIntent()
+        if (studyMaterials != null) {
+            viewModel.initializeWithStudyMaterials(studyMaterials)
+        }
     }
 
     private fun setupToolbar() {
@@ -43,6 +53,7 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
     private fun setupViewPagerAndTabs() {
         val adapter = ResultPagerAdapter(this)
         binding.viewPager.adapter = adapter
+        binding.viewPager.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = getTabTitle(position)
@@ -60,12 +71,16 @@ class ResultActivity : BindingActivity<ActivityResultBinding>() {
     private fun getTabTitle(position: Int): String? {
         return when (position) {
             0 -> getString(R.string.tab_summary)
-            1 -> getString(R.string.tab_record)
-            2 -> getString(R.string.tab_material)
-            3 -> getString(R.string.tab_mind_map)
-            4 -> getString(R.string.tab_flashcards)
-            5 -> getString(R.string.tab_quizs)
+            1 -> getString(R.string.tab_mind_map)
+            2 -> getString(R.string.tab_flashcards)
+            3 -> getString(R.string.tab_quizs)
             else -> null
         }
+    }
+
+    private fun getStudyMaterialsFromIntent(): StudyMaterials? {
+        @Suppress("DEPRECATION")
+        val serializable = intent.getSerializableExtra(EXTRA_STUDY_MATERIALS)
+        return serializable as? StudyMaterials
     }
 }

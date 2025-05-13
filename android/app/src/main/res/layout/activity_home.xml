@@ -5,17 +5,22 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/color_background"
     android:padding="16dp"
     tools:context=".view.home.HomeActivity">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="ivAvatar, tvGreeting, tvSubtitle" />
 
     <ImageView
         android:id="@+id/ivAvatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/avatar_content_description"
-        android:padding="4dp"
-        android:src="@android:drawable/sym_def_app_icon"
+        android:src="@mipmap/ic_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +31,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="8dp"
         android:text="@string/home_greeting"
-        android:textColor="@color/white"
+        android:textColor="@color/color_on_background"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/ivSearch"
@@ -38,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/home_subtitle"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/gray_medium"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/tvGreeting"
         app:layout_constraintStart_toStartOf="@+id/tvGreeting"
@@ -54,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-        app:tint="@color/white" />
+        app:tint="@color/color_on_background" />
 
     <!-- Tabs -->
     <com.google.android.material.tabs.TabLayout
@@ -71,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
         app:tabBackground="@null"
         app:tabGravity="center"
-        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorColor="@color/tab_indicator_color"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="0dp"
         app:tabMode="auto" />
@@ -90,9 +95,9 @@
         android:id="@+id/icAdd"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/primary_blue"
+        android:backgroundTint="@color/color_primary"
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@id/icMic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +112,7 @@
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@id/icAdd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_link" />
+        app:srcCompat="@drawable/ic_link_vector" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icFile"
@@ -119,10 +124,10 @@
         android:padding="12dp"
         app:layout_constraintEnd_toStartOf="@id/icAdd"
         app:layout_constraintTop_toTopOf="@id/icAdd"
-        app:srcCompat="@drawable/ic_file" />
+        app:srcCompat="@drawable/ic_file_vector" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/icSound"
+        android:id="@+id/icText"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="-4dp"
@@ -131,24 +136,39 @@
         android:padding="12dp"
         app:layout_constraintStart_toStartOf="@id/icFile"
         app:layout_constraintTop_toTopOf="@id/icLink"
-        app:srcCompat="@drawable/ic_sound" />
+        app:srcCompat="@drawable/baseline_text_fields_24" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icAdd"
+        app:srcCompat="@drawable/ic_photo" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/addFeature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="icLink, icFile, icSound" />
+        app:constraint_referenced_ids="icLink, icFile, icText, icImage" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/icMic"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_circle"
-        android:padding="12dp"
+        android:backgroundTint="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_mic" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_rawRes="@raw/record_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

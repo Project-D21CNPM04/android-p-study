@@ -4,24 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/color_background"
     tools:context=".view.result.ResultActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        app:elevation="0dp">
+        android:background="@color/color_primary"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="noScroll"
             app:title="Result"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/color_on_primary"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white" />
+            app:navigationIconTint="@color/color_on_primary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,11 +36,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/light_gray"
-            app:tabMode="scrollable"
+            android:background="@color/bg_tab_layout"
+            app:tabIndicatorColor="@color/tab_indicator_color"
+            app:tabSelectedTextColor="@color/tab_selected_text_color"
+            app:tabTextColor="@color/tab_unselected_text_color"
+            app:tabMode="fixed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

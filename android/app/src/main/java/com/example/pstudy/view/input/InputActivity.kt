@@ -3,16 +3,39 @@ package com.example.pstudy.view.input
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
+import com.example.pstudy.data.firebase.FirebaseAuthHelper
+import com.example.pstudy.data.mapper.toDomain
+import com.example.pstudy.data.model.MaterialType
+import com.example.pstudy.data.model.StudyMaterials
+import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.databinding.ActivityInputBinding
+import com.example.pstudy.ext.getMaterialType
+import com.example.pstudy.view.input.fragments.AudioInputFragment
+import com.example.pstudy.view.input.fragments.FileInputFragment
+import com.example.pstudy.view.input.fragments.LinkInputFragment
+import com.example.pstudy.view.input.fragments.PhotoInputFragment
+import com.example.pstudy.view.input.fragments.TextInputFragment
+import com.example.pstudy.view.result.ResultActivity
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class InputActivity : BindingActivity<ActivityInputBinding>() {
     override fun inflateBinding(layoutInflater: LayoutInflater) =
         ActivityInputBinding.inflate(layoutInflater)
@@ -35,154 +58,163 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
     }
 
     private fun initView() {
+        updateTitle()
+        loadInputFragment()
+    }
+
+    private fun updateTitle() {
         when (viewModel.currentInputType) {
             INPUT_TYPE_FILE -> {
-                binding.fileInputLayout.visibility = View.VISIBLE
-                binding.linkInputLayout.visibility = View.GONE
-                binding.textInputLayout.visibility = View.GONE
-
                 binding.tvTitle.text = getString(R.string.input_file_title)
                 binding.btnSubmit.text = getString(R.string.input_file_submit)
             }
-
             INPUT_TYPE_LINK -> {
-                binding.fileInputLayout.visibility = View.GONE
-                binding.linkInputLayout.visibility = View.VISIBLE
-                binding.textInputLayout.visibility = View.GONE
-
                 binding.tvTitle.text = getString(R.string.input_link_title)
                 binding.btnSubmit.text = getString(R.string.input_link_submit)
-
-                binding.etLink.doAfterTextChanged {
-                    viewModel.updateLink(it.toString())
-                }
             }
-
             INPUT_TYPE_TEXT -> {
-                binding.fileInputLayout.visibility = View.GONE
-                binding.linkInputLayout.visibility = View.GONE
-                binding.textInputLayout.visibility = View.VISIBLE
-
                 binding.tvTitle.text = getString(R.string.input_text_title)
                 binding.btnSubmit.text = getString(R.string.input_text_submit)
-
-                binding.tvCharCount.text = getString(
-                    R.string.char_count_format,
-                    0
-                )
-
-                binding.etText.doAfterTextChanged {
-                    val text = it.toString()
-                    viewModel.updateText(text)
-                    binding.tvCharCount.text = getString(
-                        R.string.char_count_format,
-                        text.length
-                    )
-                }
             }
-
+            INPUT_TYPE_AUDIO -> {
+                binding.tvTitle.text = getString(R.string.input_audio_title)
+                binding.btnSubmit.text = getString(R.string.input_audio_submit)
+            }
+            INPUT_TYPE_PHOTO -> {
+                binding.tvTitle.text = getString(R.string.input_photo_title)
+                binding.btnSubmit.text = getString(R.string.input_photo_submit)
+            }
             else -> finish()
         }
     }
 
+    private fun loadInputFragment() {
+        val fragment: Fragment = when (viewModel.currentInputType) {
+            INPUT_TYPE_FILE -> FileInputFragment.newInstance()
+            INPUT_TYPE_LINK -> LinkInputFragment.newInstance()
+            INPUT_TYPE_TEXT -> TextInputFragment.newInstance()
+            INPUT_TYPE_AUDIO -> AudioInputFragment.newInstance()
+            INPUT_TYPE_PHOTO -> PhotoInputFragment.newInstance()
+            else -> throw IllegalArgumentException("Unknown input type: ${viewModel.currentInputType}")
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
+    }
+
     private fun observeViewModel() {
-        // Observe ViewModel states if needed
+        viewModel.uiState
+            .map {
+                it.isLoading
+            }
+            .distinctUntilChanged()
+            .onEach { isLoading ->
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }.launchIn(lifecycleScope)
+
+        viewModel.uiState
+            .map { it.responseResult }
+            .filterNotNull()
+            .distinctUntilChanged()
+            .onEach { result ->
+                Log.d("InputViewModel", "Result: $result")
+                when (result) {
+                    is NetworkResult.Success -> {
+                        val material = StudyMaterials.fromSummaryDto(
+                            summaryDto = result.data,
+                            type = viewModel.uiState.value.inputType.getMaterialType(),
+                            input = viewModel.currentText,
+                            userId = FirebaseAuthHelper.getCurrentUserUid() ?: ""
+                        )
+                        viewModel.saveToDatabase(material, result.data.toDomain())
+                        ResultActivity.start(
+                            this@InputActivity,
+                            material
+                        )
+                        showSuccessAndFinish()
+                    }
+
+                    is NetworkResult.Error -> {
+                        Snackbar.make(
+                            binding.root,
+                            result.message,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    is NetworkResult.Loading -> {
+                        // Already handled by isLoading state
+                    }
+                }
+            }
+            .launchIn(lifecycleScope)
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (!viewModel.isLoading) {
+                        finish()
+                    } else {
+                        Snackbar.make(
+                            binding.root,
+                            R.string.please_wait,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            })
     }
 
     private fun handleOnClick() {
         binding.btnBack.setOnClickListener {
-            finish()
+            if (!viewModel.isLoading) {
+                finish()
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    R.string.please_wait,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.btnSubmit.setOnClickListener {
+            if (viewModel.isLoading) {
+                return@setOnClickListener
+            }
+
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+
             when (viewModel.currentInputType) {
                 INPUT_TYPE_FILE -> {
-                    if (viewModel.selectedFileUri != null) {
-                        // TODO: Implement upload file to server logic
-                        // uploadFileToServer(viewModel.selectedFileUri)
-                        showSuccessAndFinish()
-                    } else {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.error_no_file_selected,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    if (currentFragment is FileInputFragment) {
+                        currentFragment.validateAndSubmit()
                     }
                 }
-
                 INPUT_TYPE_LINK -> {
-                    if (viewModel.isValidLink()) {
-                        // TODO: Implement upload link to server logic
-                        // uploadLinkToServer(viewModel.currentLink)
-                        showSuccessAndFinish()
-                    } else {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.error_invalid_link,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    if (currentFragment is LinkInputFragment) {
+                        currentFragment.validateAndSubmit()
                     }
                 }
-
                 INPUT_TYPE_TEXT -> {
-                    if (viewModel.isValidText()) {
-                        // TODO: Implement upload text to server logic
-                        // uploadTextToServer(viewModel.currentText)
-                        showSuccessAndFinish()
-                    } else {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.error_invalid_text,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    if (currentFragment is TextInputFragment) {
+                        currentFragment.validateAndSubmit()
+                    }
+                }
+                INPUT_TYPE_AUDIO -> {
+                    if (currentFragment is AudioInputFragment) {
+                        currentFragment.validateAndSubmit()
+                    }
+                }
+                INPUT_TYPE_PHOTO -> {
+                    if (currentFragment is PhotoInputFragment) {
+                        currentFragment.validateAndSubmit()
                     }
                 }
             }
         }
-
-        binding.btnSelectFile.setOnClickListener {
-            selectFile()
-        }
-
-        binding.btnPaste.setOnClickListener {
-            pasteFromClipboard()
-        }
-    }
-
-    private val getContent =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                viewModel.setSelectedFile(it)
-                binding.tvSelectedFile.text = getFileNameFromUri(it)
-                binding.tvNoFileSelected.visibility = View.GONE
-                binding.fileInfoCard.visibility = View.VISIBLE
-            }
-        }
-
-    private fun selectFile() {
-        getContent.launch("*/*")
-    }
-
-    private fun pasteFromClipboard() {
-        val clipboard =
-            getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        val clip = clipboard.primaryClip
-        if (clip != null && clip.itemCount > 0) {
-            val text = clip.getItemAt(0).text.toString()
-            binding.etLink.setText(text)
-            viewModel.updateLink(text)
-        }
-    }
-
-    private fun getFileNameFromUri(uri: Uri): String {
-        val contentResolver = applicationContext.contentResolver
-        val cursor = contentResolver.query(uri, null, null, null, null)
-
-        return cursor?.use {
-            val nameIndex = it.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
-            it.moveToFirst()
-            if (nameIndex != -1) it.getString(nameIndex) else uri.lastPathSegment ?: "Unknown file"
-        } ?: uri.lastPathSegment ?: "Unknown file"
     }
 
     private fun showSuccessAndFinish() {
@@ -192,16 +224,15 @@ class InputActivity : BindingActivity<ActivityInputBinding>() {
             Snackbar.LENGTH_SHORT
         ).show()
 
-        // Close this activity after a short delay to show success message
-        binding.root.postDelayed({
-            finish()
-        }, 1500)
+        finish()
     }
 
     companion object {
         const val INPUT_TYPE_FILE = "file"
         const val INPUT_TYPE_LINK = "link"
         const val INPUT_TYPE_TEXT = "text"
+        const val INPUT_TYPE_AUDIO = "audio"
+        const val INPUT_TYPE_PHOTO = "photo"
 
         const val ARG_INPUT_TYPE = "arg_input_type"
     }

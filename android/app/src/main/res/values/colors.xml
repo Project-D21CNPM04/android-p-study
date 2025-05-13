@@ -1,32 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Core Colors -->
+    <color name="color_primary">#D32F2F</color> <!-- Đỏ mạnh -->
+    <color name="color_primary_variant">#B71C1C</color> <!-- Đỏ đậm -->
+    <color name="color_on_primary">#FFFFFF</color> <!-- Văn bản trên nền đỏ -->
+    <color name="colorPrimary">@color/color_primary</color> <!-- For backward compatibility -->
+
+    <color name="color_secondary">#FFCDD2</color> <!-- Đỏ nhạt/pink nhẹ -->
+    <color name="color_secondary_variant">#EF9A9A</color>
+    <color name="color_on_secondary">#B71C1C</color>
+
+    <!-- Background / Surface -->
+    <color name="color_background">#FFFFFF</color> <!-- Nền trắng -->
+    <color name="color_on_background">#212121</color> <!-- Văn bản chính -->
+    <color name="color_surface">#F5F5F5</color> <!-- Bề mặt trung tính -->
+    <color name="color_on_surface">#212121</color>
+
+    <!-- Neutral & Status Colors -->
     <color name="black">#FF000000</color>
-    <color name="bg_tab_layout">#181717</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="slate_gray">#6D6D78</color>
-    <color name="burnt_orange">#E3562A</color>
-    <color name="warm_gray">#98948F</color>
+    <color name="gray_light">#E0E0E0</color>
+    <color name="gray_medium">#9E9E9E</color>
+    <color name="gray_dark">#424242</color>
 
-    <!-- Material 3 Colors (Example Palette - Adjust as needed) -->
-    <color name="color_primary">#6200EE</color>
-    <color name="color_primary_variant">#3700B3</color>
-    <color name="color_on_primary">@color/white</color>
-    <color name="color_secondary">#03DAC6</color>
-    <color name="color_secondary_variant">#018786</color>
-    <color name="color_on_secondary">@color/black</color>
-    <color name="color_surface">@color/white</color>
-    <color name="color_on_surface">@color/black</color>
-    <color name="color_background">#FAFAFA</color>
-    <color name="color_on_background">@color/black</color>
-
-    <!-- Tab Colors -->
+    <!-- Tab Layout -->
+    <color name="bg_tab_layout">#FBE9E7</color> <!-- Cam nhạt gần đỏ -->
     <color name="tab_indicator_color">@color/color_primary</color>
     <color name="tab_selected_text_color">@color/color_primary</color>
-    <color name="tab_unselected_text_color">@color/slate_gray</color>
-    <color name="primary_blue">#139EFB</color>
-    <color name="light_purple">#FFE0D6FF</color>
-    <color name="dark_gray">#FF333333</color>
-    <color name="light_gray">#FFCCCCCC</color>
-    <color name="gradient_start_blue">#80D6FF</color>
-    <color name="gradient_end_blue">#1EA4FF</color>
+    <color name="tab_unselected_text_color">@color/gray_medium</color>
+
+    <!-- Card / Option Backgrounds -->
+    <color name="bg_option_card">#FFF3F3</color>
+
+    <!-- Answer Feedback -->
+    <color name="correct_answer">#ABEBC6</color>
+    <color name="incorrect_answer">#F5B7B1</color>
+
+    <!-- Accent / Utility -->
+    <color name="accent_pink">#FF8A80</color>
+    <color name="divider_color">#BDBDBD</color>
+
+    <!-- Flashcard Specific Colors -->
+    <color name="flashcard_text">#FFFFFF</color>
+    <color name="flashcard_instruction">#E0FFFFFF</color>
+    <color name="flashcard_position_text">#FFFFFF</color>
 </resources>

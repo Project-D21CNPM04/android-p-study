@@ -4,19 +4,216 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/color_background"
+    android:padding="16dp"
     tools:context=".view.result.fragment.QuizzesFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tab_quizs"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressBar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_speed="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_quizzes_available"
+        android:textColor="@color/color_on_background"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGenerateQuizzes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_quizzes"
+        android:backgroundTint="@color/color_primary"
+        android:textColor="@color/color_on_primary"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvQuizNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/color_on_background"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Quiz 1 / 10" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardQuizQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/bg_option_card"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/color_primary"
+        app:layout_constraintTop_toBottomOf="@id/tvQuizNumber">
+
+        <TextView
+            android:id="@+id/tvQuizQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/color_on_background"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="What is the main difference between a static and instance method in Java?" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/quizOptionsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/cardQuizQuestion"
+        app:layout_constraintBottom_toTopOf="@id/navigationContainer">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/optionCard1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/gray_medium"
+            app:cardBackgroundColor="@color/bg_option_card">
+
+            <TextView
+                android:id="@+id/tvOption1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_on_background"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_circle_option"
+                android:drawablePadding="10dp"
+                app:drawableTint="@color/color_primary"
+                tools:text="Answer option 1" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/optionCard2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/gray_medium"
+            app:cardBackgroundColor="@color/bg_option_card">
+
+            <TextView
+                android:id="@+id/tvOption2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_on_background"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_circle_option"
+                android:drawablePadding="10dp"
+                app:drawableTint="@color/color_primary"
+                tools:text="Answer option 2" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/optionCard3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/gray_medium"
+            app:cardBackgroundColor="@color/bg_option_card">
+
+            <TextView
+                android:id="@+id/tvOption3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_on_background"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_circle_option"
+                android:drawablePadding="10dp"
+                app:drawableTint="@color/color_primary"
+                tools:text="Answer option 3" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/optionCard4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/gray_medium"
+            app:cardBackgroundColor="@color/bg_option_card">
+
+            <TextView
+                android:id="@+id/tvOption4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/color_on_background"
+                android:textSize="16sp"
+                android:drawableStart="@drawable/ic_circle_option"
+                android:drawablePadding="10dp"
+                app:drawableTint="@color/color_primary"
+                tools:text="Answer option 4" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navigationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp">
+
+        <Button
+            android:id="@+id/btnPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/previous"
+            android:textColor="@color/color_on_secondary"
+            android:backgroundTint="@color/color_secondary"
+            android:layout_marginEnd="16dp" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:textColor="@color/color_on_primary"
+            android:backgroundTint="@color/color_primary" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

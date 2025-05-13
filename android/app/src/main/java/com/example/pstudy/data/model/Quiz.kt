@@ -1,12 +1,10 @@
 package com.example.pstudy.data.model
 
-data class Quiz(
-    val id: Int,
-    val question: String,
-    val answers: List<Answer>
-)
+import java.io.Serializable
 
-data class Answer(
-    val text: String,
-    val isCorrect: Boolean
-)
+data class Quiz(
+    val id: String,
+    val questions: String,
+    val choices: List<String>,
+    val answer: String,
+) : Serializable
