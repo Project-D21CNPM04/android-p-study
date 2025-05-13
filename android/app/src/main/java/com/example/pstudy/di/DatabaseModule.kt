@@ -59,6 +59,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideFolderDao(database: PStudyDatabase): FolderDao {
+        return database.folderDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideLocalDataSource(
         studyMaterialDao: StudyMaterialDao,
         flashCardDao: FlashCardDao,

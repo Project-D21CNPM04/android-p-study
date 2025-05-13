@@ -58,6 +58,10 @@
             android:name=".view.settings.SettingsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".view.folder.FolderActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".data.notification.ReminderReceiver"
             android:exported="false" />

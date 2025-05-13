@@ -11,7 +11,8 @@ data class StudyMaterials(
     val userId: String,
     val timeStamp: Long = System.currentTimeMillis(),
     val languageCode: String = "en",
-    val title: String = ""
+    val title: String = "",
+    val folderId: String? = null
 ) : Serializable {
     companion object {
         /**
@@ -27,7 +28,8 @@ data class StudyMaterials(
             type: MaterialType,
             input: String,
             userId: String,
-            title: String = ""
+            title: String = "",
+            folderId: String? = null
         ): StudyMaterials {
             val summary = Summary(
                 content = summaryDto.content,
@@ -42,7 +44,8 @@ data class StudyMaterials(
                 userId = userId,
                 timeStamp = System.currentTimeMillis(),
                 languageCode = "en",
-                title = title
+                title = title,
+                folderId = folderId
             )
         }
     }

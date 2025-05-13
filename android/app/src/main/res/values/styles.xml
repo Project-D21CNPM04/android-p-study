@@ -13,4 +13,17 @@
         <item name="cornerRadius">24dp</item>
         <item name="rippleColor">#80FFFFFF</item>
     </style>
+
+    <!-- Popup menu style with black text -->
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="PopupMenuTextStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:itemTextAppearance">@style/PopupMenuItemTextStyle</item>
+    </style>
+
+    <style name="PopupMenuItemTextStyle">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>

@@ -6,5 +6,6 @@ data class Note(
     val type: String,
     val userId: String,
     val timestamp: Long = 0L,
-    val title: String = ""
+    val title: String = "",
+    val folderId: String? = null
 )

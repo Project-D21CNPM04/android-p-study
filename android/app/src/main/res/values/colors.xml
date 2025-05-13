@@ -4,6 +4,7 @@
     <color name="color_primary">#D32F2F</color> <!-- Đỏ mạnh -->
     <color name="color_primary_variant">#B71C1C</color> <!-- Đỏ đậm -->
     <color name="color_on_primary">#FFFFFF</color> <!-- Văn bản trên nền đỏ -->
+    <color name="colorPrimary">@color/color_primary</color> <!-- For backward compatibility -->
 
     <color name="color_secondary">#FFCDD2</color> <!-- Đỏ nhạt/pink nhẹ -->
     <color name="color_secondary_variant">#EF9A9A</color>

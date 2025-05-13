@@ -1,17 +1,22 @@
 package com.example.pstudy.view.home.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pstudy.data.model.Folder
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.databinding.ItemStudyMaterialBinding
 import java.util.Calendar
 
 class StudyMaterialsAdapter(
-    private val onItemClick: (StudyMaterials) -> Unit
-) : ListAdapter<StudyMaterials, StudyMaterialsAdapter.ViewHolder>(StudyMaterialsDiffCallback()) {
+    private val onItemClick: (StudyMaterials) -> Unit,
+    private val onAddToFolderClick: (StudyMaterials) -> Unit = {}
+) : ListAdapter<StudyMaterialsWithFolder, StudyMaterialsAdapter.ViewHolder>(
+    StudyMaterialsDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,16 +28,43 @@ class StudyMaterialsAdapter(
         holder.bind(getItem(position))
     }
 
+    fun submitListWithFolders(
+        studyMaterials: List<StudyMaterials>,
+        folderMap: Map<String, Folder>
+    ) {
+        val itemsWithFolders = studyMaterials.map { material ->
+            StudyMaterialsWithFolder(
+                studyMaterial = material,
+                folder = material.folderId?.let { folderMap[it] }
+            )
+        }
+        submitList(itemsWithFolders)
+    }
+
     inner class ViewHolder(private val binding: ItemStudyMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: StudyMaterials) {
+        fun bind(item: StudyMaterialsWithFolder) {
+            val studyMaterial = item.studyMaterial
             binding.apply {
-                tvTitle.text = item.title
-                tvDate.text = formatDate(item.timeStamp)
-                tvType.text = item.type.name.uppercase()
+                tvTitle.text = studyMaterial.title
+                tvDate.text = formatDate(studyMaterial.timeStamp)
+                tvType.text = studyMaterial.type.name.uppercase()
+
+                if (item.folder != null) {
+                    tvFolder.visibility = View.VISIBLE
+                    tvFolder.text = item.folder.name
+                    btnAddToFolder.setImageResource(android.R.drawable.ic_menu_edit)
+                } else {
+                    tvFolder.visibility = View.GONE
+                    btnAddToFolder.setImageResource(android.R.drawable.ic_input_add)
+                }
 
                 root.setOnClickListener {
-                    onItemClick(item)
+                    onItemClick(studyMaterial)
+                }
+
+                btnAddToFolder.setOnClickListener {
+                    onAddToFolderClick(studyMaterial)
                 }
             }
         }
@@ -60,12 +92,23 @@ class StudyMaterialsAdapter(
     }
 }
 
-class StudyMaterialsDiffCallback : DiffUtil.ItemCallback<StudyMaterials>() {
-    override fun areItemsTheSame(oldItem: StudyMaterials, newItem: StudyMaterials): Boolean {
-        return oldItem.id == newItem.id
+data class StudyMaterialsWithFolder(
+    val studyMaterial: StudyMaterials,
+    val folder: Folder? = null
+)
+
+class StudyMaterialsDiffCallback : DiffUtil.ItemCallback<StudyMaterialsWithFolder>() {
+    override fun areItemsTheSame(
+        oldItem: StudyMaterialsWithFolder,
+        newItem: StudyMaterialsWithFolder
+    ): Boolean {
+        return oldItem.studyMaterial.id == newItem.studyMaterial.id
     }
 
-    override fun areContentsTheSame(oldItem: StudyMaterials, newItem: StudyMaterials): Boolean {
-        return oldItem == newItem
+    override fun areContentsTheSame(
+        oldItem: StudyMaterialsWithFolder,
+        newItem: StudyMaterialsWithFolder
+    ): Boolean {
+        return oldItem.studyMaterial == newItem.studyMaterial && oldItem.folder?.id == newItem.folder?.id
     }
 }

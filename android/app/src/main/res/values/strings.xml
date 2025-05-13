@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PStudy</string>
+    <string name="note_options">Note Options</string>
     <string name="label_login">Đăng nhập</string>
     <string name="label_email">Email</string>
     <string name="label_password">Mật khẩu</string>
@@ -38,6 +39,33 @@
     <string name="empty_state_image_content_description">Hình minh họa trạng thái trống</string>
     <string name="record_button_content_description">Nút ghi âm</string>
     <string name="label_add_folder">Tạo thư mục</string>
+    <string name="sign_out">Đăng xuất</string>
+    <string name="msg_signed_out">Đăng xuất thành công</string>
+    <string name="create_new_folder">Tạo thư mục mới</string>
+    <string name="folder_name">Tên thư mục</string>
+    <string name="create">Tạo</string>
+    <string name="rename">Đổi tên</string>
+    <string name="delete">Xóa</string>
+    <string name="error_folder_name_empty">Tên thư mục không được để trống</string>
+    <string name="rename_folder">Đổi tên thư mục</string>
+    <string name="delete_folder">Xóa thư mục</string>
+    <string name="delete_folder_confirmation">Bạn có chắc chắn muốn xóa thư mục này? Tất cả ghi chú trong thư mục này cũng sẽ bị xóa.</string>
+    <string name="no_folders">Chưa có thư mục nào</string>
+    <string name="create_folder_description">Tạo thư mục mới để sắp xếp ghi chú của bạn</string>
+    <string name="add_note">Thêm ghi chú</string>
+    <string name="more_options">Thêm tùy chọn</string>
+    <string name="add_to_folder">Add to folder</string>
+    <string name="note_added_to_folder">Đã thêm ghi chú vào thư mục %1$s</string>
+    <string name="please_select_folder">Vui lòng chọn thư mục</string>
+
+    <!-- Folder Activity -->
+    <string name="no_notes">Chưa có ghi chú nào</string>
+    <string name="add_note_description">Nhấn nút + để thêm ghi chú mới vào thư mục này</string>
+    <string name="delete_note">Xóa ghi chú</string>
+    <string name="delete_note_confirmation">Bạn có chắc chắn muốn xóa ghi chú này?</string>
+    <string name="select_folder">Chọn thư mục</string>
+    <string name="no_folders_available">Không có thư mục nào</string>
+    <string name="add_to_selected_folder">Thêm</string>
 
     <!-- Flashcards Fragment -->
     <string name="flashcard_question_label">%1$d / %2$d</string>
@@ -143,4 +171,11 @@
     <string name="difficulty_mixed">Hỗn hợp</string>
     <string name="cancel">Hủy</string>
     <string name="generate">Tạo</string>
+
+    <!-- Common Actions -->
+    <string name="edit">Sửa</string>
+    <string name="add">Thêm</string>
+    <string name="add_notes_to_folder">Thêm ghi chú vào thư mục</string>
+    <string name="no_notes_available">Không có ghi chú nào khả dụng</string>
+    <string name="no_notes_selected">Chưa chọn ghi chú nào</string>
 </resources>

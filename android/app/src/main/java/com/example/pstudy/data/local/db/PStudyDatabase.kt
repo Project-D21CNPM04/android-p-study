@@ -14,7 +14,8 @@ import com.example.pstudy.data.local.entity.*
         FlashCardEntity::class,
         QuizEntity::class,
         MindMapEntity::class,
-        SummaryEntity::class
+        SummaryEntity::class,
+        FolderEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -29,4 +30,5 @@ abstract class PStudyDatabase : RoomDatabase() {
     abstract fun quizDao(): QuizDao
     abstract fun mindMapDao(): MindMapDao
     abstract fun summaryDao(): SummaryDao
+    abstract fun folderDao(): FolderDao
 }
