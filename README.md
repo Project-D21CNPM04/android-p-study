@@ -12,6 +12,33 @@
   <p><strong>Hệ thống backend trợ lý học tập thông minh được hỗ trợ bởi AI, chuyển đổi tài liệu học tập thành nội dung học tập tương tác</strong></p>
 </div>
 
+## 👨‍💻 Thành viên nhóm
+
+<div align="center">
+  <table>
+    <tr>
+      <th>Mã sinh viên</th>
+      <th>Họ và tên</th>
+    </tr>
+    <tr>
+      <td>B21DCCN379</td>
+      <td>Nguyễn Hữu Quang Hòa</td>
+    </tr>
+    <tr>
+      <td>B21DCCN307</td>
+      <td>Phạm Tuấn Giang</td>
+    </tr>
+    <tr>
+      <td>B21DCCN092</td>
+      <td>Phạm Thị Linh Mỹ</td>
+    </tr>
+    <tr>
+      <td>B21DCCN427</td>
+      <td>Bùi Thế Hướng</td>
+    </tr>
+  </table>
+</div>
+
 ## 🌟 Tổng quan
 
 P-Study Assistant Backend API là một hệ thống backend mạnh mẽ và có khả năng mở rộng được xây dựng bằng Python và FastAPI, được thiết kế để hỗ trợ một ứng dụng học tập toàn diện. Hệ thống cung cấp một bộ các điểm cuối RESTful phong phú để tạo, xử lý, lưu trữ và truy xuất các tài liệu học tập đa dạng. Hệ thống tận dụng AI (Google Gemini) để tự động tạo nội dung, bao gồm câu đố, thẻ ghi nhớ, sơ đồ tư duy và tóm tắt từ ghi chú do người dùng cung cấp. Tất cả dữ liệu được lưu trữ liên tục trong MongoDB, đảm bảo quản lý dữ liệu hiệu quả và linh hoạt.
@@ -507,33 +534,6 @@ graph TD
    - Triển khai lớp bộ nhớ đệm với Redis
    - Thêm bộ kiểm tra toàn diện
    - Thiết lập pipeline CI/CD
-
-## 👨‍💻 Thành viên nhóm
-
-<div align="center">
-  <table>
-    <tr>
-      <th>Mã sinh viên</th>
-      <th>Họ và tên</th>
-    </tr>
-    <tr>
-      <td>B21DCCN379</td>
-      <td>Nguyễn Hữu Quang Hòa</td>
-    </tr>
-    <tr>
-      <td>B21DCCN307</td>
-      <td>Phạm Tuấn Giang</td>
-    </tr>
-    <tr>
-      <td>B21DCCN092</td>
-      <td>Phạm Thị Linh Mỹ</td>
-    </tr>
-    <tr>
-      <td>B21DCCN427</td>
-      <td>Bùi Thế Hướng</td>
-    </tr>
-  </table>
-</div>
 
 ## 📄 Giấy phép
 
