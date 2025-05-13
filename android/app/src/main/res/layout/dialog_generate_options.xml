@@ -30,7 +30,7 @@
         android:text="Number of Items"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/color_on_surface"
+        android:textColor="@color/selector_difficulty_text"
         app:layout_constraintTop_toBottomOf="@id/dialogTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -57,7 +57,7 @@
         android:text="5"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/color_on_surface"
+        android:textColor="@color/selector_difficulty_text"
         android:minWidth="30dp"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="@id/countSeekBar"
@@ -84,7 +84,7 @@
         android:text="Difficulty Level"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/color_on_surface"
+        android:textColor="@color/selector_difficulty_text"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -100,53 +100,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/btnEasy"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="4dp"
             android:text="Easy"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/color_primary"
-            app:rippleColor="@color/color_secondary" />
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/btnMedium"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="4dp"
             android:text="Medium"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/color_primary"
-            app:rippleColor="@color/color_secondary" />
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/btnHard"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="4dp"
             android:text="Hard"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/color_primary"
-            app:rippleColor="@color/color_secondary" />
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/btnMixed"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="4dp"
             android:text="Mixed"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/color_primary"
-            app:rippleColor="@color/color_secondary" />
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
     </GridLayout>
 
     <!-- Action Buttons -->

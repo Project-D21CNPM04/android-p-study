@@ -40,30 +40,9 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
         binding.btnGenerateMindMap.setOnClickListener {
             val studyMaterials = viewModel.viewState.value.result
             if (studyMaterials != null) {
-                showGenerateOptionsDialog(studyMaterials.id)
+                viewModel.generateMindMap(studyMaterials.id, studyMaterials, 5, 1)
             }
         }
-    }
-
-    private fun showGenerateOptionsDialog(noteId: String) {
-        val dialog = GenerateOptionsDialog.newInstance(
-            "Generate Mind Map",
-            GenerateOptionsDialog.TYPE_FLASHCARDS // Reuse the flashcards type since there's no specific type for mind maps
-        )
-
-        dialog.setOptionsListener(object : GenerateOptionsDialog.GenerateOptionsListener {
-            override fun onGenerateOptionsConfirmed(count: Int, difficulty: Int, type: String) {
-                val studyMaterials = viewModel.viewState.value.result
-                if (studyMaterials != null) {
-                    binding.btnGenerateMindMap.visibility = View.GONE
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.tvEmptyState.visibility = View.GONE
-                    viewModel.generateMindMap(noteId, studyMaterials, count, difficulty)
-                }
-            }
-        })
-
-        dialog.show(childFragmentManager)
     }
 
     private fun setupWebView() {

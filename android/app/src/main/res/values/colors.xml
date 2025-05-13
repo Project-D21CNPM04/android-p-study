@@ -32,8 +32,8 @@
     <color name="bg_option_card">#FFF3F3</color>
 
     <!-- Answer Feedback -->
-    <color name="correct_answer">#388E3C</color>
-    <color name="incorrect_answer">#C62828</color>
+    <color name="correct_answer">#ABEBC6</color>
+    <color name="incorrect_answer">#F5B7B1</color>
 
     <!-- Accent / Utility -->
     <color name="accent_pink">#FF8A80</color>
