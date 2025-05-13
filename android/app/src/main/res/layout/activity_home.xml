@@ -20,8 +20,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/avatar_content_description"
-        android:padding="4dp"
-        android:src="@android:drawable/sym_def_app_icon"
+        android:src="@mipmap/ic_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
