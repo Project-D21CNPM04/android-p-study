@@ -3,10 +3,10 @@ package com.example.pstudy.view.result.dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.SeekBar
+import android.widget.TextView
 import com.example.base.ui.base.BaseDialogBinding
 import com.example.pstudy.R
 import com.example.pstudy.databinding.DialogGenerateOptionsBinding
-import com.google.android.material.button.MaterialButton
 
 class GenerateOptionsDialog : BaseDialogBinding<DialogGenerateOptionsBinding>() {
 
@@ -50,7 +50,7 @@ class GenerateOptionsDialog : BaseDialogBinding<DialogGenerateOptionsBinding>() 
 
     // Keep track of selected difficulty button
     private var selectedDifficulty = "Medium"
-    private var selectedButton: MaterialButton? = null
+    private var selectedButton: TextView? = null
 
     override fun updateUI(savedInstanceState: Bundle?) {
         val title = arguments?.getString(ARG_TITLE) ?: "Set Generation Options"
@@ -129,27 +129,29 @@ class GenerateOptionsDialog : BaseDialogBinding<DialogGenerateOptionsBinding>() 
         // Set click listeners for all buttons
         buttons.forEach { button ->
             button.setOnClickListener {
-                selectButton(button)
+                if (selectedButton != button) {
+                    // Reset previous selection
+                    selectedButton?.isSelected = false
+
+                    // Set new selection
+                    button.isSelected = true
+                    selectedButton = button
+                    selectedDifficulty = button.text.toString()
+                }
             }
         }
     }
 
-    private fun selectButton(button: MaterialButton) {
-        // Deselect the previous button if any
-        selectedButton?.let {
-            it.strokeWidth = 1
-            it.backgroundTintList = null
-            it.setTextColor(resources.getColor(android.R.color.black, null))
-        }
+    private fun selectButton(button: TextView) {
+        // First reset all button states if needed
+        selectedButton?.isSelected = false
 
-        // Select the new button
-        button.strokeWidth = 2
-        button.backgroundTintList = resources.getColorStateList(R.color.color_primary, null)
-        button.setTextColor(resources.getColor(android.R.color.white, null))
+        // Select this button
+        button.isSelected = true
         selectedButton = button
         selectedDifficulty = button.text.toString()
     }
-    
+
     private fun updateCountText(count: Int) {
         binding.tvCountValue.text = count.toString()
     }
