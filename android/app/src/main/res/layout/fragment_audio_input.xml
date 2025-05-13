@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/ivAudioIcon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="24dp"
         android:contentDescription="@string/file_upload_icon_description"
-        android:src="@drawable/ic_mic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/color_primary" />
+        app:lottie_rawRes="@raw/recording_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/tvAudioInstructions"
@@ -40,7 +41,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="@string/ready_to_record"
-        android:textColor="@color/color_on_background"
+        android:textColor="@color/color_primary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +55,9 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-light"
         android:text="00:00"
-        android:textColor="@color/gray_medium"
+        android:textColor="@color/color_primary"
         android:textSize="24sp"
+        android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +82,7 @@
         android:id="@+id/recordingControlsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="invisible"

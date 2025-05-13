@@ -1,24 +1,24 @@
 <resources>
     <string name="app_name">PStudy</string>
-    <string name="label_login">Login</string>
+    <string name="label_login">Đăng nhập</string>
     <string name="label_email">Email</string>
-    <string name="label_password">Password</string>
-    <string name="forgot_password_msg">Forgot Password?</string>
-    <string name="label_sign_up">Sign up</string>
-    <string name="sign_up_success_msg">Sign up successful</string>
-    <string name="empty_information_msg">Please enter complete information</string>
-    <string name="sign_up_fail_msg">Sign up failed</string>
-    <string name="label_name">Name</string>
-    <string name="login_success_msg">Login successful</string>
-    <string name="login_fail_msg">Login failed</string>
+    <string name="label_password">Mật khẩu</string>
+    <string name="forgot_password_msg">Quên mật khẩu?</string>
+    <string name="label_sign_up">Đăng ký</string>
+    <string name="sign_up_success_msg">Đăng ký thành công</string>
+    <string name="empty_information_msg">Vui lòng nhập đầy đủ thông tin</string>
+    <string name="sign_up_fail_msg">Đăng ký thất bại</string>
+    <string name="label_name">Tên</string>
+    <string name="login_success_msg">Đăng nhập thành công</string>
+    <string name="login_fail_msg">Đăng nhập thất bại</string>
 
     <!-- Result Activity Tabs -->
-    <string name="tab_summary">Summary</string>
-    <string name="tab_record">Record</string>
-    <string name="tab_material">Material</string>
-    <string name="tab_mind_map">Mind Map</string>
-    <string name="tab_flashcards">Flashcards</string>
-    <string name="tab_quizs">Quizs</string>
+    <string name="tab_summary">Tóm tắt</string>
+    <string name="tab_record">Bản ghi</string>
+    <string name="tab_material">Tài liệu</string>
+    <string name="tab_mind_map">Sơ đồ tư duy</string>
+    <string name="tab_flashcards">Thẻ ghi nhớ</string>
+    <string name="tab_quizs">Câu hỏi trắc nghiệm</string>
 
     <!-- Home -->
     <string name="home_greeting">Chào</string>
@@ -26,17 +26,17 @@
     <string name="home_tab_all">Tất cả</string>
     <string name="home_tab_folders">Thư mục</string>
     <string name="home_tab_shared">Đã chia sẻ</string>
-    <string name="home_empty_title">NoteX trống</string>
+    <string name="home_empty_title">Note trống</string>
     <string name="home_empty_subtitle">Nhấn nút ghi âm hoặc chọn thêm loại nội dung cụ thể để bắt đầu</string>
     <string name="home_bottom_nav_link">Liên kết</string>
     <string name="home_bottom_nav_audio">Âm thanh</string>
     <string name="home_bottom_nav_docs">Tài liệu</string>
     <string name="home_bottom_nav_text">Văn bản</string>
-    <string name="search_content_description">Search</string>
-    <string name="avatar_content_description">User Avatar</string>
-    <string name="pro_banner_content_description">Pro Access Banner</string>
-    <string name="empty_state_image_content_description">Empty State Illustration</string>
-    <string name="record_button_content_description">Record Button</string>
+    <string name="search_content_description">Tìm kiếm</string>
+    <string name="avatar_content_description">Ảnh đại diện</string>
+    <string name="pro_banner_content_description">Biểu ngữ quyền truy cập Pro</string>
+    <string name="empty_state_image_content_description">Hình minh họa trạng thái trống</string>
+    <string name="record_button_content_description">Nút ghi âm</string>
     <string name="label_add_folder">Tạo thư mục</string>
 
     <!-- Flashcards Fragment -->
@@ -46,54 +46,65 @@
     <string name="flashcard_previous_description">Thẻ trước</string>
     <string name="flashcard_next_description">Thẻ tiếp theo</string>
     <string name="flashcard_avatar_description">Avatar người tạo</string>
+    <string name="no_flashcards_available">Không có thẻ ghi nhớ</string>
+    <string name="generate_flashcards">Tạo thẻ ghi nhớ</string>
 
-    <string name="input_file_title">Select a File</string>
-    <string name="input_file_submit">Upload File</string>
-    <string name="input_link_title">Enter a Link</string>
-    <string name="input_link_submit">Submit Link</string>
-    <string name="input_text_title">Enter Text</string>
-    <string name="input_text_submit">Submit Text</string>
-    <string name="input_audio_title">Record Your Voice</string>
-    <string name="input_audio_submit">Submit Recording</string>
-    <string name="input_photo_title">Select an Image</string>
-    <string name="input_photo_submit">Submit Image</string>
-    <string name="audio_input_instructions">Record your voice to create study material from your speech.</string>
-    <string name="ready_to_record">Ready to record</string>
-    <string name="recording">Recording…</string>
-    <string name="record_button">Start recording</string>
-    <string name="stop_recording">Stop recording</string>
-    <string name="play_recording">Play recording</string>
-    <string name="permission_denied">Permission to record audio was denied</string>
-    <string name="no_recording_available">No recording available. Please record audio first.</string>
-    <string name="camera_permission_denied">Camera permission denied. Cannot take photos.</string>
-    <string name="permission_required">Permission Required</string>
-    <string name="mic_permission_rationale">Microphone permission is needed to record audio. Please grant this permission to continue.</string>
-    <string name="needs_mic_permission">Needs microphone permission</string>
-    <string name="photo_icon_description">Photo input icon</string>
-    <string name="photo_input_instructions">Select a photo from your device to analyze</string>
-    <string name="select_photo">Choose Photo</string>
-    <string name="take_photo">Take Photo</string>
-    <string name="no_photo_selected">No photo selected</string>
-    <string name="selected_photo_preview">Selected photo preview</string>
-    <string name="back_button_description">Back button</string>
-    <string name="file_input_instructions">Please select a file from your device to upload.</string>
-    <string name="select_file">Select File</string>
-    <string name="no_file_selected">No file selected</string>
-    <string name="link_input_instructions">Enter a valid YouTube video URL</string>
-    <string name="link_hint">Enter YouTube URL</string>
-    <string name="paste">Paste</string>
-    <string name="text_input_instructions">Enter your text below (maximum 20,000 characters)</string>
-    <string name="text_hint">Your text here</string>
+    <!-- Quizzes Screen -->
+    <string name="no_quizzes_available">Không có câu hỏi trắc nghiệm</string>
+    <string name="generate_quizzes">Tạo câu hỏi trắc nghiệm</string>
+    <string name="previous">Trước</string>
+    <string name="next">Tiếp theo</string>
+    <string name="no_summary_available">Không có tóm tắt</string>
+    <string name="generate_mind_map">Tạo sơ đồ tư duy</string>
+    <string name="no_mind_map_available">Không có sơ đồ tư duy</string>
+
+    <string name="input_file_title">Chọn tệp</string>
+    <string name="input_file_submit">Tải lên tệp</string>
+    <string name="input_link_title">Nhập liên kết</string>
+    <string name="input_link_submit">Gửi liên kết</string>
+    <string name="input_text_title">Nhập văn bản</string>
+    <string name="input_text_submit">Gửi văn bản</string>
+    <string name="input_audio_title">Ghi âm giọng nói</string>
+    <string name="input_audio_submit">Gửi bản ghi âm</string>
+    <string name="input_photo_title">Chọn hình ảnh</string>
+    <string name="input_photo_submit">Gửi hình ảnh</string>
+    <string name="audio_input_instructions">Ghi âm giọng nói của bạn để tạo tài liệu học tập từ bài phát biểu của bạn.</string>
+    <string name="ready_to_record">Sẵn sàng ghi âm</string>
+    <string name="recording">Đang ghi âm...</string>
+    <string name="record_button">Bắt đầu ghi âm</string>
+    <string name="stop_recording">Dừng ghi âm</string>
+    <string name="play_recording">Phát bản ghi âm</string>
+    <string name="permission_denied">Quyền ghi âm đã bị từ chối</string>
+    <string name="no_recording_available">Không có bản ghi âm. Vui lòng ghi âm trước.</string>
+    <string name="camera_permission_denied">Quyền sử dụng camera bị từ chối. Không thể chụp ảnh.</string>
+    <string name="permission_required">Yêu cầu quyền truy cập</string>
+    <string name="mic_permission_rationale">Cần quyền sử dụng micrô để ghi âm. Vui lòng cấp quyền này để tiếp tục.</string>
+    <string name="needs_mic_permission">Cần quyền sử dụng micrô</string>
+    <string name="photo_icon_description">Biểu tượng nhập ảnh</string>
+    <string name="photo_input_instructions">Chọn ảnh từ thiết bị của bạn để phân tích</string>
+    <string name="select_photo">Chọn ảnh</string>
+    <string name="take_photo">Chụp ảnh</string>
+    <string name="no_photo_selected">Chưa chọn ảnh</string>
+    <string name="selected_photo_preview">Xem trước ảnh đã chọn</string>
+    <string name="back_button_description">Nút quay lại</string>
+    <string name="file_input_instructions">Vui lòng chọn tệp từ thiết bị của bạn để tải lên.</string>
+    <string name="select_file">Chọn tệp</string>
+    <string name="no_file_selected">Chưa chọn tệp</string>
+    <string name="link_input_instructions">Nhập URL video YouTube hợp lệ</string>
+    <string name="link_hint">Nhập URL YouTube</string>
+    <string name="paste">Dán</string>
+    <string name="text_input_instructions">Nhập văn bản của bạn bên dưới (tối đa 20.000 ký tự)</string>
+    <string name="text_hint">Văn bản của bạn</string>
     <string name="char_count_format">%1$d/20000</string>
-    <string name="error_no_file_selected">Please select a file first</string>
-    <string name="error_invalid_link">Please enter a valid YouTube video URL</string>
-    <string name="error_invalid_text">Please enter valid text (1-20,000 characters)</string>
-    <string name="error_invalid_file">File must be a PDF and not exceed 10MB</string>
-    <string name="upload_success">Upload successful!</string>
-    <string name="file_upload_icon_description">File upload icon</string>
-    <string name="file_type_icon_description">File type icon</string>
-    <string name="link_icon_description">Link sharing icon</string>
-    <string name="please_wait">Please wait, processing your request...</string>
+    <string name="error_no_file_selected">Vui lòng chọn tệp trước</string>
+    <string name="error_invalid_link">Vui lòng nhập URL video YouTube hợp lệ</string>
+    <string name="error_invalid_text">Vui lòng nhập văn bản hợp lệ (1-20.000 ký tự)</string>
+    <string name="error_invalid_file">Tệp phải là PDF và không vượt quá 10MB</string>
+    <string name="upload_success">Tải lên thành công!</string>
+    <string name="file_upload_icon_description">Biểu tượng tải lên tệp</string>
+    <string name="file_type_icon_description">Biểu tượng loại tệp</string>
+    <string name="link_icon_description">Biểu tượng chia sẻ liên kết</string>
+    <string name="please_wait">Vui lòng đợi, đang xử lý yêu cầu của bạn...</string>
 
     <!-- Settings -->
     <string name="title_settings">Cài đặt</string>
@@ -118,7 +129,18 @@
     <string name="notification_channel_description">Kênh thông báo lời nhắc học tập</string>
 
     <!-- Notification Permissions -->
-    <string name="notification_permission_granted">Notification permission granted</string>
-    <string name="notification_permission_denied">Notification permission denied. Reminders won\'t work properly</string>
-    <string name="notification_permission_rationale">Notification permission is needed for reminders. Please grant this permission for the app to work properly</string>
+    <string name="notification_permission_granted">Đã cấp quyền thông báo</string>
+    <string name="notification_permission_denied">Đã từ chối quyền thông báo. Lời nhắc sẽ không hoạt động đúng</string>
+    <string name="notification_permission_rationale">Cần quyền thông báo cho lời nhắc. Vui lòng cấp quyền này để ứng dụng hoạt động bình thường</string>
+
+    <!-- Generate Options Dialog -->
+    <string name="generate_options_title">Tùy chọn tạo</string>
+    <string name="number_of_items">Số lượng mục</string>
+    <string name="difficulty_level">Mức độ khó</string>
+    <string name="difficulty_easy">Dễ</string>
+    <string name="difficulty_medium">Trung bình</string>
+    <string name="difficulty_hard">Khó</string>
+    <string name="difficulty_mixed">Hỗn hợp</string>
+    <string name="cancel">Hủy</string>
+    <string name="generate">Tạo</string>
 </resources>

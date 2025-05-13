@@ -140,7 +140,6 @@ class FlashcardsFragment : BindingFragmentLazyPager<FragmentFlashcardsBinding>()
             binding.btnPrevious.isVisible = false
             binding.flashcardContainer.isClickable = false
             binding.tvPositionIndicator.text = ""
-            binding.tvEmptyState.isVisible = true
             previousCardIndex = -1
             binding.btnGenerateFlashcards.visibility = View.VISIBLE
             return

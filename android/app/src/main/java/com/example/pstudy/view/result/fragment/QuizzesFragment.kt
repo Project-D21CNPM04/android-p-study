@@ -160,7 +160,6 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
                         binding.progressBar.isVisible = false
 
                         if (quizzes.isEmpty()) {
-                            binding.tvEmptyState.isVisible = true
                             binding.tvQuizNumber.isVisible = false
                             binding.cardQuizQuestion.isVisible = false
                             binding.quizOptionsContainer.isVisible = false
@@ -177,7 +176,6 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
 
     private fun updateQuizUI(quizzes: List<Pair<Quiz, Boolean>>, currentIndex: Int) {
         if (quizzes.isEmpty() || currentIndex == -1) {
-            binding.tvEmptyState.isVisible = true
             binding.tvQuizNumber.isVisible = false
             binding.cardQuizQuestion.isVisible = false
             binding.quizOptionsContainer.isVisible = false

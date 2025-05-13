@@ -7,11 +7,15 @@
     android:background="@color/color_background"
     tools:context=".view.result.fragment.MindMapFragment">
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:visibility="gone"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_speed="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +25,7 @@
         android:id="@+id/btnGenerateMindMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Generate Mind Map"
+        android:text="@string/generate_mind_map"
         android:backgroundTint="@color/color_primary"
         android:textColor="@color/color_on_primary"
         android:visibility="visible"
@@ -45,7 +49,7 @@
         android:id="@+id/tvEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No mind map available"
+        android:text="@string/no_mind_map_available"
         android:textColor="@color/color_on_background"
         android:textSize="16sp"
         android:visibility="gone"

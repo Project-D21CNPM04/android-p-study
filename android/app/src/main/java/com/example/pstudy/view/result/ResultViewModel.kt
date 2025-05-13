@@ -222,6 +222,7 @@ class ResultViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update { it.copy(isSummaryLoading = false) }
             }
         }
@@ -297,6 +298,7 @@ class ResultViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update {
                     it.copy(
                         isFlashCardsLoading = false,
@@ -341,6 +343,7 @@ class ResultViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update {
                     it.copy(
                         isQuizzesLoading = false,
@@ -453,6 +456,7 @@ class ResultViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update {
                     it.copy(
                         isFlashCardsLoading = false,
@@ -511,6 +515,7 @@ class ResultViewModel @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 _viewState.update { it.copy(isQuizzesLoading = false, needsGenerateQuizzes = true) }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.pstudy.view.home.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pstudy.R
@@ -49,15 +50,7 @@ class HomeViewModel @Inject constructor(
             _homeUiState.update { it.copy(isLoading = true, error = null) }
 
             try {
-                repository.getStudyMaterials().collect { materials ->
-                    if (materials.isEmpty()) {
-                        fetchRemoteStudyMaterials()
-                    } else {
-                        _homeUiState.update {
-                            it.copy(studyMaterials = materials, isLoading = false)
-                        }
-                    }
-                }
+                fetchRemoteStudyMaterials()
             } catch (e: Exception) {
                 _homeUiState.update {
                     it.copy(error = e.message, isLoading = false)
