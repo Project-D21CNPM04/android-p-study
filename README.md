@@ -508,6 +508,33 @@ graph TD
    - Thêm bộ kiểm tra toàn diện
    - Thiết lập pipeline CI/CD
 
+## 👨‍💻 Thành viên nhóm
+
+<div align="center">
+  <table>
+    <tr>
+      <th>Mã sinh viên</th>
+      <th>Họ và tên</th>
+    </tr>
+    <tr>
+      <td>B21DCCN379</td>
+      <td>Nguyễn Hữu Quang Hòa</td>
+    </tr>
+    <tr>
+      <td>B21DCCN307</td>
+      <td>Phạm Tuấn Giang</td>
+    </tr>
+    <tr>
+      <td>B21DCCN092</td>
+      <td>Phạm Thị Linh Mỹ</td>
+    </tr>
+    <tr>
+      <td>B21DCCN427</td>
+      <td>Bùi Thế Hướng</td>
+    </tr>
+  </table>
+</div>
+
 ## 📄 Giấy phép
 
 Dự án này được cấp phép theo Giấy phép MIT - xem tệp LICENSE để biết chi tiết.
