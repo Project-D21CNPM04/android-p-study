@@ -9,197 +9,197 @@
 </div>
 
 <div align="center">
-  <p><strong>A powerful AI-driven study assistant backend for transforming study materials into interactive learning content</strong></p>
+  <p><strong>Hệ thống backend trợ lý học tập thông minh được hỗ trợ bởi AI, chuyển đổi tài liệu học tập thành nội dung học tập tương tác</strong></p>
 </div>
 
-## 🌟 Overview
+## 🌟 Tổng quan
 
-The P-Study Assistant Backend API is a robust and scalable backend system built with Python and FastAPI, designed to power a comprehensive study application. It provides a rich set of RESTful endpoints for creating, processing, storing, and retrieving various study materials. The system leverages AI (Google Gemini) for automated content generation, including quizzes, flashcards, mind maps, and summaries, from user-provided notes. All data is persistently stored in MongoDB, ensuring efficient and flexible data management.
+P-Study Assistant Backend API là một hệ thống backend mạnh mẽ và có khả năng mở rộng được xây dựng bằng Python và FastAPI, được thiết kế để hỗ trợ một ứng dụng học tập toàn diện. Hệ thống cung cấp một bộ các điểm cuối RESTful phong phú để tạo, xử lý, lưu trữ và truy xuất các tài liệu học tập đa dạng. Hệ thống tận dụng AI (Google Gemini) để tự động tạo nội dung, bao gồm câu đố, thẻ ghi nhớ, sơ đồ tư duy và tóm tắt từ ghi chú do người dùng cung cấp. Tất cả dữ liệu được lưu trữ liên tục trong MongoDB, đảm bảo quản lý dữ liệu hiệu quả và linh hoạt.
 
-## ✨ Features
+## ✨ Tính năng
 
 <div align="center">
   <table>
     <tr>
       <td align="center">📝</td>
-      <td><strong>Content Processing</strong>: Create notes from multiple sources (text, links, files, audio, images)</td>
+      <td><strong>Xử lý nội dung</strong>: Tạo ghi chú từ nhiều nguồn (văn bản, liên kết, tệp, âm thanh, hình ảnh)</td>
     </tr>
     <tr>
       <td align="center">🤖</td>
-      <td><strong>AI-Powered Generation</strong>: Automatically generate Vietnamese educational content from notes</td>
+      <td><strong>Tạo nội dung bằng AI</strong>: Tự động tạo nội dung giáo dục tiếng Việt từ ghi chú</td>
     </tr>
     <tr>
       <td align="center">🧠</td>
-      <td><strong>Flashcards</strong>: Create and manage flashcards for memorization</td>
+      <td><strong>Thẻ ghi nhớ</strong>: Tạo và quản lý thẻ ghi nhớ để ghi nhớ</td>
     </tr>
     <tr>
       <td align="center">❓</td>
-      <td><strong>Quizzes</strong>: Generate quizzes with customizable difficulty levels</td>
+      <td><strong>Câu đố</strong>: Tạo câu đố với các cấp độ khó tùy chỉnh</td>
     </tr>
     <tr>
       <td align="center">🗺️</td>
-      <td><strong>Mind Maps</strong>: Generate visual organization of knowledge</td>
+      <td><strong>Sơ đồ tư duy</strong>: Tạo tổ chức kiến thức trực quan</td>
     </tr>
     <tr>
       <td align="center">📊</td>
-      <td><strong>Summaries</strong>: Create concise summaries for quick review</td>
+      <td><strong>Tóm tắt</strong>: Tạo tóm tắt ngắn gọn để xem lại nhanh</td>
     </tr>
     <tr>
       <td align="center">🔑</td>
-      <td><strong>Authentication</strong>: User authentication via Firebase</td>
+      <td><strong>Xác thực</strong>: Xác thực người dùng qua Firebase</td>
     </tr>
     <tr>
       <td align="center">📊</td>
-      <td><strong>Dashboard Statistics</strong>: Comprehensive usage analytics</td>
+      <td><strong>Thống kê bảng điều khiển</strong>: Phân tích sử dụng toàn diện</td>
     </tr>
   </table>
 </div>
 
-## 📋 Table of Contents
+## 📋 Mục lục
 
-- [Technology Stack](#-technology-stack)
-- [System Architecture](#-system-architecture)
-- [Data Model](#-data-model)
-- [API Documentation](#-api-documentation)
-- [Installation](#-installation)
-- [Project Structure](#-project-structure)
-- [Development](#-development)
+- [Công nghệ sử dụng](#-công-nghệ-sử-dụng)
+- [Kiến trúc hệ thống](#-kiến-trúc-hệ-thống)
+- [Mô hình dữ liệu](#-mô-hình-dữ-liệu)
+- [Tài liệu API](#-tài-liệu-api)
+- [Cài đặt](#-cài-đặt)
+- [Cấu trúc dự án](#-cấu-trúc-dự-án)
+- [Phát triển](#-phát-triển)
 
-## 🔧 Technology Stack
+## 🔧 Công nghệ sử dụng
 
 <div align="center">
   <table>
     <tr>
-      <th>Category</th>
-      <th>Technology</th>
+      <th>Danh mục</th>
+      <th>Công nghệ</th>
     </tr>
     <tr>
       <td>Web Framework</td>
       <td>
         <img src="https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi" alt="FastAPI">
-        FastAPI (for building robust and efficient APIs)
+        FastAPI (để xây dựng API mạnh mẽ và hiệu quả)
       </td>
     </tr>
     <tr>
       <td>ASGI Server</td>
       <td>
         <img src="https://img.shields.io/badge/Uvicorn-Latest-blue?logo=python" alt="Uvicorn">
-        Uvicorn (for serving the FastAPI application)
+        Uvicorn (để phục vụ ứng dụng FastAPI)
       </td>
     </tr>
     <tr>
-      <td>Database</td>
+      <td>Cơ sở dữ liệu</td>
       <td>
         <img src="https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb" alt="MongoDB">
-        MongoDB Atlas (NoSQL database for flexible data storage)
+        MongoDB Atlas (cơ sở dữ liệu NoSQL cho lưu trữ dữ liệu linh hoạt)
       </td>
     </tr>
     <tr>
       <td>Database Driver</td>
       <td>
         <img src="https://img.shields.io/badge/Motor-Latest-blue?logo=mongodb" alt="Motor">
-        Motor (asynchronous driver for MongoDB)
+        Motor (driver bất đồng bộ cho MongoDB)
       </td>
     </tr>
     <tr>
-      <td>Data Validation</td>
+      <td>Xác thực dữ liệu</td>
       <td>
         <img src="https://img.shields.io/badge/Pydantic-Latest-blue?logo=python" alt="Pydantic">
-        Pydantic (for request/response validation and settings management)
+        Pydantic (để xác thực request/response và quản lý cài đặt)
       </td>
     </tr>
     <tr>
-      <td>Content Processing</td>
+      <td>Xử lý nội dung</td>
       <td>
-        PyPDF2, python-docx, Pillow, BeautifulSoup4 (for document, image, and web content extraction)
+        PyPDF2, python-docx, Pillow, BeautifulSoup4 (để trích xuất tài liệu, hình ảnh và nội dung web)
       </td>
     </tr>
     <tr>
-      <td>AI Services</td>
+      <td>Dịch vụ AI</td>
       <td>
         <img src="https://img.shields.io/badge/Google-Gemini-purple?logo=google" alt="Google Gemini">
-        Google Generative AI (Gemini API for AI-powered content generation)
+        Google Generative AI (Gemini API để tạo nội dung bằng AI)
       </td>
     </tr>
     <tr>
-      <td>Authentication</td>
+      <td>Xác thực</td>
       <td>
         <img src="https://img.shields.io/badge/Firebase-Auth-orange?logo=firebase" alt="Firebase">
         Firebase Authentication
       </td>
     </tr>
     <tr>
-      <td>Containerization</td>
+      <td>Container hóa</td>
       <td>
         <img src="https://img.shields.io/badge/Docker-Latest-blue?logo=docker" alt="Docker">
-        Docker and Docker Compose
+        Docker và Docker Compose
       </td>
     </tr>
   </table>
 </div>
 
-## 🏗️ System Architecture
+## 🏗️ Kiến trúc hệ thống
 
 ```mermaid
 graph TD
-    Client[Client Applications] -->|HTTP Requests| FastAPI[FastAPI Application]
+    Client[Ứng dụng khách] -->|Yêu cầu HTTP| FastAPI[Ứng dụng FastAPI]
     
     subgraph "FastAPI Backend"
-        FastAPI -->|Routes Requests| Controllers[API Controllers]
-        Controllers -->|Business Logic| Service[Service Layer]
-        Service -->|Data Access| Repository[Repository Layer]
-        Service -->|Content Processing| Utils[Utility Modules]
-        Service -->|AI Generation| AIServices[AI Services]
+        FastAPI -->|Định tuyến yêu cầu| Controllers[Bộ điều khiển API]
+        Controllers -->|Logic nghiệp vụ| Service[Tầng dịch vụ]
+        Service -->|Truy cập dữ liệu| Repository[Tầng repository]
+        Service -->|Xử lý nội dung| Utils[Module tiện ích]
+        Service -->|Tạo nội dung AI| AIServices[Dịch vụ AI]
     end
     
-    Repository -->|Async Driver| MongoDB[(MongoDB Atlas)]
+    Repository -->|Driver bất đồng bộ| MongoDB[(MongoDB Atlas)]
     
-    Utils -->|Document Extraction| DocUtils[Document Extractor]
-    Utils -->|Image Processing| ImgUtils[Image Extractor]
-    Utils -->|URL Extraction| URLUtils[URL Extractor]
-    Utils -->|Mind Map Generation| MindMapUtils[Mindmap Processing]
+    Utils -->|Trích xuất tài liệu| DocUtils[Trích xuất tài liệu]
+    Utils -->|Xử lý hình ảnh| ImgUtils[Trích xuất hình ảnh]
+    Utils -->|Trích xuất URL| URLUtils[Trích xuất URL]
+    Utils -->|Tạo sơ đồ tư duy| MindMapUtils[Xử lý sơ đồ tư duy]
     
-    AIServices -->|Text Generation| Gemini[Google Gemini API]
-    AIServices -->|Image Analysis| GeminiVision[Gemini Vision]
-    AIServices -->|Audio Transcription| AudioTranscription[Audio Assistant]
+    AIServices -->|Tạo văn bản| Gemini[Google Gemini API]
+    AIServices -->|Phân tích hình ảnh| GeminiVision[Gemini Vision]
+    AIServices -->|Chuyển đổi âm thanh| AudioTranscription[Trợ lý âm thanh]
     
-    Controllers -->|Authentication| Firebase[Firebase Auth]
+    Controllers -->|Xác thực| Firebase[Firebase Auth]
 ```
 
-### Key Components
+### Thành phần chính
 
-1. **FastAPI Application (`app/server/app.py`)**:
-   - Entry point for all API requests
-   - Manages routing and request/response validation
-   - Handles CORS and middleware configuration
+1. **Ứng dụng FastAPI (`app/server/app.py`)**:
+   - Điểm vào cho tất cả các yêu cầu API
+   - Quản lý định tuyến và xác thực request/response
+   - Xử lý cấu hình CORS và middleware
 
-2. **Service Layer (`app/server/service.py`)**:
-   - Contains the core business logic
-   - Orchestrates operations between repositories and AI services
-   - Manages content processing and generation workflows
+2. **Tầng dịch vụ (`app/server/service.py`)**:
+   - Chứa logic nghiệp vụ cốt lõi
+   - Điều phối hoạt động giữa repository và dịch vụ AI
+   - Quản lý quy trình xử lý và tạo nội dung
 
-3. **Repository Layer (`app/server/repository.py`)**:
-   - Handles all MongoDB interactions via Motor
-   - Provides data access abstraction
-   - Manages CRUD operations for all entities
+3. **Tầng Repository (`app/server/repository.py`)**:
+   - Xử lý tất cả tương tác MongoDB thông qua Motor
+   - Cung cấp lớp trừu tượng truy cập dữ liệu
+   - Quản lý các hoạt động CRUD cho tất cả các thực thể
 
-4. **AI Services (`app/ai_services/`)**:
-   - `assistant.py`: Manages AI-powered content generation (quizzes, flashcards, mind maps, summaries)
-   - `audio_assistant.py`: Handles audio transcription
+4. **Dịch vụ AI (`app/ai_services/`)**:
+   - `assistant.py`: Quản lý tạo nội dung bằng AI (câu đố, thẻ ghi nhớ, sơ đồ tư duy, tóm tắt)
+   - `audio_assistant.py`: Xử lý chuyển đổi âm thanh thành văn bản
 
-5. **Utility Modules (`app/utils/`)**:
-   - `document_extractor.py`: Extracts text from various document formats
-   - `image_extractor.py`: Processes images to extract text
-   - `mindmap_processing.py`: Processes text for mind map generation
-   - `url_extractor.py`: Extracts content from web URLs
+5. **Module tiện ích (`app/utils/`)**:
+   - `document_extractor.py`: Trích xuất văn bản từ nhiều định dạng tài liệu
+   - `image_extractor.py`: Xử lý hình ảnh để trích xuất văn bản
+   - `mindmap_processing.py`: Xử lý văn bản để tạo sơ đồ tư duy
+   - `url_extractor.py`: Trích xuất nội dung từ URL web
 
-6. **Data Models (`app/server/models.py`)**:
-   - Pydantic models for request/response validation
-   - Schema definitions for all API entities
+6. **Mô hình dữ liệu (`app/server/models.py`)**:
+   - Mô hình Pydantic để xác thực dữ liệu
+   - Định nghĩa schema cho tất cả các thực thể API
 
-## 📊 Data Model
+## 📊 Mô hình dữ liệu
 
-The application uses MongoDB as its primary database with the following key collections:
+Ứng dụng sử dụng MongoDB làm cơ sở dữ liệu chính với các bộ sưu tập chính sau:
 
 ```mermaid
 erDiagram
@@ -245,212 +245,212 @@ erDiagram
         string note_id FK
     }
     
-    USER ||--o{ NOTE : creates
-    NOTE ||--o{ QUIZ : generates
-    NOTE ||--o{ SUMMARY : has
-    NOTE ||--o{ MINDMAP : visualizes
-    NOTE ||--o{ FLASHCARD : produces
+    USER ||--o{ NOTE : tạo
+    NOTE ||--o{ QUIZ : tạo
+    NOTE ||--o{ SUMMARY : có
+    NOTE ||--o{ MINDMAP : trực quan hóa
+    NOTE ||--o{ FLASHCARD : tạo ra
 ```
 
-### Collection Details
+### Chi tiết bộ sưu tập
 
 - **Notes**:
-  - Central collection storing processed content from various inputs
-  - Fields: `id`, `input`, `type`, `user_id`, `timestamp`, `title`
+  - Bộ sưu tập trung tâm lưu trữ nội dung đã xử lý từ nhiều nguồn đầu vào
+  - Trường: `id`, `input`, `type`, `user_id`, `timestamp`, `title`
 
 - **Quizzes**:
-  - Multiple-choice questions generated from notes
-  - Fields: `id`, `questions`, `choices`, `answer`, `note_id`
+  - Câu hỏi trắc nghiệm được tạo từ ghi chú
+  - Trường: `id`, `questions`, `choices`, `answer`, `note_id`
 
 - **Summaries**:
-  - AI-generated concise summaries of notes
-  - Fields: `id`, `content`, `note_id`
+  - Tóm tắt ngắn gọn được tạo bởi AI từ ghi chú
+  - Trường: `id`, `content`, `note_id`
 
 - **Mind Maps**:
-  - Structured data representing visual knowledge organization
-  - Fields: `id`, `content`, `summary`, `note_id`
+  - Dữ liệu có cấu trúc đại diện cho tổ chức kiến thức trực quan
+  - Trường: `id`, `content`, `summary`, `note_id`
 
 - **Flashcards**:
-  - Sets of flashcards for memorization
-  - Fields: `id`, `title`, `content` (with front/back text), `note_id`
+  - Bộ thẻ ghi nhớ để học thuộc
+  - Trường: `id`, `title`, `content` (với văn bản mặt trước/sau), `note_id`
 
-## 📘 API Documentation
+## 📘 Tài liệu API
 
-The API is self-documented using Swagger UI. After starting the server, navigate to `http://localhost:8000/docs` to see all available endpoints with examples.
+API được tự động tạo tài liệu bằng Swagger UI. Sau khi khởi động máy chủ, truy cập vào `http://localhost:8000/docs` để xem tất cả các điểm cuối có sẵn với ví dụ.
 
-### API Overview
+### Tổng quan API
 
-#### Authentication
-- `POST /auth/login` - Authenticate user
+#### Xác thực
+- `POST /auth/login` - Xác thực người dùng
 
-#### Notes
-- `GET /note?user_id={user_id}` - Get all notes for a user
-- `GET /note/{note_id}` - Get a specific note
+#### Ghi chú
+- `GET /note?user_id={user_id}` - Lấy tất cả ghi chú của người dùng
+- `GET /note/{note_id}` - Lấy một ghi chú cụ thể
 
-#### Quizzes
-- `GET /quiz/{note_id}` - Get quizzes for a note
-- `POST /quiz/{note_id}` - Create quizzes from a note
-  - Parameters: `num_quizzes` (default: 5), `difficulty` (1-4)
+#### Câu đố
+- `GET /quiz/{note_id}` - Lấy câu đố cho một ghi chú
+- `POST /quiz/{note_id}` - Tạo câu đố từ một ghi chú
+  - Tham số: `num_quizzes` (mặc định: 5), `difficulty` (1-4)
 
-#### Summaries
-- `GET /summary/{note_id}` - Get the summary for a note
+#### Tóm tắt
+- `GET /summary/{note_id}` - Lấy tóm tắt cho một ghi chú
 
-#### Mind Maps
-- `GET /mindmap/{note_id}` - Get the mind map for a note
-- `POST /mindmap/{note_id}` - Create a mind map from a note
+#### Sơ đồ tư duy
+- `GET /mindmap/{note_id}` - Lấy sơ đồ tư duy cho một ghi chú
+- `POST /mindmap/{note_id}` - Tạo sơ đồ tư duy từ một ghi chú
 
-#### Flashcards
-- `GET /flashcard/{note_id}` - Get flashcards for a note
-- `POST /flashcard/{note_id}` - Create flashcards from a note
-  - Parameters: `num_flashcards` (default: 5), `difficulty` (1-4)
+#### Thẻ ghi nhớ
+- `GET /flashcard/{note_id}` - Lấy thẻ ghi nhớ cho một ghi chú
+- `POST /flashcard/{note_id}` - Tạo thẻ ghi nhớ từ một ghi chú
+  - Tham số: `num_flashcards` (mặc định: 5), `difficulty` (1-4)
 
-#### Content Creation
-- `POST /create/text` - Create a note from text input
-  - Body: `{"text": "content"}`
+#### Tạo nội dung
+- `POST /create/text` - Tạo ghi chú từ đầu vào văn bản
+  - Body: `{"text": "nội dung"}`
   - Query: `user_id`
-- `POST /create/link` - Create a note from a web link
+- `POST /create/link` - Tạo ghi chú từ liên kết web
   - Body: `{"link": "https://example.com"}`
   - Query: `user_id`
-- `POST /create/file` - Create a note from a document file
+- `POST /create/file` - Tạo ghi chú từ tệp tài liệu
   - Form: `file` (multipart/form-data)
   - Query: `user_id`
-- `POST /create/audio` - Create a note from an audio file
+- `POST /create/audio` - Tạo ghi chú từ tệp âm thanh
   - Form: `file` (multipart/form-data)
   - Query: `user_id`
-- `POST /create/image` - Create a note from an image
+- `POST /create/image` - Tạo ghi chú từ hình ảnh
   - Form: `file` (multipart/form-data)
   - Query: `user_id`
 
-#### Statistics
-- `GET /stats/dashboard` - Get dashboard statistics
+#### Thống kê
+- `GET /stats/dashboard` - Lấy thống kê bảng điều khiển
 
-#### Users
-- `GET /users/firebase` - Get Firebase users
+#### Người dùng
+- `GET /users/firebase` - Lấy người dùng Firebase
 
-## 🚀 Installation
+## 🚀 Cài đặt
 
-### Prerequisites
-- Python 3.11 or later
-- MongoDB Atlas account or local MongoDB installation
-- Google Gemini API key
-- Firebase Admin SDK credentials
+### Yêu cầu
+- Python 3.11 trở lên
+- Tài khoản MongoDB Atlas hoặc cài đặt MongoDB cục bộ
+- Khóa API Google Gemini
+- Thông tin xác thực Firebase Admin SDK
 
-### Using Docker (Recommended)
+### Sử dụng Docker (Khuyến nghị)
 
-1. **Clone the repository**:
+1. **Clone repository**:
    ```bash
    git clone https://github.com/yourusername/p-study.git
    cd p-study/backend
    ```
 
-2. **Create a `.env` file** with your configuration:
+2. **Tạo tệp `.env`** với cấu hình của bạn:
    ```env
-   # MongoDB Configuration
+   # Cấu hình MongoDB
    MONGODB_USERNAME=your_mongodb_username
    MONGODB_PASSWORD=your_mongodb_password
    MONGODB_CLUSTER=your_cluster.mongodb.net
    DB_NAME=study_app
 
-   # AI Configuration
+   # Cấu hình AI
    GEMINI_API_KEY=your_gemini_api_key
    JINA_API_KEY=your_jina_api_key
 
-   # Firebase Configuration (optional)
+   # Cấu hình Firebase (tùy chọn)
    FIREBASE_CREDENTIALS=path_to_firebase_credentials.json
    ```
 
-3. **Run with Docker Compose**:
+3. **Chạy với Docker Compose**:
    ```bash
    docker-compose up -d
    ```
 
-4. **Access the API documentation**:
+4. **Truy cập tài liệu API**:
    ```
    http://localhost:8000/docs
    ```
 
-### Manual Setup
+### Cài đặt thủ công
 
-1. **Clone the repository**:
+1. **Clone repository**:
    ```bash
    git clone https://github.com/yourusername/p-study.git
    cd p-study/backend
    ```
 
-2. **Create a virtual environment**:
+2. **Tạo môi trường ảo**:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # Trên Windows: venv\Scripts\activate
    ```
 
-3. **Install dependencies**:
+3. **Cài đặt các gói phụ thuộc**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Create a `.env` file** with your configuration (as shown above)
+4. **Tạo tệp `.env`** với cấu hình của bạn (như đã hiển thị ở trên)
 
-5. **Run the application**:
+5. **Chạy ứng dụng**:
    ```bash
    cd app
    python main.py
    ```
 
-6. **Access the API documentation**:
+6. **Truy cập tài liệu API**:
    ```
    http://localhost:8000/docs
    ```
 
-## 📁 Project Structure
+## 📁 Cấu trúc dự án
 
 ```
 backend/
 ├── app/
-│   ├── main.py                    # Entry point for the application
+│   ├── main.py                    # Điểm vào cho ứng dụng
 │   ├── __init__.py
 │   ├── server/
-│   │   ├── app.py                 # FastAPI application and routes
-│   │   ├── models.py              # Pydantic models for data validation
-│   │   ├── repository.py          # Database access layer
-│   │   ├── service.py             # Business logic layer
-│   │   └── firebase-credentials/  # Firebase admin SDK credentials
+│   │   ├── app.py                 # Ứng dụng FastAPI và định tuyến
+│   │   ├── models.py              # Mô hình Pydantic để xác thực dữ liệu
+│   │   ├── repository.py          # Lớp truy cập cơ sở dữ liệu
+│   │   ├── service.py             # Lớp logic nghiệp vụ
+│   │   └── firebase-credentials/  # Thông tin xác thực Firebase admin SDK
 │   ├── utils/
-│   │   ├── document_extractor.py  # Extract text from documents
-│   │   ├── image_extractor.py     # Extract text from images
-│   │   ├── mindmap_processing.py  # Process text into mindmaps
-│   │   └── url_extractor.py       # Extract text from URLs
+│   │   ├── document_extractor.py  # Trích xuất văn bản từ tài liệu
+│   │   ├── image_extractor.py     # Trích xuất văn bản từ hình ảnh
+│   │   ├── mindmap_processing.py  # Xử lý văn bản thành sơ đồ tư duy
+│   │   └── url_extractor.py       # Trích xuất văn bản từ URL
 │   └── ai_services/
-│       ├── assistant.py           # AI text processing with Gemini
-│       └── audio_assistant.py     # Audio transcription
-├── Dockerfile                     # Docker configuration
-├── docker-compose.yml             # Docker Compose configuration
-├── requirements.txt               # Project dependencies
-├── .gitignore                     # Git ignore file
-└── README.md                      # Project documentation
+│       ├── assistant.py           # Xử lý văn bản AI với Gemini
+│       └── audio_assistant.py     # Chuyển đổi âm thanh thành văn bản
+├── Dockerfile                     # Cấu hình Docker
+├── docker-compose.yml             # Cấu hình Docker Compose
+├── requirements.txt               # Các gói phụ thuộc của dự án
+├── .gitignore                     # Tệp Git ignore
+└── README.md                      # Tài liệu dự án
 ```
 
-## 💻 Development
+## 💻 Phát triển
 
-### Environment Setup
+### Thiết lập môi trường
 
-1. **Install development tools**:
+1. **Cài đặt công cụ phát triển**:
    ```bash
    pip install flake8 pytest
    ```
 
-2. **Code style check**:
+2. **Kiểm tra phong cách code**:
    ```bash
    flake8 app
    ```
 
-### Adding New Features
+### Thêm tính năng mới
 
-1. Add models to `models.py` if needed
-2. Add database operations to `repository.py`
-3. Add business logic to `service.py`
-4. Add API endpoints to `app.py`
+1. Thêm mô hình vào `models.py` nếu cần
+2. Thêm thao tác cơ sở dữ liệu vào `repository.py`
+3. Thêm logic nghiệp vụ vào `service.py`
+4. Thêm điểm cuối API vào `app.py`
 
-### AI Integration Flow
+### Quy trình tích hợp AI
 
 ```mermaid
 sequenceDiagram
@@ -470,58 +470,58 @@ sequenceDiagram
     FastAPI-->>-Client: HTTP Response
 ```
 
-## 🔄 API Request Flow
+## 🔄 Luồng yêu cầu API
 
-Below is the typical flow for creating and consuming content through the API:
+Dưới đây là luồng điển hình để tạo và sử dụng nội dung thông qua API:
 
 ```mermaid
 graph TD
-    A[Client] -->|1. POST /create/text| B[Create Note]
-    B -->|Store in MongoDB| C[Note Created]
-    A -->|2. POST /quiz/{note_id}| D[Generate Quiz]
-    D -->|AI Processing| E[Quizzes Created]
-    A -->|3. POST /flashcard/{note_id}| F[Generate Flashcards]
-    F -->|AI Processing| G[Flashcards Created]
-    A -->|4. POST /mindmap/{note_id}| H[Generate Mind Map]
-    H -->|AI Processing| I[Mind Map Created]
-    A -->|5. GET /summary/{note_id}| J[Get Summary]
-    J -->|Retrieve from MongoDB| K[Return Summary]
+    A[Client] -->|1. POST /create/text| B[Tạo ghi chú]
+    B -->|Lưu trong MongoDB| C[Ghi chú đã tạo]
+    A -->|2. POST /quiz/{note_id}| D[Tạo câu đố]
+    D -->|Xử lý AI| E[Câu đố đã tạo]
+    A -->|3. POST /flashcard/{note_id}| F[Tạo thẻ ghi nhớ]
+    F -->|Xử lý AI| G[Thẻ ghi nhớ đã tạo]
+    A -->|4. POST /mindmap/{note_id}| H[Tạo sơ đồ tư duy]
+    H -->|Xử lý AI| I[Sơ đồ tư duy đã tạo]
+    A -->|5. GET /summary/{note_id}| J[Lấy tóm tắt]
+    J -->|Truy xuất từ MongoDB| K[Trả về tóm tắt]
 ```
 
-## 📈 Future Enhancements
+## 📈 Cải tiến trong tương lai
 
-1. **Enhanced AI Processing**:
-   - Improve Gemini prompts for better content generation
-   - Add multi-language support beyond Vietnamese
+1. **Nâng cao xử lý AI**:
+   - Cải thiện lời nhắc Gemini để tạo nội dung tốt hơn
+   - Thêm hỗ trợ đa ngôn ngữ ngoài tiếng Việt
 
-2. **Integration with Frontend**:
-   - Develop React/Next.js frontend for a complete application
-   - Implement real-time updates with WebSockets
+2. **Tích hợp với Frontend**:
+   - Phát triển frontend React/Next.js cho ứng dụng hoàn chỉnh
+   - Triển khai cập nhật thời gian thực với WebSockets
 
-3. **Extended Features**:
-   - Implement spaced repetition algorithms for flashcards
-   - Add collaborative note-taking capabilities
-   - Develop analytics for learning progress
+3. **Tính năng mở rộng**:
+   - Triển khai thuật toán lặp lại theo khoảng thời gian cho thẻ ghi nhớ
+   - Thêm khả năng ghi chú cộng tác
+   - Phát triển phân tích cho tiến trình học tập
 
-4. **Infrastructure Improvements**:
-   - Implement caching layer with Redis
-   - Add comprehensive testing suite
-   - Set up CI/CD pipeline
+4. **Cải tiến cơ sở hạ tầng**:
+   - Triển khai lớp bộ nhớ đệm với Redis
+   - Thêm bộ kiểm tra toàn diện
+   - Thiết lập pipeline CI/CD
 
-## 📄 License
+## 📄 Giấy phép
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Dự án này được cấp phép theo Giấy phép MIT - xem tệp LICENSE để biết chi tiết.
 
-## 👥 Contributors
+## 👥 Người đóng góp
 
-- Initial development by P-Study Team
+- Phát triển ban đầu bởi Nhóm P-Study
 
 ---
 
 <div align="center">
   <p>
     <a href="https://github.com/yourusername/p-study">GitHub</a> •
-    <a href="https://p-study-docs.example.com">Documentation</a> •
-    <a href="mailto:contact@p-study.example.com">Contact</a>
+    <a href="https://p-study-docs.example.com">Tài liệu</a> •
+    <a href="mailto:contact@p-study.example.com">Liên hệ</a>
   </p>
 </div>
