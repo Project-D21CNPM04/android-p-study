@@ -144,6 +144,21 @@ class ResultViewModel @Inject constructor(
         }
     }
 
+    fun navigateToQuiz(index: Int) {
+        _viewState.update { currentState ->
+            if (currentState.quizzesState.quizzes.isEmpty() ||
+                index < 0 ||
+                index >= currentState.quizzesState.quizzes.size
+            ) return@update currentState
+
+            currentState.copy(
+                quizzesState = currentState.quizzesState.copy(
+                    currentQuizIndex = index
+                )
+            )
+        }
+    }
+
     fun answerQuiz(answerIndex: Int) {
         _viewState.update { currentState ->
             if (currentState.quizzesState.quizzes.isEmpty() ||

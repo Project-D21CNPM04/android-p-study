@@ -13,6 +13,7 @@ import com.example.pstudy.data.model.Quiz
 import com.example.pstudy.databinding.FragmentQuizzesBinding
 import com.example.pstudy.view.result.ResultViewModel
 import com.example.pstudy.view.result.dialog.GenerateOptionsDialog
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -41,14 +42,23 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         }
 
         binding.btnNext.setOnClickListener {
-            viewModel.navigateToNextQuiz()
+            val quizzes = viewModel.viewState.value.quizzesState.quizzes
+            val currentIndex = viewModel.viewState.value.quizzesState.currentQuizIndex
+            if (quizzes.isNotEmpty() && currentIndex != -1) {
+                val nextIndex = (currentIndex + 1) % quizzes.size
+                viewModel.navigateToQuiz(nextIndex)
+            }
         }
 
         binding.btnPrevious.setOnClickListener {
-            viewModel.navigateToPreviousQuiz()
+            val quizzes = viewModel.viewState.value.quizzesState.quizzes
+            val currentIndex = viewModel.viewState.value.quizzesState.currentQuizIndex
+            if (quizzes.isNotEmpty() && currentIndex != -1) {
+                val prevIndex = (currentIndex - 1 + quizzes.size) % quizzes.size
+                viewModel.navigateToQuiz(prevIndex)
+            }
         }
 
-        // Set click listeners for each answer option
         binding.optionCard1.setOnClickListener { answerQuiz(0) }
         binding.optionCard2.setOnClickListener { answerQuiz(1) }
         binding.optionCard3.setOnClickListener { answerQuiz(2) }
@@ -80,39 +90,49 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         return null
     }
 
-    private fun showFeedback(selectedOption: Int, isCorrect: Boolean) {
-        // Apply visual feedback on the selected option
-        val selectedCard = when (selectedOption) {
+    private fun getOptionCard(index: Int): MaterialCardView? {
+        return when (index) {
             0 -> binding.optionCard1
             1 -> binding.optionCard2
             2 -> binding.optionCard3
             3 -> binding.optionCard4
             else -> null
         }
+    }
+
+    private fun showFeedback(selectedOption: Int, isCorrect: Boolean) {
+        // Apply visual feedback on the selected option
+        val selectedCard = getOptionCard(selectedOption)
 
         // Visual feedback for correct/incorrect answers
         if (isCorrect) {
-            selectedCard?.setCardBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.correct_answer)
-            )
+            selectedCard?.apply {
+                setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.correct_answer)
+                )
+                strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_selected)
+                strokeColor = ContextCompat.getColor(requireContext(), R.color.color_primary)
+            }
         } else {
-            selectedCard?.setCardBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.incorrect_answer)
-            )
+            selectedCard?.apply {
+                setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.incorrect_answer)
+                )
+                strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_selected)
+                strokeColor = ContextCompat.getColor(requireContext(), R.color.color_primary)
+            }
 
             // Show the correct answer
             val currentQuiz = getCurrentQuiz() ?: return
             val correctOptionIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
-            val correctCard = when (correctOptionIndex) {
-                0 -> binding.optionCard1
-                1 -> binding.optionCard2
-                2 -> binding.optionCard3
-                3 -> binding.optionCard4
-                else -> null
+            val correctCard = getOptionCard(correctOptionIndex)
+            correctCard?.apply {
+                setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.correct_answer)
+                )
+                strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_selected)
+                strokeColor = ContextCompat.getColor(requireContext(), R.color.color_primary)
             }
-            correctCard?.setCardBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.correct_answer)
-            )
         }
     }
 
@@ -180,12 +200,28 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         binding.tvQuizNumber.text = "Quiz ${currentIndex + 1} / ${quizzes.size}"
         binding.tvQuizQuestion.text = quiz.questions
 
-        // Reset card backgrounds
+        // Reset card backgrounds and strokes
         val bgColor = ContextCompat.getColor(requireContext(), R.color.bg_option_card)
-        binding.optionCard1.setCardBackgroundColor(bgColor)
-        binding.optionCard2.setCardBackgroundColor(bgColor)
-        binding.optionCard3.setCardBackgroundColor(bgColor)
-        binding.optionCard4.setCardBackgroundColor(bgColor)
+        binding.optionCard1.apply {
+            setCardBackgroundColor(bgColor)
+            strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_normal)
+            strokeColor = ContextCompat.getColor(requireContext(), R.color.gray_medium)
+        }
+        binding.optionCard2.apply {
+            setCardBackgroundColor(bgColor)
+            strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_normal)
+            strokeColor = ContextCompat.getColor(requireContext(), R.color.gray_medium)
+        }
+        binding.optionCard3.apply {
+            setCardBackgroundColor(bgColor)
+            strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_normal)
+            strokeColor = ContextCompat.getColor(requireContext(), R.color.gray_medium)
+        }
+        binding.optionCard4.apply {
+            setCardBackgroundColor(bgColor)
+            strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_normal)
+            strokeColor = ContextCompat.getColor(requireContext(), R.color.gray_medium)
+        }
 
         // Set options text
         binding.tvOption1.text = if (quiz.choices.size >= 1) quiz.choices[0] else ""
@@ -202,37 +238,34 @@ class QuizzesFragment : BindingFragmentLazyPager<FragmentQuizzesBinding>() {
         // If already answered, show the feedback
         if (isAnswered) {
             val correctOptionIndex = quiz.choices.indexOf(quiz.answer)
-            val correctCard = when (correctOptionIndex) {
-                0 -> binding.optionCard1
-                1 -> binding.optionCard2
-                2 -> binding.optionCard3
-                3 -> binding.optionCard4
-                else -> null
+            val correctCard = getOptionCard(correctOptionIndex)
+            correctCard?.apply {
+                setCardBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.correct_answer)
+                )
+                strokeWidth = resources.getDimensionPixelSize(R.dimen.card_stroke_width_selected)
+                strokeColor = ContextCompat.getColor(requireContext(), R.color.color_primary)
             }
-            correctCard?.setCardBackgroundColor(
-                ContextCompat.getColor(requireContext(), R.color.correct_answer)
-            )
 
             // If there was a wrong selected answer, show it too
             val selectedAnswerIndex =
                 viewModel.viewState.value.quizzesState.selectedAnswerIndexes[currentIndex]
             if (selectedAnswerIndex != null && selectedAnswerIndex != correctOptionIndex) {
-                val selectedCard = when (selectedAnswerIndex) {
-                    0 -> binding.optionCard1
-                    1 -> binding.optionCard2
-                    2 -> binding.optionCard3
-                    3 -> binding.optionCard4
-                    else -> null
+                val selectedCard = getOptionCard(selectedAnswerIndex)
+                selectedCard?.apply {
+                    setCardBackgroundColor(
+                        ContextCompat.getColor(requireContext(), R.color.incorrect_answer)
+                    )
+                    strokeWidth =
+                        resources.getDimensionPixelSize(R.dimen.card_stroke_width_selected)
+                    strokeColor = ContextCompat.getColor(requireContext(), R.color.color_primary)
                 }
-                selectedCard?.setCardBackgroundColor(
-                    ContextCompat.getColor(requireContext(), R.color.incorrect_answer)
-                )
             }
         }
 
-        // Update navigation buttons
-        binding.btnNext.isEnabled = currentIndex < quizzes.size - 1
-        binding.btnPrevious.isEnabled = currentIndex > 0
+        // All navigation buttons are always enabled with circular navigation
+        binding.btnNext.isEnabled = true
+        binding.btnPrevious.isEnabled = true
     }
 
     private fun showGenerateOptionsDialog(noteId: String) {
