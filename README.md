@@ -1,4 +1,4 @@
-# 📱 P-Study: Android Study Assistant
+# 📱 P-Study: Trợ lý học tập Android
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform Android">
@@ -11,44 +11,44 @@
   <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/android.svg" width="100" height="100" alt="P-Study Logo">
 </p>
 
-P-Study is a comprehensive study assistant application for Android that helps students organize their study materials, create flashcards, quizzes, and mind maps from their notes, and optimize their learning experience using AI-powered features.
+P-Study là một ứng dụng trợ lý học tập toàn diện cho Android giúp học sinh tổ chức tài liệu học tập, tạo thẻ ghi nhớ, câu đố và sơ đồ tư duy từ ghi chú của họ, đồng thời tối ưu hóa trải nghiệm học tập bằng các tính năng được hỗ trợ bởi AI.
 
-## 📋 Table of Contents
+## 📋 Mục lục
 
-- [🌟 Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [📊 System Design](#-system-design)
-- [📄 Code Structure](#-code-structure)
-- [🚀 Installation](#-installation)
-- [🎮 How to Use](#-how-to-use)
-- [📱 Screens](#-screens)
-- [🧩 Modules](#-modules)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
+- [🌟 Tính năng](#-tính-năng)
+- [🏗️ Kiến trúc](#️-kiến-trúc)
+- [🛠️ Công nghệ sử dụng](#️-công-nghệ-sử-dụng)
+- [📊 Thiết kế hệ thống](#-thiết-kế-hệ-thống)
+- [📄 Cấu trúc mã nguồn](#-cấu-trúc-mã-nguồn)
+- [🚀 Cài đặt](#-cài-đặt)
+- [🎮 Cách sử dụng](#-cách-sử-dụng)
+- [📱 Màn hình](#-màn-hình)
+- [🧩 Mô-đun](#-mô-đun)
+- [🤝 Đóng góp](#-đóng-góp)
+- [📜 Giấy phép](#-giấy-phép)
 
-## 🌟 Features
+## 🌟 Tính năng
 
-- **🔐 User Authentication**: Secure sign-up and login with Firebase Auth
-- **📝 Note Taking**: Create and manage study notes from various sources
-  - Text input 
-  - URL content extraction
-  - PDF/document upload
-  - Audio transcription
-  - Image to text conversion
-- **🧠 AI-Powered Learning Tools**:
-  - Flashcard generation
-  - Quiz creation
-  - Mind map visualization
-  - Summary generation
-- **📂 Organization**: Folder system for organized study materials
-- **🔔 Reminders**: Study session reminders with notifications
-- **🌓 Dark Mode**: Support for light and dark themes
-- **📊 Progress Tracking**: Monitor your study progress
+- **🔐 Xác thực người dùng**: Đăng ký và đăng nhập an toàn với Firebase Auth
+- **📝 Ghi chú**: Tạo và quản lý ghi chú học tập từ nhiều nguồn khác nhau
+  - Nhập văn bản
+  - Trích xuất nội dung từ URL
+  - Tải lên PDF/tài liệu
+  - Chuyển đổi âm thanh thành văn bản
+  - Chuyển đổi hình ảnh thành văn bản
+- **🧠 Công cụ học tập được hỗ trợ bởi AI**:
+  - Tạo thẻ ghi nhớ
+  - Tạo câu đố
+  - Hiển thị sơ đồ tư duy
+  - Tạo tóm tắt
+- **📂 Tổ chức**: Hệ thống thư mục để tổ chức tài liệu học tập
+- **🔔 Nhắc nhở**: Nhắc nhở phiên học tập với thông báo
+- **🌓 Chế độ tối**: Hỗ trợ giao diện sáng và tối
+- **📊 Theo dõi tiến độ**: Giám sát tiến độ học tập của bạn
 
-## 🏗️ Architecture
+## 🏗️ Kiến trúc
 
-P-Study follows the **MVVM (Model-View-ViewModel)** architecture pattern with **Clean Architecture** principles:
+P-Study tuân theo mô hình kiến trúc **MVVM (Model-View-ViewModel)** với các nguyên tắc **Clean Architecture**:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -76,41 +76,41 @@ P-Study follows the **MVVM (Model-View-ViewModel)** architecture pattern with **
 
 ### Dependency Injection
 
-We use **Dagger Hilt** for dependency injection to ensure:
-- Loose coupling between components
-- Testability
-- Scalability
-- Maintainability
+Chúng tôi sử dụng **Dagger Hilt** cho dependency injection để đảm bảo:
+- Liên kết lỏng lẻo giữa các thành phần
+- Khả năng kiểm thử
+- Khả năng mở rộng
+- Khả năng bảo trì
 
-## 🛠️ Tech Stack
+## 🛠️ Công nghệ sử dụng
 
-P-Study leverages modern Android development tools and libraries:
+P-Study sử dụng các công cụ và thư viện phát triển Android hiện đại:
 
 ### 📱 Frontend
-- **Kotlin** - Primary programming language
+- **Kotlin** - Ngôn ngữ lập trình chính
 - **Jetpack Components**:
-  - ViewModel - For managing UI-related data
-  - Room - For local database storage
-  - LiveData/Flow - For reactive data handling
-  - ViewBinding - For type-safe view access
-- **Material Design Components** - For consistent UI/UX
-- **Coroutines & Flow** - For asynchronous operations
+  - ViewModel - Để quản lý dữ liệu liên quan đến UI
+  - Room - Để lưu trữ cơ sở dữ liệu cục bộ
+  - LiveData/Flow - Để xử lý dữ liệu phản ứng
+  - ViewBinding - Để truy cập view an toàn về kiểu
+- **Material Design Components** - Để có giao diện người dùng/trải nghiệm người dùng nhất quán
+- **Coroutines & Flow** - Cho các hoạt động bất đồng bộ
 
-### 🔄 Backend Integration
-- **Retrofit** - For RESTful API communication
-- **Gson** - For JSON serialization/deserialization
-- **OkHttp** - For HTTP client
+### 🔄 Tích hợp Backend
+- **Retrofit** - Cho giao tiếp API RESTful
+- **Gson** - Cho việc chuyển đổi JSON
+- **OkHttp** - Cho HTTP client
 
-### 🔐 Authentication
-- **Firebase Auth** - For user authentication
+### 🔐 Xác thực
+- **Firebase Auth** - Cho xác thực người dùng
 
-### 📜 Other Libraries
-- **Markwon** - For Markdown rendering
-- **Lottie** - For animations
+### 📜 Các thư viện khác
+- **Markwon** - Để hiển thị Markdown
+- **Lottie** - Cho hoạt ảnh
 
-## 📊 System Design
+## 📊 Thiết kế hệ thống
 
-### Data Flow Diagram
+### Sơ đồ luồng dữ liệu
 
 ```
 ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐
@@ -128,7 +128,7 @@ P-Study leverages modern Android development tools and libraries:
                                                    └───────────┘
 ```
 
-### Component Architecture
+### Kiến trúc thành phần
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -141,128 +141,128 @@ P-Study leverages modern Android development tools and libraries:
 └─────────────────┘              └─────────────────┘
 ```
 
-## 📄 Code Structure
+## 📄 Cấu trúc mã nguồn
 
 ```
 android/
-├── app/                  # Main application module
+├── app/                  # Module ứng dụng chính
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/com/example/pstudy/
-│   │   │   │   ├── data/           # Data layer components
+│   │   │   │   ├── data/           # Thành phần lớp dữ liệu
 │   │   │   │   │   └── notification/
-│   │   │   │   ├── di/             # Dependency injection modules
-│   │   │   │   ├── ext/            # Kotlin extension functions
-│   │   │   │   ├── permission/      # Permission handling
-│   │   │   │   ├── view/           # UI components
-│   │   │   │   │   ├── authentication/  # Login/signup
-│   │   │   │   │   ├── folder/      # Folder management
-│   │   │   │   │   ├── home/        # Home screen
-│   │   │   │   │   ├── input/       # Note input
-│   │   │   │   │   ├── result/      # Results display
-│   │   │   │   │   └── settings/    # App settings
-│   │   │   │   └── PStudyApp.kt     # Application class
-│   │   │   ├── res/             # Resources (layouts, drawables, etc.)
+│   │   │   │   ├── di/             # Module dependency injection
+│   │   │   │   ├── ext/            # Hàm mở rộng Kotlin
+│   │   │   │   ├── permission/      # Xử lý quyền
+│   │   │   │   ├── view/           # Thành phần UI
+│   │   │   │   │   ├── authentication/  # Đăng nhập/đăng ký
+│   │   │   │   │   ├── folder/      # Quản lý thư mục
+│   │   │   │   │   ├── home/        # Màn hình chính
+│   │   │   │   │   ├── input/       # Nhập ghi chú
+│   │   │   │   │   ├── result/      # Hiển thị kết quả
+│   │   │   │   │   └── settings/    # Cài đặt ứng dụng
+│   │   │   │   └── PStudyApp.kt     # Lớp ứng dụng
+│   │   │   ├── res/             # Tài nguyên (layouts, drawables, v.v.)
 │   │   │   └── AndroidManifest.xml
-│   │   ├── androidTest/         # Instrumentation tests
-│   │   └── test/                # Unit tests
-│   ├── build.gradle.kts         # App module build script
-│   └── proguard-rules.pro       # ProGuard rules
-├── base/                        # Base module with shared components
-│   ├── src/                     # Source files for base module
-│   └── build.gradle.kts         # Base module build script
-├── gradle/                      # Gradle configuration
-├── build.gradle.kts             # Project-level build script
-└── settings.gradle.kts          # Project settings
+│   │   ├── androidTest/         # Kiểm thử thiết bị
+│   │   └── test/                # Kiểm thử đơn vị
+│   ├── build.gradle.kts         # Tệp build module app
+│   └── proguard-rules.pro       # Quy tắc ProGuard
+├── base/                        # Module cơ sở với các thành phần dùng chung
+│   ├── src/                     # Tệp nguồn cho module cơ sở
+│   └── build.gradle.kts         # Tệp build module cơ sở
+├── gradle/                      # Cấu hình Gradle
+├── build.gradle.kts             # Tệp build cấp dự án
+└── settings.gradle.kts          # Cài đặt dự án
 ```
 
-## 🚀 Installation
+## 🚀 Cài đặt
 
-### Prerequisites
-- Android Studio Arctic Fox or newer
-- JDK 11 or higher
+### Yêu cầu
+- Android Studio Arctic Fox hoặc mới hơn
+- JDK 11 hoặc cao hơn
 - Android SDK (API level 24+)
 
-### Setup Instructions
+### Hướng dẫn cài đặt
 
-1. **Clone the repository**
+1. **Sao chép kho lưu trữ**
    ```bash
    git clone https://github.com/your-username/android-p-study.git
    cd android-p-study
    ```
 
-2. **Open in Android Studio**
-   - Launch Android Studio
-   - Select "Open an existing Android Studio project"
-   - Navigate to the cloned directory and click "Open"
+2. **Mở trong Android Studio**
+   - Khởi chạy Android Studio
+   - Chọn "Open an existing Android Studio project"
+   - Điều hướng đến thư mục đã sao chép và nhấp vào "Open"
 
-3. **Build the project**
-   - Wait for Gradle sync to complete
-   - Select "Build > Make Project" from the menu
+3. **Xây dựng dự án**
+   - Đợi Gradle sync hoàn thành
+   - Chọn "Build > Make Project" từ menu
 
-4. **Run the app**
-   - Connect an Android device or use an emulator
-   - Select "Run > Run 'app'" from the menu
+4. **Chạy ứng dụng**
+   - Kết nối thiết bị Android hoặc sử dụng máy ảo
+   - Chọn "Run > Run 'app'" từ menu
 
-## 🎮 How to Use
+## 🎮 Cách sử dụng
 
-### User Authentication
-1. Launch the app
-2. Sign up with email or sign in with existing credentials
-3. Optionally use social login options
+### Xác thực người dùng
+1. Khởi chạy ứng dụng
+2. Đăng ký bằng email hoặc đăng nhập với thông tin đăng nhập hiện có
+3. Tùy chọn sử dụng các tùy chọn đăng nhập xã hội
 
-### Creating Study Materials
-1. Navigate to the Input screen
-2. Choose your input method (text, URL, file, audio, image)
-3. Provide the content or upload your material
-4. Tap "Process" to analyze and store your content
+### Tạo tài liệu học tập
+1. Điều hướng đến màn hình Nhập
+2. Chọn phương thức nhập của bạn (văn bản, URL, tệp, âm thanh, hình ảnh)
+3. Cung cấp nội dung hoặc tải lên tài liệu của bạn
+4. Nhấn "Xử lý" để phân tích và lưu trữ nội dung của bạn
 
-### Generating Learning Tools
-1. Open any saved note
-2. Select the tool you want to generate (flashcards, quiz, mind map, or summary)
-3. The AI will process your content and generate the selected tool
-4. Save or modify the generated content as needed
+### Tạo công cụ học tập
+1. Mở bất kỳ ghi chú đã lưu nào
+2. Chọn công cụ bạn muốn tạo (thẻ ghi nhớ, câu đố, sơ đồ tư duy hoặc tóm tắt)
+3. AI sẽ xử lý nội dung của bạn và tạo công cụ đã chọn
+4. Lưu hoặc sửa đổi nội dung đã tạo nếu cần
 
-### Organizing Content
-1. Create folders to organize related materials
-2. Use the search function to find specific content
-3. Set reminders for study sessions
+### Tổ chức nội dung
+1. Tạo thư mục để tổ chức tài liệu liên quan
+2. Sử dụng chức năng tìm kiếm để tìm nội dung cụ thể
+3. Đặt lời nhắc cho các buổi học
 
-## 📱 Screens
+## 📱 Màn hình
 
-The app includes the following main screens:
+Ứng dụng bao gồm các màn hình chính sau:
 
-- **Login/Signup**: User authentication
-- **Home**: Dashboard with recent materials and quick access to features
-- **Input**: Various methods to input study materials
-- **Results**: Display of processed content
-- **Folders**: Organization of study materials
-- **Settings**: App preferences and user profile
+- **Đăng nhập/Đăng ký**: Xác thực người dùng
+- **Trang chủ**: Bảng điều khiển với tài liệu gần đây và truy cập nhanh vào các tính năng
+- **Nhập**: Các phương pháp khác nhau để nhập tài liệu học tập
+- **Kết quả**: Hiển thị nội dung đã xử lý
+- **Thư mục**: Tổ chức tài liệu học tập
+- **Cài đặt**: Tùy chọn ứng dụng và hồ sơ người dùng
 
-## 🧩 Modules
+## 🧩 Mô-đun
 
-### :app Module
-Contains the main application code, including UI components, business logic, and data handling.
+### Module :app
+Chứa mã ứng dụng chính, bao gồm các thành phần UI, logic nghiệp vụ và xử lý dữ liệu.
 
-### :base Module
-Contains shared components, utilities, base classes, and extensions that are used across the app.
+### Module :base
+Chứa các thành phần dùng chung, tiện ích, lớp cơ sở và các phần mở rộng được sử dụng trong toàn bộ ứng dụng.
 
-## 🤝 Contributing
+## 🤝 Đóng góp
 
-Contributions are welcome! Here's how you can contribute:
+Chúng tôi hoan nghênh đóng góp! Dưới đây là cách bạn có thể đóng góp:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork kho lưu trữ
+2. Tạo nhánh tính năng (`git checkout -b feature/amazing-feature`)
+3. Commit các thay đổi của bạn (`git commit -m 'Add some amazing feature'`)
+4. Push lên nhánh (`git push origin feature/amazing-feature`)
+5. Mở Pull Request
 
-## 📜 License
+## 📜 Giấy phép
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Dự án này được cấp phép theo Giấy phép MIT - xem tệp LICENSE để biết chi tiết.
 
 ---
 
 <p align="center">
-  Made with ❤️ by the P-Study Team
+  Được tạo với ❤️ bởi Nhóm P-Study
 </p>
