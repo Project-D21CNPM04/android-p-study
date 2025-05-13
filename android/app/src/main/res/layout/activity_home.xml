@@ -112,7 +112,7 @@
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@id/icAdd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_link" />
+        app:srcCompat="@drawable/ic_link_vector" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icFile"
@@ -124,7 +124,7 @@
         android:padding="12dp"
         app:layout_constraintEnd_toStartOf="@id/icAdd"
         app:layout_constraintTop_toTopOf="@id/icAdd"
-        app:srcCompat="@drawable/ic_file" />
+        app:srcCompat="@drawable/ic_file_vector" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icText"
@@ -136,7 +136,7 @@
         android:padding="12dp"
         app:layout_constraintStart_toStartOf="@id/icFile"
         app:layout_constraintTop_toTopOf="@id/icLink"
-        app:srcCompat="@drawable/ic_text" />
+        app:srcCompat="@drawable/baseline_text_fields_24" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icImage"
@@ -148,13 +148,13 @@
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icAdd"
-        app:srcCompat="@drawable/ic_image" />
+        app:srcCompat="@drawable/ic_photo" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/addFeature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="icLink, icFile, icText, icImage" />
 
     <com.airbnb.lottie.LottieAnimationView

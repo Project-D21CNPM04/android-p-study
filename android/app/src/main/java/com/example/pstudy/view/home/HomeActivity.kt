@@ -97,16 +97,8 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
             icAdd.setOnClickListener {
                 if (addFeature.isVisible) {
-                    icAdd.animate()
-                        .rotation(0f)
-                        .setDuration(300)
-                        .start()
                     hideFeatureButtons()
                 } else {
-                    icAdd.animate()
-                        .rotation(45f)
-                        .setDuration(300)
-                        .start()
                     showFeatureButtons()
                 }
             }
@@ -155,6 +147,11 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
     private fun showFeatureButtons() {
         with(binding) {
+            icAdd.animate()
+                .rotation(45f)
+                .setDuration(300)
+                .start()
+
             addFeature.isVisible = true
 
             icLink.alpha = 0f
@@ -220,6 +217,10 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
 
     private fun hideFeatureButtons() {
         with(binding) {
+            icAdd.animate()
+                .rotation(0f)
+                .setDuration(300)
+                .start()
             icLink.animate()
                 .alpha(0f)
                 .scaleX(0f)
