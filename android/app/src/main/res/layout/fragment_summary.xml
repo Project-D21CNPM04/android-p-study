@@ -45,7 +45,7 @@
         android:id="@+id/tvEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No summary available"
+        android:text="@string/no_summary_available"
         android:textColor="@color/color_on_background"
         android:textSize="16sp"
         android:visibility="gone"

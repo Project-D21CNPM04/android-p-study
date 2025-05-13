@@ -26,7 +26,7 @@
         android:id="@+id/tvEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No quizzes available"
+        android:text="@string/no_quizzes_available"
         android:textColor="@color/color_on_background"
         android:textSize="16sp"
         android:visibility="gone"
@@ -39,7 +39,7 @@
         android:id="@+id/btnGenerateQuizzes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Generate Quizzes"
+        android:text="@string/generate_quizzes"
         android:backgroundTint="@color/color_primary"
         android:textColor="@color/color_on_primary"
         android:visibility="visible"
@@ -202,7 +202,7 @@
             android:id="@+id/btnPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previous"
+            android:text="@string/previous"
             android:textColor="@color/color_on_secondary"
             android:backgroundTint="@color/color_secondary"
             android:layout_marginEnd="16dp" />
@@ -211,7 +211,7 @@
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/color_on_primary"
             android:backgroundTint="@color/color_primary" />
     </LinearLayout>
