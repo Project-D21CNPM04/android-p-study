@@ -95,7 +95,7 @@
         android:id="@+id/icAdd"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/bg_circle"
         android:backgroundTint="@color/color_primary"
         android:padding="12dp"
@@ -157,17 +157,18 @@
         android:visibility="gone"
         app:constraint_referenced_ids="icLink, icFile, icText, icImage" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/icMic"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/color_primary"
-        android:padding="12dp"
+        android:backgroundTint="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_mic" />
+        app:lottie_rawRes="@raw/record_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

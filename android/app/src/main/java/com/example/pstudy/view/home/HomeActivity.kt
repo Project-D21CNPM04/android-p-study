@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
+import android.view.animation.OvershootInterpolator
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -90,39 +92,51 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
                 })
-                addFeature.isVisible = false
+                hideFeatureButtons()
             }
 
             icAdd.setOnClickListener {
-                addFeature.isVisible = !addFeature.isVisible
+                if (addFeature.isVisible) {
+                    icAdd.animate()
+                        .rotation(0f)
+                        .setDuration(300)
+                        .start()
+                    hideFeatureButtons()
+                } else {
+                    icAdd.animate()
+                        .rotation(45f)
+                        .setDuration(300)
+                        .start()
+                    showFeatureButtons()
+                }
             }
 
             icFile.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
                 })
-                addFeature.isVisible = false
+                hideFeatureButtons()
             }
 
             icImage.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_PHOTO)
                 })
-                addFeature.isVisible = false
+                hideFeatureButtons()
             }
 
             icLink.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_LINK)
                 })
-                addFeature.isVisible = false
+                hideFeatureButtons()
             }
 
             icText.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
                     putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_TEXT)
                 })
-                addFeature.isVisible = false
+                hideFeatureButtons()
             }
 
             ivAvatar.setOnClickListener {
@@ -136,6 +150,113 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
             tvSubtitle.setOnClickListener {
                 SettingsActivity.start(this@HomeActivity)
             }
+        }
+    }
+
+    private fun showFeatureButtons() {
+        with(binding) {
+            addFeature.isVisible = true
+
+            icLink.alpha = 0f
+            icLink.scaleX = 0f
+            icLink.scaleY = 0f
+            icLink.translationY = 20f
+
+            icFile.alpha = 0f
+            icFile.scaleX = 0f
+            icFile.scaleY = 0f
+            icFile.translationY = 20f
+
+            icText.alpha = 0f
+            icText.scaleX = 0f
+            icText.scaleY = 0f
+            icText.translationY = 20f
+
+            icImage.alpha = 0f
+            icImage.scaleX = 0f
+            icImage.scaleY = 0f
+            icImage.translationY = 20f
+
+            icLink.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setDuration(300)
+                .setInterpolator(OvershootInterpolator())
+                .start()
+
+            icFile.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setStartDelay(50)
+                .setDuration(300)
+                .setInterpolator(OvershootInterpolator())
+                .start()
+
+            icText.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setStartDelay(100)
+                .setDuration(300)
+                .setInterpolator(OvershootInterpolator())
+                .start()
+
+            icImage.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setStartDelay(150)
+                .setDuration(300)
+                .setInterpolator(OvershootInterpolator())
+                .start()
+        }
+    }
+
+    private fun hideFeatureButtons() {
+        with(binding) {
+            icLink.animate()
+                .alpha(0f)
+                .scaleX(0f)
+                .scaleY(0f)
+                .translationY(20f)
+                .setDuration(200)
+                .start()
+
+            icFile.animate()
+                .alpha(0f)
+                .scaleX(0f)
+                .scaleY(0f)
+                .translationY(20f)
+                .setStartDelay(50)
+                .setDuration(200)
+                .start()
+
+            icText.animate()
+                .alpha(0f)
+                .scaleX(0f)
+                .scaleY(0f)
+                .translationY(20f)
+                .setStartDelay(100)
+                .setDuration(200)
+                .start()
+
+            icImage.animate()
+                .alpha(0f)
+                .scaleX(0f)
+                .scaleY(0f)
+                .translationY(20f)
+                .setStartDelay(150)
+                .setDuration(200)
+                .withEndAction {
+                    addFeature.isVisible = false
+                }
+                .start()
         }
     }
 
