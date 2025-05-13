@@ -72,7 +72,6 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
                 .map { Triple(it.mindMap?.content, it.isMindMapLoading, it.resultTitle) }
                 .distinctUntilChanged()
                 .collect { (mindMapContent, isMindMapLoading, title) ->
-                    Log.d("GiangPT", "$mindMapContent, $isMindMapLoading, $title")
                     if (isMindMapLoading) {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.webViewMindMap.visibility = View.GONE
@@ -89,10 +88,6 @@ class MindMapFragment : BindingFragmentLazyPager<FragmentMindMapBinding>() {
                             binding.webViewMindMap.visibility = View.VISIBLE
                             binding.tvEmptyState.visibility = View.GONE
                             binding.btnGenerateMindMap.visibility = View.GONE
-                            Log.d(
-                                "GiangPT",
-                                "Loading mind map HTML content: ${mindMapContent.take(200)}..."
-                            )
                             binding.webViewMindMap.loadDataWithBaseURL(
                                 null,
                                 mindMapContent,
