@@ -317,7 +317,7 @@ class Service:
             mindmaps_collection = db.mindmaps
             
             if not firebase_admin._apps:
-                cred = credentials.Certificate(os.path.join(os.path.dirname(__file__),"p-study-firebase-adminsdk-fbsvc-5789d24368.json"))
+                cred = credentials.Certificate(os.path.join(os.path.dirname(__file__),"p-study-firebase-adminsdk-fbsvc-b7e0610921.json"))
                 firebase_admin.initialize_app(cred)
             
             total_notes = await notes_collection.count_documents({})
