@@ -66,7 +66,7 @@
         android:layout_marginBottom="24dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
         app:layout_constraintTop_toBottomOf="@+id/headerSection">
 
@@ -99,14 +99,19 @@
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <!-- Loading Progress Bar -->
-    <ProgressBar
+    <!-- Loading Animation -->
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progressBar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:visibility="gone"
-        android:elevation="100dp"
-        android:indeterminateTint="@color/color_primary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="80dp"
+        android:visibility="visible"
+        android:background="#CB000000"
+        android:elevation="10dp"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_speed="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
