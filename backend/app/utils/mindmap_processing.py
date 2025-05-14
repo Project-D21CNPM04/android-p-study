@@ -10,7 +10,6 @@ def text_to_mindmap(text):
       svg.markmap {{
         width: 100%;
         height: 100vh;
-        color: white;
       }}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader@0.18"></script>
