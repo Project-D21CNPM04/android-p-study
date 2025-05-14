@@ -56,7 +56,6 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
         pagerAdapter.apply {
             addFragment(AllFragment())
             addFragment(FolderFragment())
-            addFragment(SharedFragment())
             binding.viewPager.adapter = this
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

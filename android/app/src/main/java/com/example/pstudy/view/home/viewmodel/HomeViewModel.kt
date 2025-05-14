@@ -38,8 +38,7 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 tabLayoutItems = listOf(
                     R.string.home_tab_all,
-                    R.string.home_tab_folders,
-                    R.string.home_tab_shared
+                    R.string.home_tab_folders
                 )
             )
         }
@@ -50,7 +49,15 @@ class HomeViewModel @Inject constructor(
             _homeUiState.update { it.copy(isLoading = true, error = null) }
 
             try {
-                fetchRemoteStudyMaterials()
+                repository.getStudyMaterials().collect { materials ->
+                    if (materials.isEmpty()) {
+                        fetchRemoteStudyMaterials()
+                    } else {
+                        _homeUiState.update {
+                            it.copy(studyMaterials = materials, isLoading = false)
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 _homeUiState.update {
                     it.copy(error = e.message, isLoading = false)
