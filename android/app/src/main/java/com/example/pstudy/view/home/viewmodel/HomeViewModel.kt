@@ -38,8 +38,7 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 tabLayoutItems = listOf(
                     R.string.home_tab_all,
-                    R.string.home_tab_folders,
-                    R.string.home_tab_shared
+                    R.string.home_tab_folders
                 )
             )
         }

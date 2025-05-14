@@ -17,4 +17,5 @@ data class StudyMaterialEntity(
     val timeStamp: Long,
     val languageCode: String,
     val title: String,
+    val folderId: String? = null,
 )

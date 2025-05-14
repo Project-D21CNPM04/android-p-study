@@ -5,11 +5,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pstudy.data.mapper.toDomain
 import com.example.pstudy.data.model.StudyMaterials
 import com.example.pstudy.data.model.Summary
 import com.example.pstudy.data.remote.dto.SummaryDto
 import com.example.pstudy.data.remote.utils.NetworkResult
 import com.example.pstudy.data.repository.StudyRepository
+import com.example.pstudy.ext.getMaterialType
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_AUDIO
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_FILE
 import com.example.pstudy.view.input.InputActivity.Companion.INPUT_TYPE_LINK
@@ -121,7 +123,25 @@ class InputViewModel @Inject constructor(
 
     fun saveToDatabase(material: StudyMaterials, summary: Summary) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertStudyMaterial(material)
+            //repository.insertStudyMaterial(material)
+            val noteId = material.id
+            noteId.let { id ->
+                val remoteNoteDetail = repository.getRemoteNoteDetail(id)
+                if (remoteNoteDetail is NetworkResult.Success) {
+                    val noteDto = remoteNoteDetail.data
+                    val localNoteDetail = StudyMaterials(
+                        id = noteDto.id,
+                        input = noteDto.input,
+                        type = noteDto.type.getMaterialType(),
+                        userId = noteDto.userId,
+                        timeStamp = noteDto.timestamp,
+                        languageCode = "en",
+                        title = noteDto.title
+                    )
+                    Log.d("GiangPT", "GiangPT: ${localNoteDetail}")
+                    repository.insertStudyMaterial(localNoteDetail)
+                }
+            }
             repository.insertSummary(summary)
         }
     }
@@ -131,11 +151,15 @@ class InputViewModel @Inject constructor(
             // Set loading state to true
             _uiState.update { it.copy(isLoading = true) }
 
+            var noteId: String? = null
             when (uiState.value.inputType) {
                 INPUT_TYPE_TEXT -> {
                     if (isValidText()) {
                         val response = repository.createTextNoteSummary(uiState.value.textInput)
                         Log.d("InputViewModel", "Response: $response")
+                        if (response is NetworkResult.Success) {
+                            noteId = response.data.noteId
+                        }
                         _uiState.update { it.copy(isLoading = false, responseResult = response) }
                     }
                 }
@@ -143,6 +167,9 @@ class InputViewModel @Inject constructor(
                     if (isValidLink()) {
                         val response = repository.createLinkNoteSummary(uiState.value.linkInput)
                         Log.d("InputViewModel", "Response: $response")
+                        if (response is NetworkResult.Success) {
+                            noteId = response.data.noteId
+                        }
                         _uiState.update { it.copy(isLoading = false, responseResult = response) }
                     }
                 }
@@ -153,6 +180,9 @@ class InputViewModel @Inject constructor(
                             // Pass the URI string directly to repository
                             val response = repository.createFileNoteSummary(uri.toString())
                             Log.d("InputViewModel", "File upload response: $response")
+                            if (response is NetworkResult.Success) {
+                                noteId = response.data.noteId
+                            }
                             _uiState.update { state ->
                                 state.copy(
                                     isLoading = false,
@@ -177,6 +207,9 @@ class InputViewModel @Inject constructor(
                         try {
                             val response =
                                 repository.createAudioNoteSummary(uiState.value.audioPath!!)
+                            if (response is NetworkResult.Success) {
+                                noteId = response.data.noteId
+                            }
                             _uiState.update {
                             it.copy(
                                     isLoading = false,
@@ -200,6 +233,9 @@ class InputViewModel @Inject constructor(
                     uiState.value.photoUri?.let { uri ->
                         try {
                             val response = repository.createImageNoteSummary(uri.toString())
+                            if (response is NetworkResult.Success) {
+                                noteId = response.data.noteId
+                            }
                             _uiState.update {
                             it.copy(
                                     isLoading = false,
@@ -220,6 +256,7 @@ class InputViewModel @Inject constructor(
                     }
                 }
             }
+
         }
     }
 }

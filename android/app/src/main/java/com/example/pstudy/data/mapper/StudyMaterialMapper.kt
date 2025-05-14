@@ -12,6 +12,7 @@ fun StudyMaterialEntity.toDomain(): StudyMaterials {
         timeStamp = timeStamp,
         languageCode = languageCode,
         title = title,
+        folderId = folderId,
     )
 }
 
@@ -24,5 +25,6 @@ fun StudyMaterials.toEntity(): StudyMaterialEntity {
         timeStamp = timeStamp,
         languageCode = languageCode,
         title = title,
+        folderId = folderId,
     )
 }
