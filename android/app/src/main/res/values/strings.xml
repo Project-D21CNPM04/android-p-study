@@ -119,14 +119,14 @@
     <string name="file_input_instructions">Vui lòng chọn tệp từ thiết bị của bạn để tải lên.</string>
     <string name="select_file">Chọn tệp</string>
     <string name="no_file_selected">Chưa chọn tệp</string>
-    <string name="link_input_instructions">Nhập URL video YouTube hợp lệ</string>
-    <string name="link_hint">Nhập URL YouTube</string>
+    <string name="link_input_instructions">Nhập URL web hợp lệ</string>
+    <string name="link_hint">Nhập URL Web</string>
     <string name="paste">Dán</string>
     <string name="text_input_instructions">Nhập văn bản của bạn bên dưới (tối đa 20.000 ký tự)</string>
     <string name="text_hint">Văn bản của bạn</string>
     <string name="char_count_format">%1$d/20000</string>
     <string name="error_no_file_selected">Vui lòng chọn tệp trước</string>
-    <string name="error_invalid_link">Vui lòng nhập URL video YouTube hợp lệ</string>
+    <string name="error_invalid_link">Vui lòng nhập URL Web hợp lệ</string>
     <string name="error_invalid_text">Vui lòng nhập văn bản hợp lệ (1-20.000 ký tự)</string>
     <string name="error_invalid_file">Tệp phải là PDF và không vượt quá 10MB</string>
     <string name="upload_success">Tải lên thành công!</string>

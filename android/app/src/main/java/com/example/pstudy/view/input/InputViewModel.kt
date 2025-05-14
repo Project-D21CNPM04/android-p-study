@@ -80,19 +80,7 @@ class InputViewModel @Inject constructor(
 
     fun isValidLink(): Boolean {
         val link = _uiState.value.linkInput.trim()
-        if (link.isEmpty()) return false
-
-        // YouTube video URL validation patterns
-        val youtubePatterns = listOf(
-            "^https?://(?:www\\.)?youtube\\.com/watch\\?v=[\\w-]+(&\\S*)?$",
-            "^https?://(?:www\\.)?youtu\\.be/[\\w-]+(&\\S*)?$",
-            "^https?://(?:www\\.)?youtube\\.com/embed/[\\w-]+(&\\S*)?$",
-            "^https?://(?:www\\.)?youtube\\.com/shorts/[\\w-]+(&\\S*)?$"
-        )
-
-        return youtubePatterns.any { pattern ->
-            Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(link).matches()
-        }
+        return link.isNotEmpty()
     }
 
     fun isValidText(): Boolean {

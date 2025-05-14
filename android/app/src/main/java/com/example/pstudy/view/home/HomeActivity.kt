@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -88,10 +89,14 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
     private fun handleOnClick() {
         with(binding) {
             icMic.setOnClickListener {
-                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
-                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
-                })
-                hideFeatureButtons()
+                if (isValidPtitUser()) {
+                    startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                        putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_AUDIO)
+                    })
+                    hideFeatureButtons()
+                } else {
+                    showRestrictedFeatureToast()
+                }
             }
 
             icAdd.setOnClickListener {
@@ -103,10 +108,14 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
             }
 
             icFile.setOnClickListener {
-                startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
-                    putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
-                })
-                hideFeatureButtons()
+                if (isValidPtitUser()) {
+                    startActivity(Intent(this@HomeActivity, InputActivity::class.java).apply {
+                        putExtra(InputActivity.ARG_INPUT_TYPE, InputActivity.INPUT_TYPE_FILE)
+                    })
+                    hideFeatureButtons()
+                } else {
+                    showRestrictedFeatureToast()
+                }
             }
 
             icImage.setOnClickListener {
@@ -258,6 +267,19 @@ class HomeActivity : BindingActivity<ActivityHomeBinding>() {
                 }
                 .start()
         }
+    }
+
+    private fun isValidPtitUser(): Boolean {
+        val email = FirebaseAuthHelper.getCurrentUserEmail()
+        return email?.endsWith("ptit.edu.vn") == true
+    }
+
+    private fun showRestrictedFeatureToast() {
+        Toast.makeText(
+            this,
+            "Tính năng này chỉ dành cho người dùng có email ptit.edu.vn",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     companion object {
