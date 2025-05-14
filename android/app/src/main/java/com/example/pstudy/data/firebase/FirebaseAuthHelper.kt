@@ -74,4 +74,9 @@ object FirebaseAuthHelper {
                 }
             }
     }
+
+    fun logoutUser(onComplete: () -> Unit = {}) {
+        auth.signOut()
+        onComplete()
+    }
 }

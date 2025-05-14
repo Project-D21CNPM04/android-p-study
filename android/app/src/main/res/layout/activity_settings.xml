@@ -150,4 +150,19 @@
         app:drawableTint="@color/color_primary"
         app:layout_constraintTop_toBottomOf="@+id/tvTerms" />
 
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@android:drawable/ic_lock_power_off"
+        android:drawablePadding="16dp"
+        android:padding="12dp"
+        android:text="@string/sign_out"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        app:drawableTint="#FF0000"
+        app:layout_constraintTop_toBottomOf="@+id/tvPrivacy" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

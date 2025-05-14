@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -163,6 +164,9 @@ class FolderViewModel @Inject constructor(
             try {
                 val folder = folderDao.getFolderById(folderId)
                 if (folder != null) {
+                    // First update all study materials with this folder ID to have null folder ID
+                    updateStudyMaterialsFolderIdToNull(folderId)
+                    // Then delete the folder
                     folderDao.deleteFolder(folder)
                     _folderUiState.update { it.copy(error = null) }
                     Log.d("FolderViewModel", "Folder deleted successfully")
@@ -175,6 +179,30 @@ class FolderViewModel @Inject constructor(
                     it.copy(error = "Failed to delete folder: ${e.message}")
                 }
                 Log.e("FolderViewModel", "Failed to delete folder: ${e.message}")
+            }
+        }
+    }
+
+    private suspend fun updateStudyMaterialsFolderIdToNull(folderId: String) {
+        Log.d("FolderViewModel", "Updating study materials for deleted folder $folderId")
+        try {
+            // Get current list of materials with the folderId
+            val materials = studyRepository.getStudyMaterials().first()
+            val materialsToUpdate = materials.filter { it.folderId == folderId }
+
+            // Update each material to have null folderId
+            for (material in materialsToUpdate) {
+                val updatedMaterial = material.copy(folderId = null)
+                studyRepository.updateStudyMaterial(updatedMaterial)
+                Log.d(
+                    "FolderViewModel",
+                    "Updated study material ${material.id}, removed folder ID"
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("FolderViewModel", "Failed to update study materials: ${e.message}")
+            _folderUiState.update {
+                it.copy(error = "Failed to update study materials: ${e.message}")
             }
         }
     }
