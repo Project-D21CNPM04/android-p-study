@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/color_surface">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_options_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/color_primary"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Count Section -->
+    <TextView
+        android:id="@+id/tvCountLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/number_of_items"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/selector_difficulty_text"
+        app:layout_constraintTop_toBottomOf="@id/dialogTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <SeekBar
+        android:id="@+id/countSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:min="0"
+        android:max="25"
+        android:progress="0"
+        android:progressTint="@color/color_primary"
+        android:thumbTint="@color/color_primary"
+        app:layout_constraintTop_toBottomOf="@id/tvCountLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvCountValue" />
+
+    <TextView
+        android:id="@+id/tvCountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/selector_difficulty_text"
+        android:minWidth="30dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/countSeekBar"
+        app:layout_constraintBottom_toBottomOf="@id/countSeekBar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/countSeekBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Difficulty Section -->
+    <TextView
+        android:id="@+id/tvDifficultyLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/difficulty_level"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/selector_difficulty_text"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <GridLayout
+        android:id="@+id/difficultyGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintTop_toBottomOf="@id/tvDifficultyLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/btnEasy"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:text="@string/difficulty_easy"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
+
+        <TextView
+            android:id="@+id/btnMedium"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:text="@string/difficulty_medium"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
+
+        <TextView
+            android:id="@+id/btnHard"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:text="@string/difficulty_hard"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
+
+        <TextView
+            android:id="@+id/btnMixed"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:text="@string/difficulty_mixed"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="@drawable/selector_difficulty_option"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/selector_difficulty_text" />
+    </GridLayout>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/difficultyGrid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/cancel"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/color_primary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/generate"
+            android:backgroundTint="@color/color_primary"
+            android:textColor="@color/color_on_primary" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

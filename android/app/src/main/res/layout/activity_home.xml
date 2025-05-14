@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    android:padding="16dp"
+    tools:context=".view.home.HomeActivity">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="ivAvatar, tvGreeting, tvSubtitle" />
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/avatar_content_description"
+        android:src="@mipmap/ic_app"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGreeting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/home_greeting"
+        android:textColor="@color/color_on_background"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+        app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/home_subtitle"
+        android:textColor="@color/gray_medium"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvGreeting"
+        app:layout_constraintStart_toStartOf="@+id/tvGreeting"
+        app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
+
+    <!-- Tabs -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_rounded_24"
+        android:backgroundTint="@color/bg_tab_layout"
+        android:elevation="0dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+        app:tabBackground="@null"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/tab_indicator_color"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icAdd"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/color_primary"
+        android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@id/icMic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icLink"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@id/icAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_link_vector" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icFile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintEnd_toStartOf="@id/icAdd"
+        app:layout_constraintTop_toTopOf="@id/icAdd"
+        app:srcCompat="@drawable/ic_file_vector" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icText"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="@id/icFile"
+        app:layout_constraintTop_toTopOf="@id/icLink"
+        app:srcCompat="@drawable/baseline_text_fields_24" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/icImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_circle"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icAdd"
+        app:srcCompat="@drawable/ic_photo" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/addFeature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="icLink, icFile, icText, icImage" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/icMic"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="#00000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_rawRes="@raw/record_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
