@@ -40,7 +40,6 @@ class FolderAdapter(
 
         fun bind(folder: Folder) {
             binding.tvFolderName.text = folder.name
-            binding.tvNoteCount.text = "${folder.noteCount} notes"
         }
     }
 

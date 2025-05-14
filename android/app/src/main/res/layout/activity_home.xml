@@ -34,7 +34,7 @@
         android:textColor="@color/color_on_background"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivAvatar"
         app:layout_constraintTop_toTopOf="@+id/ivAvatar" />
 
@@ -48,18 +48,6 @@
         app:layout_constraintEnd_toEndOf="@+id/tvGreeting"
         app:layout_constraintStart_toStartOf="@+id/tvGreeting"
         app:layout_constraintTop_toBottomOf="@+id/tvGreeting" />
-
-    <ImageView
-        android:id="@+id/ivSearch"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/search_content_description"
-        android:padding="8dp"
-        android:src="@android:drawable/ic_menu_search"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivAvatar"
-        app:tint="@color/color_on_background" />
 
     <!-- Tabs -->
     <com.google.android.material.tabs.TabLayout
@@ -75,11 +63,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
         app:tabBackground="@null"
-        app:tabGravity="center"
+        app:tabGravity="fill"
         app:tabIndicatorColor="@color/tab_indicator_color"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="0dp"
-        app:tabMode="auto" />
+        app:tabMode="fixed" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
