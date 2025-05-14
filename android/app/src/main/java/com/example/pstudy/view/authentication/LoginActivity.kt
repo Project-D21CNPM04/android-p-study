@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import android.view.View
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.databinding.ActivityLoginBinding
@@ -41,16 +42,28 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>() {
 
     private fun handleLogin() {
         with(binding) {
+            showLoading(true)
             FirebaseAuthHelper.loginUser(
                 context = this@LoginActivity,
                 email = edtEmail.text.toString(),
                 password = edtPassword.text.toString()
             ) { isSuccess, message ->
+                showLoading(false)
                 Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
                 if (isSuccess) {
                     navigateToHome()
                 }
             }
+        }
+    }
+
+    private fun showLoading(show: Boolean) {
+        with(binding) {
+            lavLoading.visibility = if (show) View.VISIBLE else View.GONE
+            tvLogin.isEnabled = !show
+            tvSignUp.isEnabled = !show
+            edtEmail.isEnabled = !show
+            edtPassword.isEnabled = !show
         }
     }
 

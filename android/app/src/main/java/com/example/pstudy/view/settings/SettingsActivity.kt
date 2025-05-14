@@ -18,6 +18,7 @@ import com.example.pstudy.R
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
 import com.example.pstudy.data.notification.NotificationHelper
 import com.example.pstudy.databinding.ActivitySettingsBinding
+import com.example.pstudy.view.authentication.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -65,6 +66,26 @@ class SettingsActivity : BindingActivity<ActivitySettingsBinding>() {
 
         binding.tvPrivacy.setOnClickListener {
         }
+
+        binding.tvLogout.setOnClickListener {
+            showLogoutConfirmDialog()
+        }
+    }
+
+    private fun showLogoutConfirmDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.sign_out)
+            .setMessage(R.string.logout_confirmation)
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+                FirebaseAuthHelper.logoutUser {
+                    Toast.makeText(this, R.string.msg_signed_out, Toast.LENGTH_SHORT).show()
+                    // Navigate to Login Screen
+                    LoginActivity.start(this)
+                    finishAffinity()
+                }
+            }
+            .setNegativeButton(android.R.string.no, null)
+            .show()
     }
 
     private fun showReminderDialog() {

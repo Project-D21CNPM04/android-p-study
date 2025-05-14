@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.data.firebase.FirebaseAuthHelper
@@ -33,12 +34,14 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>() {
 
     private fun handleSignUp() {
         with(binding) {
+            showLoading(true)
             FirebaseAuthHelper.registerUser(
                 context = this@SignUpActivity,
                 name = edtName.text.toString(),
                 email = edtEmail.text.toString(),
                 password = edtPassword.text.toString(),
             ) { isSuccess, message ->
+                showLoading(false)
                 Toast.makeText(this@SignUpActivity, message, Toast.LENGTH_SHORT).show()
                 if (isSuccess) {
                     navigateToHome()
@@ -54,6 +57,17 @@ class SignUpActivity : BindingActivity<ActivitySignUpBinding>() {
     private fun navigateToLogin() {
         LoginActivity.start(this)
         finish()
+    }
+
+    private fun showLoading(show: Boolean) {
+        with(binding) {
+            lavLoading.visibility = if (show) View.VISIBLE else View.GONE
+            tvSignUp.isEnabled = !show
+            imvBack.isEnabled = !show
+            edtName.isEnabled = !show
+            edtEmail.isEnabled = !show
+            edtPassword.isEnabled = !show
+        }
     }
 
     companion object {

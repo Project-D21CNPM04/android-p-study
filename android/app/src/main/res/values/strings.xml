@@ -41,6 +41,7 @@
     <string name="label_add_folder">Tạo thư mục</string>
     <string name="sign_out">Đăng xuất</string>
     <string name="msg_signed_out">Đăng xuất thành công</string>
+    <string name="logout_confirmation">Bạn có chắc chắn muốn đăng xuất?</string>
     <string name="create_new_folder">Tạo thư mục mới</string>
     <string name="folder_name">Tên thư mục</string>
     <string name="create">Tạo</string>
