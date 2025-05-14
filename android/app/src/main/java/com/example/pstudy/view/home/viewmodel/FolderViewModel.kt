@@ -70,6 +70,20 @@ class FolderViewModel @Inject constructor(
         }
     }
 
+    suspend fun refreshStudyMaterials() {
+        Log.d("FolderViewModel", "Refreshing study materials")
+        try {
+            studyRepository.getStudyMaterials().collect {
+                Log.d("FolderViewModel", "Study materials refreshed, count: ${it.size}")
+            }
+        } catch (e: Exception) {
+            Log.e("FolderViewModel", "Failed to refresh study materials: ${e.message}")
+            _folderUiState.update {
+                it.copy(error = "Failed to refresh data: ${e.message}")
+            }
+        }
+    }
+
     fun createFolder(folderName: String) {
         if (folderName.isBlank()) {
             _folderUiState.update {
@@ -239,10 +253,7 @@ class FolderViewModel @Inject constructor(
                     )
                 }
                 Log.d("FolderViewModel", "Notes added to folder $folderId successfully")
-                // Force refresh data by reloading repository
-                studyRepository.getStudyMaterials()
-
-                // Reload folders after adding notes to update UI
+                refreshStudyMaterials()
                 loadFolders()
             } catch (e: Exception) {
                 _folderUiState.update {

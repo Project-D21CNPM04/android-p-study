@@ -21,10 +21,13 @@ import com.example.base.ui.base.BindingActivity
 import com.example.pstudy.R
 import com.example.pstudy.data.model.Folder
 import com.example.pstudy.data.model.Note
+import com.example.pstudy.data.model.StudyMaterials
+import com.example.pstudy.data.model.MaterialType
 import com.example.pstudy.databinding.ActivityFolderBinding
 import com.example.pstudy.databinding.DialogAddNotesToFolderBinding
 import com.example.pstudy.databinding.DialogCreateFolderBinding
 import com.example.pstudy.view.home.viewmodel.FolderViewModel
+import com.example.pstudy.view.result.ResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -86,6 +89,7 @@ class FolderActivity : BindingActivity<ActivityFolderBinding>() {
             onNoteClick = { note ->
                 // Handle note click
                 Log.d("FolderActivity", "Note clicked: $note")
+                navigateToResultActivity(note)
             },
             onNoteOptionsClick = { note, view ->
                 showNoteOptionsMenu(note, view)
@@ -269,6 +273,9 @@ class FolderActivity : BindingActivity<ActivityFolderBinding>() {
         val popupMenu = PopupMenu(wrapper, view, android.view.Gravity.END)
         popupMenu.menuInflater.inflate(R.menu.menu_note_options, popupMenu.menu)
 
+        // Remove edit option
+        popupMenu.menu.removeItem(R.id.action_edit)
+
         try {
             val popupHelper = PopupMenu::class.java.getDeclaredField("mPopup")
             popupHelper.isAccessible = true
@@ -282,16 +289,10 @@ class FolderActivity : BindingActivity<ActivityFolderBinding>() {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             Log.d("FolderActivity", "Note options item selected: $menuItem")
             when (menuItem.itemId) {
-                R.id.action_edit -> {
-                    // Navigate to edit note screen
-                    true
-                }
-
                 R.id.action_delete -> {
                     showDeleteNoteConfirmationDialog(note)
                     true
                 }
-
                 else -> false
             }
         }
@@ -309,6 +310,27 @@ class FolderActivity : BindingActivity<ActivityFolderBinding>() {
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
+    }
+
+    private fun navigateToResultActivity(note: Note) {
+        Log.d("FolderActivity", "Navigating to ResultActivity with note: $note")
+        val studyMaterials = StudyMaterials(
+            id = note.id,
+            input = note.input,
+            type = when (note.type) {
+                "text" -> MaterialType.TEXT
+                "file" -> MaterialType.FILE
+                "link" -> MaterialType.LINK
+                "photo" -> MaterialType.PHOTO
+                "audio" -> MaterialType.AUDIO
+                else -> MaterialType.TEXT
+            },
+            userId = note.userId,
+            timeStamp = note.timestamp,
+            title = note.title,
+            folderId = note.folderId
+        )
+        ResultActivity.start(this, studyMaterials)
     }
 
     companion object {

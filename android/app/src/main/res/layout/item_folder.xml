@@ -38,15 +38,6 @@
                 android:textStyle="bold"
                 tools:text="Study Folder" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvNoteCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_medium"
-                android:textSize="14sp"
-                tools:text="5 notes" />
-
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
