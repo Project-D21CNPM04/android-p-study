@@ -10,7 +10,8 @@ fun StudyMaterialEntity.toDomain(): StudyMaterials {
         type = type,
         userId = userId,
         timeStamp = timeStamp,
-        languageCode = languageCode
+        languageCode = languageCode,
+        title = title,
     )
 }
 
@@ -21,6 +22,7 @@ fun StudyMaterials.toEntity(): StudyMaterialEntity {
         type = type,
         userId = userId,
         timeStamp = timeStamp,
-        languageCode = languageCode
+        languageCode = languageCode,
+        title = title,
     )
 }

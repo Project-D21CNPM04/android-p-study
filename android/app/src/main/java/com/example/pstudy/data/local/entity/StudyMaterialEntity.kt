@@ -15,5 +15,6 @@ data class StudyMaterialEntity(
     val type: MaterialType,
     val userId: String,
     val timeStamp: Long,
-    val languageCode: String
+    val languageCode: String,
+    val title: String,
 )

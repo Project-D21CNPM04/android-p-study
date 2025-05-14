@@ -50,7 +50,15 @@ class HomeViewModel @Inject constructor(
             _homeUiState.update { it.copy(isLoading = true, error = null) }
 
             try {
-                fetchRemoteStudyMaterials()
+                repository.getStudyMaterials().collect { materials ->
+                    if (materials.isEmpty()) {
+                        fetchRemoteStudyMaterials()
+                    } else {
+                        _homeUiState.update {
+                            it.copy(studyMaterials = materials, isLoading = false)
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 _homeUiState.update {
                     it.copy(error = e.message, isLoading = false)
